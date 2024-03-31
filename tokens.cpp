@@ -1,14 +1,12 @@
 #include <iostream>
 #include <string>
+#include "tokensates.h"
 #include "tokens.h"
-int Table[StateCount][typeCount] = {0};
-using namespace std;
-class TokenFSA
-{
 
-public:
-static int initilizeTable();
-static int initilizeTable()
+using namespace std;
+
+
+Tokens::Tokens()
 {
 
     // 2D array of states and types
@@ -201,13 +199,6 @@ Table[exclemationState][leftBrace] = NotstateFinal;
 Table[exclemationState][rightBrace] = NotstateFinal;
 Table[exclemationState][leftParen] = NotstateFinal;
 Table[exclemationState][rightParen] = NotstateFinal;
-return 0;
 }
- 
-};
-int main()
-{
-    TokenFSA::initilizeTable();
-    return 0;
-}
+
 
