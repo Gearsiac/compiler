@@ -68,7 +68,8 @@ enum ReservedWords
     doType
 };
 int Table[StateCount][typeCount] = {};
-void StratingTable() {
+void StratingTable() 
+{
 Table[start][letter] = identifierState;
 Table[start][digit] = digitState;
 Table[start][astrix] = operatorState;
@@ -88,5 +89,7 @@ Table[start][rightBrace] = braceState;
 Table[start][leftParen] = parenState;
 Table[start][rightParen] = parenState;
 Table[start][other] = error;
+
 }
+
 #endif
