@@ -56,11 +56,11 @@ enum types
     other,
     typeCount
 };
-void Table() 
-{
+int Table[StateCount][typeCount] = {0};
+static int initilizeTable();
+static int initilizeTable(){
+
     // 2D array of states and types
-int Table[StateCount][typeCount] = {}; //initialize all values to 0
-//Start state.
 Table[start][letter] = VariableState;
 Table[start][digit] = digitState;
 Table[start][astrix] = operation;
@@ -250,7 +250,7 @@ Table[exclemationState][leftBrace] = NotstateFinal;
 Table[exclemationState][rightBrace] = NotstateFinal;
 Table[exclemationState][leftParen] = NotstateFinal;
 Table[exclemationState][rightParen] = NotstateFinal;
-
+return 0;
 }
 
 #endif
