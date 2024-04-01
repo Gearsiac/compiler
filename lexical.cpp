@@ -1,9 +1,8 @@
-#ifndef CASE_H
-#define CASE_H
 #include <iostream>
 #include <string>
 #include "tokens.h"
-using namespace std;
+#include "tokens.cpp"
+#include "lexical.h"
 
 
-#endif
+int main(){}
