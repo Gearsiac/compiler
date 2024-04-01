@@ -5,7 +5,11 @@
 
 using namespace std;
 
-
+state Tokens::nextState(state currentState, types inputType)
+{
+    
+    return Table[currentState][inputType];
+}
 Tokens::Tokens()
 {
 

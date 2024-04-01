@@ -3,11 +3,12 @@
 #include "tokensates.h"
 using namespace std;
 
-
 class Tokens
 {
     private:
-        int Table[StateCount][typeCount];
+    Tokens();
+    state Table[StateCount][typeCount];
     public:
+    state nextState(state currentState, types inputType);
 
 };
