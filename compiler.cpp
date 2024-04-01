@@ -8,7 +8,5 @@ using namespace std;
 
 int main() 
 {
-    readfile();
-    write();
-    return 0;
+    
 }
