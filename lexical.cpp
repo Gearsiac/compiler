@@ -1,8 +1,12 @@
+#include <string>
+#include <vector>
 #include <iostream>
 #include <string>
 #include "tokens.h"
-#include "tokens.cpp"
 #include "lexical.h"
+#include "States.h"
+using namespace std;
 
 
-int main(){}
+
+

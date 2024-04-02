@@ -2,6 +2,7 @@
 #include "States.h"
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 FSA::FSA()
@@ -10,7 +11,8 @@ FSA::FSA()
 }
 state FSA::nextState(state currentState, types input)
 {
-    return static_cast<state>(Table[currentState][input]);
+    int next = Table[currentState][input];
+    return static_cast<state>(next);
 }
 void FSA::FSAConfig()
 {
@@ -176,7 +178,7 @@ Table[lessThanState][astrix] = lessThanFinal;
 Table[lessThanState][plusType] = lessThanFinal;
 Table[lessThanState][minusType] = lessThanFinal;
 Table[lessThanState][divisor] = lessThanFinal;
-Table[lessThanState][equals] = lessThanEqualsState;
+Table[lessThanState][equals] = lessThanEqualsStateFinal;
 Table[lessThanState][lessThan] = lessThanState;
 Table[lessThanState][greaterThan] = lessThanFinal;
 Table[lessThanState][exlimation] = lessThanFinal;
@@ -196,7 +198,7 @@ Table[greaterThanState][astrix] = greaterThanFinal;
 Table[greaterThanState][plusType] = greaterThanFinal;
 Table[greaterThanState][minusType] = greaterThanFinal;
 Table[greaterThanState][divisor] = greaterThanFinal;
-Table[greaterThanState][equals] = greaterThanEqualsState;
+Table[greaterThanState][equals] = greaterThanEqualsStateFinal;
 Table[greaterThanState][lessThan] = greaterThanFinal;
 Table[greaterThanState][greaterThan] = greaterThanState;
 Table[greaterThanState][exlimation] = greaterThanFinal;
@@ -215,7 +217,7 @@ Table[exclemationState][astrix] = NotstateFinal;
 Table[exclemationState][plusType] = NotstateFinal;
 Table[exclemationState][minusType] = NotstateFinal;
 Table[exclemationState][divisor] = NotstateFinal;
-Table[exclemationState][equals] = notEqualsState;
+Table[exclemationState][equals] = notEqualsStateFinal;
 Table[exclemationState][lessThan] = NotstateFinal;
 Table[exclemationState][greaterThan] = NotstateFinal;
 Table[exclemationState][exlimation] = NotstateFinal;

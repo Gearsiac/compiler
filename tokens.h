@@ -3,6 +3,7 @@
 #include "States.h"
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 const int Nstates = static_cast<int>(StateCount);

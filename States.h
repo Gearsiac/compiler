@@ -1,6 +1,8 @@
 #ifndef STATES_H
 #define STATES_H
 #include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 
 enum state
@@ -21,13 +23,13 @@ enum state
     equalityFinal,
     lessThanState,
     lessThanFinal,
-    lessThanEqualsState,
+    lessThanEqualsStateFinal,
     greaterThanState,
     greaterThanFinal,
-    greaterThanEqualsState,
+    greaterThanEqualsStateFinal,
     exclemationState,
     NotstateFinal,
-    notEqualsState,
+    notEqualsStateFinal,
     delimiterState,
     braceState,
     parenState,
@@ -54,5 +56,20 @@ enum types
     WS,
     other,
     typeCount
+};
+enum reserved
+{
+    ConstType,
+    ProcedureType,
+    ODDType,
+    ifType,
+    WhileType,
+    ClassType,
+    VarType,
+    CallType,
+    ThenType,
+    DoType,
+    ReservedCount
+
 };
 #endif
