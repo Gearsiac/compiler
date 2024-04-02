@@ -2,8 +2,18 @@
 #ifndef LEXICAL_H
 #include <iostream>
 #include <string>
-#include "tokens.h"
-#include "tokens.cpp"
+
+using namespace std;
+
+struct lexer
+{
+    string lexeme;
+    string token;
+    int line;
+};
+
+class Lexical
+{
 
 
 #endif

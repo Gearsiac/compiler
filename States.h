@@ -1,5 +1,5 @@
-#ifndef TOKENS_H
-#define TOKENS_H
+#ifndef STATES_H
+#define STATES_H
 #include <iostream>
 using namespace std;
 

@@ -1,16 +1,18 @@
+#include "tokens.h"
+#include "States.h"
 #include <iostream>
 #include <string>
-#include "tokensates.h"
-#include "tokens.h"
-
 using namespace std;
 
-state Tokens::nextState(state currentState, types inputType)
+FSA::FSA()
 {
-    
-    return Table[currentState][inputType];
+    FSAConfig();
 }
-Tokens::Tokens()
+state FSA::nextState(state currentState, types input)
+{
+    return static_cast<state>(Table[currentState][input]);
+}
+void FSA::FSAConfig()
 {
 
     // 2D array of states and types
