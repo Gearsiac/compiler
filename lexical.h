@@ -1,12 +1,10 @@
-#define LEXICAL_H
 #ifndef LEXICAL_H
+#define LEXICAL_H
 #include <iostream>
 #include <string>
 #include <vector>
-#include "tokens.h"
+#include "FSA.h"
 #include "States.h"
-
-
 
 using namespace std;
 
@@ -18,27 +16,19 @@ struct Tokens
 };
 class Lexical
 {
-    private:
+private:
     string input;
-    FSA* fsa;
-    void Tokens(const string& lexeme, const string& tokenType);
+    FSA fsa;
     vector<Tokens> tokens;
-    size_t positon = 0;
-    void add(const string& lexeme, const string& input);
-    types getCharType(char ch);
+    size_t position = 0;
+    void add(const string& lexeme, const string& tokenType);
+    types getChType(char ch);
 
-    public:
-    Lexical(const string& FSA fsa);
-    void analyze();
+public:
+    Lexical(const string& fsa);
+    void setInput(const string& ins);
+    void tokenize();
     vector<Tokens> getTokens();
-    
-
-    
-
 };
-
-
-
-
 
 #endif
