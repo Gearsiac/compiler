@@ -3,8 +3,8 @@
 #include <vector>
 #include "lexical.h"    
 #include "States.h"
-#include "tokens.h"
-#include "read.h"
+#include "FSA.h"
+#include "Files.h"
 using namespace std;
 
 

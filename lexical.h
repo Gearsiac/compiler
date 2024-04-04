@@ -25,10 +25,10 @@ private:
     types getChType(char ch);
 
 public:
-    Lexical(const string& fsa);
+    Lexical(FSA& fsa);
     void setInput(const string& ins);
     void tokenize();
-    vector<Tokens> getTokens();
+    vector<Tokens>& getTokens();
 };
 
 #endif

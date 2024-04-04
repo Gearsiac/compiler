@@ -8,7 +8,7 @@ FSA::FSA()
 {
     FSAConfig();
 }
-state FSA::nextState(state currentState, types input)
+state FSA ::nextState(state currentState, types input)
 {
     int next = Table[currentState][input];
     return static_cast<state>(next);
@@ -228,5 +228,7 @@ Table[exclemationState][comma] = NotstateFinal;
 Table[exclemationState][semicolon] = NotstateFinal;
 Table[exclemationState][WS] = NotstateFinal;
 }
+
+    
 
 

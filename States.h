@@ -71,4 +71,6 @@ enum reserved
     ReservedCount
 
 };
+enum symbolStates{};
+enum symbolTypes{};
 #endif

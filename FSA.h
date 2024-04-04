@@ -11,7 +11,7 @@ const int Nintputs = static_cast<int>(typeCount);
 class FSA
 {
 private:
-    int Table[Nstates][Nintputs];
+    int Table[Nstates][Nintputs] = {};
     void FSAConfig();
     
 public:
