@@ -110,120 +110,154 @@ Tokens::Tokens(const string& lexeme, const string& tokenType)
 }
 void Lexical::tokenize()
 {
-    state currentState = start;
-    string lexeme = "";
-    while (position < input.size())
+    while(position < input.length())
     {
+        state currentState = start;
+        string lexeme;
         char ch = input[position];
         types chType = getChType(ch);
-        state nextState = fsa.nextState(currentState, chType);
+        currentState = fsa.nextState(currentState, chType);
         switch (currentState)
         {
-        case start:
-            if (lexeme.size() > 0)
-            {
-                add(lexeme, "error");
-                lexeme = "";
-            }
-            break;
         case error:
-            if (lexeme.size() > 0)
-            {
-                add(lexeme, "error");
-                lexeme = "";
-            }
+            lexeme += ch;
+            position++;
+            add(lexeme, "Error");
+            tokens.clear();
+            break;
+        case start:
+            position++;
+            break;
+        case operation:
+            lexeme += ch;
+            position++;
+            add(lexeme, "Operation");
+            tokens.clear();
             break;
         case digitState:
             lexeme += ch;
+            position++;
             break;
         case integerFinal:
-            add(lexeme, "integer");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Integer");
+            tokens.clear();
             break;
         case VariableState:
             lexeme += ch;
+            position++;
             break;
         case VariableFinal:
-            add(lexeme, "variable");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Variable");
+            tokens.clear();
             break;
         case slashState:
             lexeme += ch;
+            position++;
+            break;
+        case DivisorFinal:
+            lexeme += ch;
+            position++;
+            add(lexeme, "Divisor");
+            tokens.clear();
             break;
         case commentState:
             lexeme += ch;
+            position++;
             break;
         case commentFinal:
-            add(lexeme, "comment");
-            lexeme = "";
-            break;
-        case DivisorFinal:
-            add(lexeme, "divisor");
-            lexeme = "";
-            break;
-        case equalsState:
             lexeme += ch;
+            position++;
             break;
-        case assignmentFinal:
-            add(lexeme, "assignment");
-            lexeme = "";
+        case equalsState:   
+            lexeme += ch;
+            position++;
+            break;
+        case assignmentFinal:   
+            lexeme += ch;
+            position++;
+            add(lexeme, "Assignment");
+            tokens.clear();
             break;
         case equalityFinal:
-            add(lexeme, "equality");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Equality");
+            tokens.clear();
             break;
         case lessThanState:
             lexeme += ch;
+            position++;
             break;
         case lessThanFinal:
-            add(lexeme, "less than");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Less Than");
+            tokens.clear();
             break;
-        case lessThanEqualsStateFinal:
-            add(lexeme, "less than equals");
-            lexeme = "";
+        case lessThanEqualsStateFinal:  
+            lexeme += ch;
+            position++;
+            add(lexeme, "Less Than Equals");
+            tokens.clear();
             break;
         case greaterThanState:
             lexeme += ch;
+            position++;
             break;
         case greaterThanFinal:
-            add(lexeme, "greater than");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Greater Than");
+            tokens.clear();
             break;
         case greaterThanEqualsStateFinal:
-            add(lexeme, "greater than equals");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Greater Than Equals");
+            tokens.clear();
             break;
         case exclemationState:
             lexeme += ch;
+            position++;
             break;
         case NotstateFinal:
-            add(lexeme, "not");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Not");
+            tokens.clear();
             break;
         case notEqualsStateFinal:
-            add(lexeme, "not equals");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Not Equals");
+            tokens.clear();
             break;
         case delimiterState:
-            add(lexeme, "delimiter");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Delimiter");
+            tokens.clear();
             break;
         case braceState:
-            add(lexeme, "brace");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Brace");
+            tokens.clear();
             break;
         case parenState:
-            add(lexeme, "paren");
-            lexeme = "";
+            lexeme += ch;
+            position++;
+            add(lexeme, "Parenthesis");
+            tokens.clear();
             break;
         default:
             break;
         }
-        position++;
-    }
-
-
+    }   
 }
 
 

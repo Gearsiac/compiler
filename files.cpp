@@ -5,6 +5,6 @@
 #include <fstream>
 #include <sstream>
 #include "files.h"
+#include "lexical.h"
+
 using namespace std;
-
-

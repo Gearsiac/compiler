@@ -1,0 +1,5 @@
+class prgm {
+const var x = 5;
+const var y = 6;
+int z = x + y'
+}
