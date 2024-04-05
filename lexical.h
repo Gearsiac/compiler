@@ -23,9 +23,10 @@ private:
     size_t position = 0;
     void add(const string& lexeme, const string& tokenType);
     types getChType(char ch);
+    string map(state states, const string& lexeme) const;
 
 public:
-    Lexical(FSA& fsa);
+    explicit Lexical(FSA& fsa);
     void setInput(const string& ins);
     void tokenize();
     vector<Tokens>& getTokens();

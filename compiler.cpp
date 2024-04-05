@@ -9,5 +9,13 @@ using namespace std;
 
 int main()
 {
-    
+    FSA fsa;
+    Lexical lex(fsa);
+    Files file;
+    string input = file.read("Prgm.txt");
+    lex.setInput(input);
+    lex.tokenize();
+    file.write(lex.getTokens());
+    return 0;
 }
+

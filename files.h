@@ -9,7 +9,7 @@
 #include "lexical.h"
 using namespace std;
 
-class files
+class Files
 {
     private:
     string files;
