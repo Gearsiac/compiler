@@ -121,138 +121,152 @@ void Lexical::tokenize()
         {
         case error:
             lexeme += ch;
-            position++;
             add(lexeme, "Error");
             tokens.clear();
+            currentState = start;
             break;
         case start:
+            lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case operation:
             lexeme += ch;
-            position++;
             add(lexeme, "Operation");
             tokens.clear();
+            currentState = start;
             break;
         case digitState:
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case integerFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Integer");
             tokens.clear();
+            currentState = start;
             break;
         case VariableState:
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case VariableFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Variable");
             tokens.clear();
+            currentState = start;
             break;
         case slashState:
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case DivisorFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Divisor");
             tokens.clear();
+            currentState = start;
             break;
         case commentState:
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case commentFinal:
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case equalsState:   
             lexeme += ch;
+            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
         case assignmentFinal:   
             lexeme += ch;
-            position++;
             add(lexeme, "Assignment");
             tokens.clear();
+            currentState = start;
             break;
         case equalityFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Equality");
             tokens.clear();
+            currentState = start;
             break;
         case lessThanState:
             lexeme += ch;
             position++;
+            currentState = fsa.nextState(currentState, chType);
             break;
         case lessThanFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Less Than");
             tokens.clear();
+            currentState = start;
             break;
         case lessThanEqualsStateFinal:  
             lexeme += ch;
-            position++;
             add(lexeme, "Less Than Equals");
             tokens.clear();
+            currentState = start;
             break;
         case greaterThanState:
             lexeme += ch;
             position++;
+            currentState = fsa.nextState(currentState, chType);
             break;
         case greaterThanFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Greater Than");
             tokens.clear();
+            currentState = start;
             break;
         case greaterThanEqualsStateFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Greater Than Equals");
             tokens.clear();
+            currentState = start;
             break;
         case exclemationState:
             lexeme += ch;
             position++;
+            currentState = fsa.nextState(currentState, chType);
             break;
         case NotstateFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Not");
             tokens.clear();
+            currentState = start;
             break;
         case notEqualsStateFinal:
             lexeme += ch;
-            position++;
             add(lexeme, "Not Equals");
             tokens.clear();
+            currentState = start;
             break;
         case delimiterState:
             lexeme += ch;
             position++;
             add(lexeme, "Delimiter");
             tokens.clear();
+            currentState = start;
             break;
         case braceState:
             lexeme += ch;
             position++;
             add(lexeme, "Brace");
             tokens.clear();
+            currentState = start;
             break;
         case parenState:
             lexeme += ch;
             position++;
             add(lexeme, "Parenthesis");
             tokens.clear();
+            currentState = start;
             break;
         default:
             break;
