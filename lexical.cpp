@@ -3,6 +3,13 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <map>
+#include <algorithm>
+#include <iterator>
+#include <regex>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 #include "FSA.h"
 #include "lexical.h"
 #include "States.h"
@@ -10,14 +17,13 @@ using namespace std;
 
 Tokens::Tokens(const string& lexeme, const string& tokenType) : lexeme(lexeme), tokenType(tokenType)
 {
+    
 
 }
-
 Lexical::Lexical(FSA& fsa) : fsa(fsa)
 {
 
 }
-
 void Lexical::add(const string& lexeme, const string& tokenType)
 {
     tokens.push_back(Tokens(lexeme, tokenType));
@@ -25,9 +31,10 @@ void Lexical::add(const string& lexeme, const string& tokenType)
 void Lexical::setInput(const string& ins)
 {
     input = ins;
-    size_t postion = 0;
+    position = 0;
     tokens.clear();
 }
+
 types Lexical::getChType(char ch)
 {
     if (isalpha(ch))
@@ -167,7 +174,7 @@ string Lexical :: map(state states, const string& lexeme) const
     }
     return "Error";
 }
-void Lexical::tokenize()
+void Lexical::tokenize(const string& ins)
 {
     state currentState = state::start;
     string currentlexeme;
@@ -178,16 +185,14 @@ void Lexical::tokenize()
         currentState = fsa.nextState(currentState, chType);
         switch (currentState)
         {
-        case error:
-            currentlexeme += ch;
-            add(currentlexeme, "Error");
-            currentlexeme.clear();
-            currentState = start;
-            break;
         case start:
             currentlexeme += ch;
             currentState = fsa.nextState(currentState, chType);
             position++;
+            break;
+        case error:
+            currentlexeme.clear();
+            currentState = start;
             break;
         case operation:
             currentlexeme += ch;
@@ -212,7 +217,6 @@ void Lexical::tokenize()
             position++;
             break;
         case VariableFinal:
-            currentlexeme += ch;
             add(currentlexeme, "Variable");
             tokens.clear();
             currentState = start;

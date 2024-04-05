@@ -1,6 +1,12 @@
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <map>
+#include <algorithm>
+#include <iterator>
+#include <regex>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
@@ -12,23 +18,27 @@ using namespace std;
 string Files::read(const string& filename) const
 {
     ifstream file(filename);
-    stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
+    string line;
+    string text;
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            text += line + "\n";
+        }
+        file.close();
+    }
+    return text;
 }
 void Files::write(const vector<Tokens>& tokens)
 {
     ofstream file("output.txt");
-    for (auto& token : tokens)
+    if (file.is_open())
     {
-        file << token.lexeme << " " << token.tokenType << endl;
+        for (const auto& token : tokens)
+        {
+            file << left << setw(20) << token.lexeme << token.tokenType << endl;
+        }
+        file.close();
     }
 }
-void Files::readlist()
-{
-    string filename;
-    cout << "Enter the name of the file you want to read: ";
-    cin >> filename;
-    cout << read(filename);
-}
-

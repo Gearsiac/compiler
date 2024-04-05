@@ -1,8 +1,17 @@
 #ifndef LEXICAL_H
 #define LEXICAL_H
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <map>
+#include <algorithm>
+#include <iterator>
+#include <regex>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 #include "FSA.h"
 #include "States.h"
 
@@ -28,8 +37,7 @@ private:
 public:
     explicit Lexical(FSA& fsa);
     void setInput(const string& ins);
-    void tokenize();
+    void tokenize(const string& ins);
     vector<Tokens>& getTokens();
 };
-
 #endif

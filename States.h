@@ -1,8 +1,17 @@
 #ifndef STATES_H
 #define STATES_H
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <map>
+#include <algorithm>
+#include <iterator>
+#include <regex>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 using namespace std;
 enum state
 {
@@ -56,21 +65,6 @@ enum types
     other,
     typeCount
 };
-enum reserved
-{
-    ConstType,
-    ProcedureType,
-    ODDType,
-    ifType,
-    WhileType,
-    ClassType,
-    VarType,
-    CallType,
-    ThenType,
-    DoType,
-    ReservedCount
 
-};
-enum symbolStates{};
-enum symbolTypes{};
+
 #endif
