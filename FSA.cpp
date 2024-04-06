@@ -47,24 +47,8 @@ Table[start][semicolon] = delimiterState;
 Table[start][WS] = start;
 Table[start][other] = error;
 
-//error state
-Table[error][letter] = start;
-Table[error][digit] = start;
-Table[error][astrix] = start;
-Table[error][plusType] = start;
-Table[error][minusType] = start;
-Table[error][divisor] = start;
-Table[error][equals] = start;
-Table[error][lessThan] = start;
-Table[error][greaterThan] = start;
-Table[error][exlimation] = start;
-Table[error][leftparen] = start;
-Table[error][rightparen] = start;
-Table[error][leftbrace] = start;
-Table[error][rightbrace] = start;
-Table[error][comma] = start;
-Table[error][semicolon] = start;
-Table[error][WS] = start;
+
+
 
 //digit state
 Table[digitState][letter] = integerFinal;
@@ -181,6 +165,8 @@ Table[equalsState][comma] = assignmentFinal;
 Table[equalsState][semicolon] = assignmentFinal;
 Table[equalsState][WS] = assignmentFinal;
 
+
+
 //less than state
 Table[lessThanState][letter] = lessThanFinal;
 Table[lessThanState][digit] = lessThanFinal;
@@ -200,7 +186,6 @@ Table[lessThanState][comma] = lessThanFinal;
 Table[lessThanState][semicolon] = lessThanFinal;
 Table[lessThanState][WS] = lessThanFinal;
 
-
 //greater than state
 Table[greaterThanState][letter] = greaterThanFinal;
 Table[greaterThanState][digit] = greaterThanFinal;
@@ -219,6 +204,8 @@ Table[greaterThanState][rightbrace] = greaterThanFinal;
 Table[greaterThanState][comma] = greaterThanFinal;
 Table[greaterThanState][semicolon] = greaterThanFinal;
 Table[greaterThanState][WS] = greaterThanFinal;
+
+
 
 //exclemation state
 Table[exclemationState][letter] = NotstateFinal;

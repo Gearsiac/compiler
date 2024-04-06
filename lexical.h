@@ -36,8 +36,8 @@ private:
 
 public:
     explicit Lexical(FSA& fsa);
-    void setInput(const string& ins);
-    void tokenize(const string& ins);
+    void setInput(const string& lexeme);
+    void tokenize(const string& lexeme);
     vector<Tokens>& getTokens();
 };
 #endif

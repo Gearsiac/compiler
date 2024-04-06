@@ -115,219 +115,206 @@ vector<Tokens>& Lexical::getTokens()
 {
     return tokens;
 }
-string Lexical :: map(state states, const string& lexeme) const
-{   
+string Lexical::map(state states, const string& lexeme) const
+{
     switch(states)
     {
         case state :: operation:
-        if (lexeme == "+") return "Addition";
-        if (lexeme == "-") return "Subtraction";
-        if (lexeme == "*") return "Astrix";
-        break;
-        case state :: integerFinal:
-        return "Integer";
-        break;
-        case state :: VariableFinal:
-        return "Variable";
-        break;
-        case state :: DivisorFinal:
-        return "Divisor";
-        break;
-        case state :: assignmentFinal:
-        return "Assignment";
-        break;
-        case state :: equalityFinal:
-        return "Equality";
-        break;
-        case state :: lessThanFinal:
-        return "Less Than";
-        break;
+            if (lexeme == "+") return "Addition";
+            if (lexeme == "-") return "Subtraction";
+            if (lexeme == "*") return "Multiplication";
+            break;
+        case state::integerFinal:
+            return "Integer";
+        case state::VariableFinal:
+            return "Variable";
+        case state::DivisorFinal:
+            return "Divisor";
+        case state::assignmentFinal:
+            return "Assignment";
+        case state::equalityFinal:
+            return "Equality";
+        case state:: lessThanFinal:
+            return "Less Than";
         case state :: lessThanEqualsStateFinal:
-        return "Less Than Equals";
-        break;
-        case state :: greaterThanFinal:
-        return "Greater Than";
-        break;
+            return "Less Than Equals";
+        case state ::greaterThanFinal:
+            return "Greater Than";
         case state :: greaterThanEqualsStateFinal:
-        return "Greater Than Equals";
-        break;
+            return "Greater Than Equals";
         case state :: NotstateFinal:
-        return "Not";
-        break;
-        case state :: notEqualsStateFinal:
-        return "Not Equals";
-        break;
+            return "Not";
+        case state ::notEqualsStateFinal:
+            return "Not Equals";
         case state :: delimiterState:
-        if(lexeme == ",") return "Comma";
-        if(lexeme == ";") return "Semicolon";
-        break;
+            if (lexeme == ",") return "Comma";
+            if (lexeme == ";") return "Semicolon";
+            break;
         case state :: braceState:
-        if(lexeme == "{") return "Left Brace";
-        if(lexeme == "}") return "Right Brace";
-        break;
+            if (lexeme == "{") return "Left Brace";
+            if (lexeme == "}") return "Right Brace";
+            break;
         case state :: parenState:
-        if(lexeme == "(") return "Left Parenthesis";
-        if(lexeme == ")") return "Right Parenthesis";
+            if (lexeme == "(") return "Left Parenthesis";
+            if (lexeme == ")") return "Right Parenthesis";
+            break;
         default:
-        return "Error";
-        break;
+            break;
     }
-    return "Error";
+    return "Error"; // This ensures a default return if no case matches
 }
 void Lexical::tokenize(const string& ins)
 {
-    state currentState = state::start;
+    state currentState = start;
+    state nextState;
     string currentlexeme;
     while(position < input.length())
     {
         char ch = input[position];
         types chType = getChType(ch);
-        currentState = fsa.nextState(currentState, chType);
-        switch (currentState)
+        nextState = fsa.nextState(currentState, chType);
+        switch (nextState)
         {
-        case start:
-            currentlexeme += ch;
+        case state::start:
             currentState = fsa.nextState(currentState, chType);
-            position++;
             break;
-        case error:
+        case state ::error:
             currentlexeme.clear();
             currentState = start;
             break;
-        case operation:
+        case state :: operation:
             currentlexeme += ch;
             add(currentlexeme, "Operation");
             currentlexeme.clear();
             currentState = start;
-            break;
-        case digitState:
-            currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
-        case integerFinal:
+        case state :: digitState:
             currentlexeme += ch;
+            currentState = nextState;
+            position++;
+            break;
+        case state :: integerFinal:
             add(currentlexeme, "Integer");
             currentlexeme.clear();
             currentState = start;
             break;
-        case VariableState:
+        case state ::VariableState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
-        case VariableFinal:
+        case state :: VariableFinal:
             add(currentlexeme, "Variable");
-            tokens.clear();
+            currentlexeme.clear();
             currentState = start;
             break;
-        case slashState:
+        case state :: slashState:
             currentlexeme += ch;
             currentState = fsa.nextState(currentState, chType);
             position++;
             break;
-        case DivisorFinal:
-            currentlexeme += ch;
-            add(currentlexeme, "Divisor");
+        case state::DivisorFinal:
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
-        case commentState:
+        case state :: commentState:
             currentlexeme += ch;
             currentState = fsa.nextState(currentState, chType);
             position++;
             break;
-        case commentFinal:
+        case state :: commentFinal:
             currentlexeme += ch;
             currentlexeme.clear();
             currentState = start;
             break;
-        case equalsState:   
+        case state :: equalsState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
-        case assignmentFinal:   
-            currentlexeme += ch;
-            add(currentlexeme, "Assignment");
+        case state :: assignmentFinal:   
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
-        case equalityFinal:
+        case state :: equalityFinal:
             currentlexeme += ch;
-            add(currentlexeme, "Equality");
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-            break;
-        case lessThanState:
-            currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
             position++;
             break;
-        case lessThanFinal:
-            currentlexeme += ch;
-            add(currentlexeme, "Less Than");
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case lessThanEqualsStateFinal:  
-            currentlexeme += ch;
-            add(currentlexeme, "Less Than Equals");
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case greaterThanState:
-            currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
-            position++;
-            break;
-        case greaterThanFinal:
-            currentlexeme += ch;
-            add(currentlexeme, "Greater Than");
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case greaterThanEqualsStateFinal:
-            currentlexeme += ch;
-            add(currentlexeme, "Greater Than Equals");
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case exclemationState:
-            currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
-            position++;
-            break;
-        case NotstateFinal:
-            currentlexeme += ch;
-            add(currentlexeme, "Not");
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case notEqualsStateFinal:
+        case state :: lessThanState:
             currentlexeme+= ch;
-            add(currentlexeme, "Not Equals");
+            currentState = fsa.nextState(currentState, chType);
+            position++;
+            break;
+        case state :: lessThanFinal:
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
-        case delimiterState:
+        case state :: lessThanEqualsStateFinal: 
             currentlexeme += ch;
-            add(currentlexeme, "Delimiter");
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
-        case braceState:
+        case state :: greaterThanState:
             currentlexeme += ch;
-            add(currentlexeme, "Brace");
+            currentState = fsa.nextState(currentState, chType);
+            position++;
+            break;
+        case state :: greaterThanFinal:
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
+            currentState = start;
+            break;
+        case state :: greaterThanEqualsStateFinal:
+            currentlexeme += ch;
+            add(currentlexeme, map(currentState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
-        case parenState:
+        case state :: exclemationState:
             currentlexeme += ch;
-            add(currentlexeme, "Parenthesis");
-            tokens.clear();
+            currentState = fsa.nextState(currentState, chType);
+            position++;
+            break;
+        case state :: NotstateFinal:
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
+            currentState = start;
+            break;
+        case state :: notEqualsStateFinal:
+            currentlexeme += ch;
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
+            currentState = start;
+            position++;
+            break;
+        case state :: delimiterState:
+            currentlexeme += ch;
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
+            currentState = start;
+            position++;
+            break;
+        case state :: braceState:
+            currentlexeme += ch;
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
+            currentState = start;
+            position++;
+            break;
+        case state :: parenState:
+            currentlexeme += ch;
+            add(currentlexeme, map(currentState, currentlexeme));
+            currentlexeme.clear();
             currentState = start;
             position++;
             break;

@@ -1,44 +1,5 @@
 Input Read from File:
-{ 
-(
-hello
-)
-hello12
-4565
-!
-=
-!
->
->
-<
-<
-=
+class bitch(ass){
+    fuck head;
 }
 
-Lexical Analysis Result:
-Lexeme                              Token Type
- 
-(
-hello
-)
-hello12
-4565
-Integer
-
-!
-=
-!
->
-           Greater Than
-
->
-                 Greater Than
-
-<
-                 Less Than
-
-<
-                 Less Than
-
-=
-}                Brace
