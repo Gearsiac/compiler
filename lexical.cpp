@@ -15,6 +15,8 @@
 #include "States.h"
 using namespace std;
 
+
+
 Tokens::Tokens(const string& lexeme, const string& tokenType) : lexeme(lexeme), tokenType(tokenType)
 {
     
@@ -110,7 +112,18 @@ types Lexical::getChType(char ch)
         return types::other;
     }
 }
-
+string Lexical::keyword(const string& lexeme)
+{
+    vector<string> keywords = {"const","CONST", "PROCEDURE","procedure", "ODD", "odd", "IF", "if", "WHILE", "while", "CLASS", "class", "VAR", "var", "CALL", "call","THEN", "then", "DO", "do"};
+    for (auto& keyword : keywords)
+    {
+        if (lexeme == keyword)
+        {
+            return "RESERVED WORD";
+        }
+    }
+    return "Variable";
+}
 vector<Tokens>& Lexical::getTokens()
 {
     return tokens;
@@ -141,19 +154,19 @@ void Lexical::tokenize(const string& ins)
             currentlexeme += ch;
             if(ch == '*')
             {
-                add(currentlexeme, "astrix");
+                add(currentlexeme, "MOP");
                 currentlexeme.clear();
                 currentState = start;
             }
             else if(ch == '+')
             {
-                add(currentlexeme, "plus");
+                add(currentlexeme, "ADDOP");
                 currentlexeme.clear();
                 currentState = start;
             }
             else if(ch == '-')
             {
-                add(currentlexeme, "minus");
+                add(currentlexeme, "SUBOP");
                 currentlexeme.clear();
                 currentState = start;
             }
@@ -177,7 +190,7 @@ void Lexical::tokenize(const string& ins)
             position++;
             break;
         case state :: VariableFinal:
-            add(currentlexeme, "variable");
+            add(currentlexeme, keyword(currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
@@ -187,7 +200,7 @@ void Lexical::tokenize(const string& ins)
             position++;
             break;
         case state::DivisorFinal:
-            add(currentlexeme, "Divisor");
+            add(currentlexeme, "DIVOP");
             currentlexeme.clear();
             currentState = start;
             break;
@@ -317,7 +330,7 @@ void Lexical::tokenize(const string& ins)
             currentState = start;
             position++;
             break;
-        default:
+            default:
             break;
         }
     }   
