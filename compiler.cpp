@@ -27,7 +27,7 @@ int main()
     lex.tokenize(input); 
     vector<Tokens>& tokens = lex.getTokens();
     cout << "Lexical Analysis Result:" << endl;
-    cout << "Lexeme" << setw(40) << "Token Type" << endl;
+    cout << "Lexeme" << "Token Type" << endl;
     for (const auto& token : tokens) {
         cout << setw(20) << left << token.lexeme << token.tokenType << endl;
     }

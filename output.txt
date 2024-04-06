@@ -1,5 +1,28 @@
 Input Read from File:
-class bitch(ass){
-    fuck head;
-}
+/* class ass() 
+class(c*y=====================)
+asdfa
+asdfaasdf
+asdfaasdfasdf
+asdfaasdf
+*/
+class legal program(4*4)=4+4/4*/
 
+Lexical Analysis Result:
+LexemeToken Type
+class               variable
+legal               variable
+program             variable
+(                   leftparen
+4                   Numlit
+*                   astrix
+4                   Numlit
+)                   rightparen
+=                   assignment
+4                   Numlit
++                   plus
+4                   Numlit
+/                   Divisor
+4                   Numlit
+*                   astrix
+/                   Divisor

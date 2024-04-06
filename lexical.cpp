@@ -24,9 +24,9 @@ Lexical::Lexical(FSA& fsa) : fsa(fsa)
 {
 
 }
-void Lexical::add(const string& lexeme, const string& tokenType)
+void Lexical::add(const string& lexeme, const string& types)
 {
-    tokens.push_back(Tokens(lexeme, tokenType));
+    tokens.push_back(Tokens(lexeme, types));
 }
 void Lexical::setInput(const string& ins)
 {
@@ -39,129 +39,81 @@ types Lexical::getChType(char ch)
 {
     if (isalpha(ch))
     {
-        return letter;
+        return types:: letter;
     }
     else if (isdigit(ch))
     {
-        return digit;
+        return types :: digit;
     }
     else if (ch == '*')
     {
-        return astrix;
+        return types::astrix;
     }
     else if (ch == '+')
     {
-        return plusType;
+        return types::plusType;
     }
     else if (ch == '-')
     {
-        return minusType;
+        return types:: minusType;
     }
     else if (ch == '/')
     {
-        return divisor;
+        return types::divisor;
     }
     else if (ch == '=')
     {
-        return equals;
+        return types::equals;
     }
     else if (ch == '<')
     {
-        return lessThan;
+        return types::lessThan;
     }
     else if (ch == '>')
     {
-        return greaterThan;
+        return types::greaterThan;
     }
     else if (ch == '!')
     {
-        return exlimation;
+        return types::exlimation;
     }
     else if (ch == '(' )
     {
-        return leftparen;
+        return types::leftparen;
     }
     else if (ch == ')')
     {
-        return rightparen;
+        return types::rightparen;
     }
     else if (ch == '{')
     {
-        return leftbrace;
+        return types::leftbrace;
     }
     else if (ch == '}')
     {
-        return rightbrace;
+        return types::rightbrace;
     }
     else if (ch == ',')
     {
-        return comma;
+        return types::comma;
     }
     else if (ch == ';')
     {
-        return semicolon;
+        return types::semicolon;
     }
     else if (isspace(ch))
     {
-        return WS;
+        return types::WS;
     }
     else
     {
-        return other;
+        return types::other;
     }
 }
 
 vector<Tokens>& Lexical::getTokens()
 {
     return tokens;
-}
-string Lexical::map(state states, const string& lexeme) const
-{
-    switch(states)
-    {
-        case state :: operation:
-            if (lexeme == "+") return "Addition";
-            if (lexeme == "-") return "Subtraction";
-            if (lexeme == "*") return "Multiplication";
-            break;
-        case state::integerFinal:
-            return "Integer";
-        case state::VariableFinal:
-            return "Variable";
-        case state::DivisorFinal:
-            return "Divisor";
-        case state::assignmentFinal:
-            return "Assignment";
-        case state::equalityFinal:
-            return "Equality";
-        case state:: lessThanFinal:
-            return "Less Than";
-        case state :: lessThanEqualsStateFinal:
-            return "Less Than Equals";
-        case state ::greaterThanFinal:
-            return "Greater Than";
-        case state :: greaterThanEqualsStateFinal:
-            return "Greater Than Equals";
-        case state :: NotstateFinal:
-            return "Not";
-        case state ::notEqualsStateFinal:
-            return "Not Equals";
-        case state :: delimiterState:
-            if (lexeme == ",") return "Comma";
-            if (lexeme == ";") return "Semicolon";
-            break;
-        case state :: braceState:
-            if (lexeme == "{") return "Left Brace";
-            if (lexeme == "}") return "Right Brace";
-            break;
-        case state :: parenState:
-            if (lexeme == "(") return "Left Parenthesis";
-            if (lexeme == ")") return "Right Parenthesis";
-            break;
-        default:
-            break;
-    }
-    return "Error"; // This ensures a default return if no case matches
 }
 void Lexical::tokenize(const string& ins)
 {
@@ -176,26 +128,46 @@ void Lexical::tokenize(const string& ins)
         switch (nextState)
         {
         case state::start:
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
+            position++;
             break;
         case state ::error:
-            currentlexeme.clear();
-            currentState = start;
-            break;
-        case state :: operation:
-            currentlexeme += ch;
-            add(currentlexeme, "Operation");
+            add(currentlexeme, "error");
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
+        case state ::operation:
+            currentlexeme += ch;
+            if(ch == '*')
+            {
+                add(currentlexeme, "astrix");
+                currentlexeme.clear();
+                currentState = start;
+            }
+            else if(ch == '+')
+            {
+                add(currentlexeme, "plus");
+                currentlexeme.clear();
+                currentState = start;
+            }
+            else if(ch == '-')
+            {
+                add(currentlexeme, "minus");
+                currentlexeme.clear();
+                currentState = start;
+            }
+            currentState = start;
+            position++;
+            break;
+
         case state :: digitState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
             break;
         case state :: integerFinal:
-            add(currentlexeme, "Integer");
+            add(currentlexeme, "Numlit");
             currentlexeme.clear();
             currentState = start;
             break;
@@ -205,29 +177,30 @@ void Lexical::tokenize(const string& ins)
             position++;
             break;
         case state :: VariableFinal:
-            add(currentlexeme, "Variable");
+            add(currentlexeme, "variable");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: slashState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
         case state::DivisorFinal:
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "Divisor");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: commentState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
         case state :: commentFinal:
             currentlexeme += ch;
+            currentState = nextState;
             currentlexeme.clear();
-            currentState = start;
+            position++;
             break;
         case state :: equalsState:
             currentlexeme += ch;
@@ -235,85 +208,111 @@ void Lexical::tokenize(const string& ins)
             position++;
             break;
         case state :: assignmentFinal:   
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "assignment");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: equalityFinal:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "equality");
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: lessThanState:
             currentlexeme+= ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
         case state :: lessThanFinal:
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "lessThan");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: lessThanEqualsStateFinal: 
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "lessThanEquals");
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: greaterThanState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
         case state :: greaterThanFinal:
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "greaterThan");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: greaterThanEqualsStateFinal:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "greaterThanEquals");
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: exclemationState:
             currentlexeme += ch;
-            currentState = fsa.nextState(currentState, chType);
+            currentState = nextState;
             position++;
             break;
         case state :: NotstateFinal:
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "Not");
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: notEqualsStateFinal:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            add(currentlexeme, "notEquals");
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: delimiterState:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
-            currentlexeme.clear();
+            if(ch == ',')
+            {
+                add(currentlexeme, "comma");
+                currentlexeme.clear();
+            }
+            else if(ch == ';')
+            {
+                add(currentlexeme, "semicolon");
+                currentlexeme.clear();
+            }
             currentState = start;
             position++;
             break;
         case state :: braceState:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            if(ch == '{')
+            {
+                add(currentlexeme, "leftbrace");
+                currentlexeme.clear();
+            }
+            else if(ch == '}')
+            {
+                add(currentlexeme, "rightbrace");
+                currentlexeme.clear();
+            }
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: parenState:
             currentlexeme += ch;
-            add(currentlexeme, map(currentState, currentlexeme));
+            if(ch == '(')
+            {
+                add(currentlexeme, "leftparen");
+                currentlexeme.clear();
+            }
+            else if(ch == ')')
+            {
+                add(currentlexeme, "rightparen");
+                currentlexeme.clear();
+            }
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -323,5 +322,3 @@ void Lexical::tokenize(const string& ins)
         }
     }   
 }
-
-

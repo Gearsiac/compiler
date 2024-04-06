@@ -68,6 +68,7 @@ Table[digitState][rightbrace] = integerFinal;
 Table[digitState][comma] = integerFinal;
 Table[digitState][semicolon] = integerFinal;
 Table[digitState][WS] = integerFinal;
+Table[digitState][other] = error;
 
 
 //Variable state
@@ -88,6 +89,7 @@ Table[VariableState][rightbrace] = VariableFinal;
 Table[VariableState][comma] = VariableFinal;
 Table[VariableState][semicolon] = VariableFinal;
 Table[VariableState][WS] = VariableFinal;
+Table[VariableState][other] = error;
 
 
 //slash state
@@ -108,6 +110,7 @@ Table[slashState][rightbrace] = DivisorFinal;
 Table[slashState][comma] = DivisorFinal;
 Table[slashState][semicolon] = DivisorFinal;
 Table[slashState][WS] = DivisorFinal;
+Table[slashState][other] = error;
 
 //comment state
 Table[commentState][letter] = commentState;
@@ -164,6 +167,7 @@ Table[equalsState][rightbrace] = assignmentFinal;
 Table[equalsState][comma] = assignmentFinal;
 Table[equalsState][semicolon] = assignmentFinal;
 Table[equalsState][WS] = assignmentFinal;
+Table[equalsState][other] = error;
 
 
 
@@ -185,6 +189,7 @@ Table[lessThanState][rightbrace] = lessThanFinal;
 Table[lessThanState][comma] = lessThanFinal;
 Table[lessThanState][semicolon] = lessThanFinal;
 Table[lessThanState][WS] = lessThanFinal;
+Table[lessThanState][other] = error;
 
 //greater than state
 Table[greaterThanState][letter] = greaterThanFinal;
@@ -204,6 +209,7 @@ Table[greaterThanState][rightbrace] = greaterThanFinal;
 Table[greaterThanState][comma] = greaterThanFinal;
 Table[greaterThanState][semicolon] = greaterThanFinal;
 Table[greaterThanState][WS] = greaterThanFinal;
+Table[greaterThanState][other] = error;
 
 
 
@@ -225,6 +231,7 @@ Table[exclemationState][rightbrace] = NotstateFinal;
 Table[exclemationState][comma] = NotstateFinal;
 Table[exclemationState][semicolon] = NotstateFinal;
 Table[exclemationState][WS] = NotstateFinal;
+Table[exclemationState][other] = error;
 }
 
     

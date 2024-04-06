@@ -30,9 +30,8 @@ private:
     FSA fsa;
     vector<Tokens> tokens;
     size_t position = 0;
-    void add(const string& lexeme, const string& tokenType);
+    void add(const string& lexeme, const string& types);
     types getChType(char ch);
-    string map(state states, const string& lexeme) const;
 
 public:
     explicit Lexical(FSA& fsa);
