@@ -65,6 +65,39 @@ enum types
     other,
     typeCount
 };
+enum symbolstates
+{
+    StartState,
+    ClassState,
+    PrgmState,
+    LBState,
+    constState, 
+    VState,
+    AssState,
+    integer_State,
+    VarState,
+    VariState,
+    keyState,
+    literalState,
+    EOFState,
+    SymStateCount
+};
+enum symbolTypes
+{
+    ClassType,
+    PrgmType,
+    LBType,
+    constType,
+    vartype,
+    AssType,
+    int_Type,
+    semitype,
+    VarType,
+    commaType,
+    keyType,
+    literalType,
+    EOFType,
+    SymTypeCount
 
-
+};
 #endif

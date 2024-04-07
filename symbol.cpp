@@ -1,6 +1,3 @@
-#ifndef FSA2_H
-#define FSA2_H
-#include "States.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -13,8 +10,10 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include "lexical.h"
+#include "States.h"
+#include "FSA.h"
+#include "Files.h"
+
 using namespace std;
 
-
-
-#endif
