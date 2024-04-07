@@ -96,7 +96,7 @@ enum symbolTypes
     commaType,
     keyType,
     literalType,
-    EOFType,
+    otherType,
     SymTypeCount
 
 };

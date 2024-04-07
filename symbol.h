@@ -19,27 +19,29 @@
  
 using namespace std;
 
-const int NsymC = static_cast<int>(SymStateCount);
-const int NsymT = static_cast<int>(SymTypeCount);
+const int Numstates = static_cast<int>(SymStateCount);
+const int Numintputs = static_cast<int>(SymTypeCount);
 
 struct symbol
 {
-    string lexeme;
-    string tokenType;
-    symbol(const string& lexeme, const string& tokenType) : lexeme(lexeme), tokenType(tokenType)
-    {
-    }
+    string syms;
+    string Classification;
+    string value;
+    string address;
+    string segment;
+    symbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment);
 };
 class symbolTable
 {
 private:
     vector<symbol> symbols;
-    void add(const string& lexeme, const string& types);
+    int SymTable[Numstates][Numintputs] = {};
+    void SymConfig();
+    void addSymbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment);
     public:
-    explicit symbolTable(FSA& fsa);
-    void setInput(const string& lexeme);
-    void tokenize(const string& lexeme);
-    string keyword(const string& lexeme);
+    symbolTable();
+    symbolTypes symMap(const string& lexeme, const string& tokenType);
+    symbolstates nextState(symbolstates currentState, symbolTypes input);
     vector<symbol>& getSymbols();
 
 };
