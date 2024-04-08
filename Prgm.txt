@@ -2,7 +2,7 @@ class LargestCommonDenominator
 {
     const m = 7, n = 85;
     var x, y, z, q,r;
-    PROCEDURE Multiply()
+    if
     {
         var a, B;
         a = x; b = y; z = 0; 
@@ -12,7 +12,7 @@ class LargestCommonDenominator
             a = 2 * a; b = / 2
         }
     }
-    PROCEDURE Divide()
+    while
     {
         var w;
         r = x; q = 0; w = y;
@@ -28,7 +28,7 @@ class LargestCommonDenominator
 
         }
     }
-    PROCEDURE GCD()
+    if
     {
         VAR f, g;
         f = x; g = y;

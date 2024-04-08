@@ -1,0 +1,277 @@
+Input Read from File:
+class LargestCommonDenominator
+{
+    const m = 7, n = 85;
+    var x, y, z, q,r;
+    if
+    {
+        var a, B;
+        a = x; b = y; z = 0; 
+        while b > 0 DO
+        {
+            if odd b then z = z + a;
+            a = 2 * a; b = / 2
+        }
+    }
+    while
+    {
+        var w;
+        r = x; q = 0; w = y;
+        while w <= r do w = 2 * w;
+        while w > y do 
+        {
+            q = 2 * q; w = w / 2;
+            if w <= r then 
+            {
+                r = r - w;
+                q = q + 1;
+            }
+
+        }
+    }
+    if
+    {
+        VAR f, g;
+        f = x; g = y;
+        WHILE f != g do 
+        {
+            if f < g then g = g - f;
+            if g < f then f = f - g;
+        }
+        z = f;
+    }
+    /* main program */
+    x = m; y = n; call Multiply();
+    x = 25; y = 3; call Divide();
+    x = 84; y = 36; call GCD();
+}
+
+
+Lexical Analysis Result:
+LexemeToken Type
+class               RESERVED WORD
+LargestCommonDenominatorVariable
+{                   leftbrace
+const               RESERVED WORD
+m                   Variable
+=                   assignment
+7                   Numlit
+,                   comma
+n                   Variable
+=                   assignment
+85                  Numlit
+;                   semicolon
+var                 RESERVED WORD
+x                   Variable
+,                   comma
+y                   Variable
+,                   comma
+z                   Variable
+,                   comma
+q                   Variable
+,                   comma
+r                   Variable
+;                   semicolon
+if                  RESERVED WORD
+{                   leftbrace
+var                 RESERVED WORD
+a                   Variable
+,                   comma
+B                   Variable
+;                   semicolon
+a                   Variable
+=                   assignment
+x                   Variable
+;                   semicolon
+b                   Variable
+=                   assignment
+y                   Variable
+;                   semicolon
+z                   Variable
+=                   assignment
+0                   Numlit
+;                   semicolon
+while               RESERVED WORD
+b                   Variable
+>                   greaterThan
+0                   Numlit
+DO                  RESERVED WORD
+{                   leftbrace
+if                  RESERVED WORD
+odd                 RESERVED WORD
+b                   Variable
+then                RESERVED WORD
+z                   Variable
+=                   assignment
+z                   Variable
++                   ADDOP
+a                   Variable
+;                   semicolon
+a                   Variable
+=                   assignment
+2                   Numlit
+*                   MOP
+a                   Variable
+;                   semicolon
+b                   Variable
+=                   assignment
+/                   DIVOP
+2                   Numlit
+}                   rightbrace
+}                   rightbrace
+while               RESERVED WORD
+{                   leftbrace
+var                 RESERVED WORD
+w                   Variable
+;                   semicolon
+r                   Variable
+=                   assignment
+x                   Variable
+;                   semicolon
+q                   Variable
+=                   assignment
+0                   Numlit
+;                   semicolon
+w                   Variable
+=                   assignment
+y                   Variable
+;                   semicolon
+while               RESERVED WORD
+w                   Variable
+<=                  lessThanEquals
+r                   Variable
+do                  RESERVED WORD
+w                   Variable
+=                   assignment
+2                   Numlit
+*                   MOP
+w                   Variable
+;                   semicolon
+while               RESERVED WORD
+w                   Variable
+>                   greaterThan
+y                   Variable
+do                  RESERVED WORD
+{                   leftbrace
+q                   Variable
+=                   assignment
+2                   Numlit
+*                   MOP
+q                   Variable
+;                   semicolon
+w                   Variable
+=                   assignment
+w                   Variable
+/                   DIVOP
+2                   Numlit
+;                   semicolon
+if                  RESERVED WORD
+w                   Variable
+<=                  lessThanEquals
+r                   Variable
+then                RESERVED WORD
+{                   leftbrace
+r                   Variable
+=                   assignment
+r                   Variable
+-                   SUBOP
+w                   Variable
+;                   semicolon
+q                   Variable
+=                   assignment
+q                   Variable
++                   ADDOP
+1                   Numlit
+;                   semicolon
+}                   rightbrace
+}                   rightbrace
+}                   rightbrace
+if                  RESERVED WORD
+{                   leftbrace
+VAR                 RESERVED WORD
+f                   Variable
+,                   comma
+g                   Variable
+;                   semicolon
+f                   Variable
+=                   assignment
+x                   Variable
+;                   semicolon
+g                   Variable
+=                   assignment
+y                   Variable
+;                   semicolon
+WHILE               RESERVED WORD
+f                   Variable
+!=                  notEquals
+g                   Variable
+do                  RESERVED WORD
+{                   leftbrace
+if                  RESERVED WORD
+f                   Variable
+<                   lessThan
+g                   Variable
+then                RESERVED WORD
+g                   Variable
+=                   assignment
+g                   Variable
+-                   SUBOP
+f                   Variable
+;                   semicolon
+if                  RESERVED WORD
+g                   Variable
+<                   lessThan
+f                   Variable
+then                RESERVED WORD
+f                   Variable
+=                   assignment
+f                   Variable
+-                   SUBOP
+g                   Variable
+;                   semicolon
+}                   rightbrace
+z                   Variable
+=                   assignment
+f                   Variable
+;                   semicolon
+}                   rightbrace
+x                   Variable
+=                   assignment
+m                   Variable
+;                   semicolon
+y                   Variable
+=                   assignment
+n                   Variable
+;                   semicolon
+call                RESERVED WORD
+Multiply            Variable
+(                   leftparen
+)                   rightparen
+;                   semicolon
+x                   Variable
+=                   assignment
+25                  Numlit
+;                   semicolon
+y                   Variable
+=                   assignment
+3                   Numlit
+;                   semicolon
+call                RESERVED WORD
+Divide              Variable
+(                   leftparen
+)                   rightparen
+;                   semicolon
+x                   Variable
+=                   assignment
+84                  Numlit
+;                   semicolon
+y                   Variable
+=                   assignment
+36                  Numlit
+;                   semicolon
+call                RESERVED WORD
+GCD                 Variable
+(                   leftparen
+)                   rightparen
+;                   semicolon
+}                   rightbrace

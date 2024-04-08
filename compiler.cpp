@@ -14,8 +14,12 @@
 #include "States.h"
 #include "FSA.h"
 #include "Files.h"
+#include "symbol.h"
 using namespace std;
 
+symbolstates symStateError = symStateError;
+symbolstates symStateStart = symStateStart;
+symbolTable symTable;
 int main()
 {
     FSA fsa;
@@ -31,6 +35,8 @@ int main()
     for (const auto& token : tokens) {
         cout << setw(20) << left << token.lexeme << token.tokenType << endl;
     }
+    
+
 
     
 

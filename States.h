@@ -85,17 +85,16 @@ enum symbolstates
 enum symbolTypes
 {
     ClassType,
-    PrgmType,
+    identifierType,
     LBType,
     constType,
-    vartype,
     AssType,
     int_Type,
     semitype,
-    VarType,
     commaType,
     keyType,
     literalType,
+    EOFtype,
     otherType,
     SymTypeCount
 

@@ -40,8 +40,9 @@ private:
     void addSymbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment);
     public:
     symbolTable();
-    symbolTypes symMap(const string& lexeme, const string& tokenType);
-    symbolstates nextState(symbolstates currentState, symbolTypes input);
+    symbolTypes symMap(const Tokens& token);
+    symbolstates getNextState(symbolstates currentState, symbolTypes input);
+    void symbolize(const Tokens& token, const vector<Tokens>& tokens);
     vector<symbol>& getSymbols();
 
 };
