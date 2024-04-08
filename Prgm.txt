@@ -1,47 +1,5 @@
-class LargestCommonDenominator
-{
+class larget(){
     const m = 7, n = 85;
     var x, y, z, q,r;
-    if
-    {
-        var a, B;
-        a = x; b = y; z = 0; 
-        while b > 0 DO
-        {
-            if odd b then z = z + a;
-            a = 2 * a; b = / 2
-        }
-    }
-    while
-    {
-        var w;
-        r = x; q = 0; w = y;
-        while w <= r do w = 2 * w;
-        while w > y do 
-        {
-            q = 2 * q; w = w / 2;
-            if w <= r then 
-            {
-                r = r - w;
-                q = q + 1;
-            }
-
-        }
-    }
-    if
-    {
-        VAR f, g;
-        f = x; g = y;
-        WHILE f != g do 
-        {
-            if f < g then g = g - f;
-            if g < f then f = f - g;
-        }
-        z = f;
-    }
-    /* main program */
-    x = m; y = n; call Multiply();
-    x = 25; y = 3; call Divide();
-    x = 84; y = 36; call GCD();
 }
-
+    

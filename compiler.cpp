@@ -17,9 +17,7 @@
 #include "symbol.h"
 using namespace std;
 
-symbolstates symStateError = symStateError;
-symbolstates symStateStart = symStateStart;
-symbolTable symTable;
+
 int main()
 {
     FSA fsa;
@@ -33,8 +31,16 @@ int main()
     cout << "Lexical Analysis Result:" << endl;
     cout << "Lexeme" << "Token Type" << endl;
     for (const auto& token : tokens) {
-        cout << setw(20) << left << token.lexeme << token.tokenType << endl;
+        cout << setw(20) << left << token.lexeme << setw(20) << right << token.tokenType << endl;
     }
+    cout << endl;
+    symbolTable symTable;
+    cout << "Symbol Table:" << endl;
+    cout << "Symbol" << setw(20) << "Classification" << setw(20) << "Value" << setw(20) << "Address" << setw(20) << "Segment" << endl;
+    for (const auto& symbol : symTable.getSymbols()) {
+        cout << setw(20) << left << symbol.syms << setw(20) << right << symbol.Classification << setw(20) << right << symbol.value << setw(20) << right << symbol.address << setw(20) << right << symbol.segment << endl;
+    }
+    cout << endl;
     
 
 

@@ -90,71 +90,85 @@ symbolstates symbolTable::getNextState(symbolstates currentState, symbolTypes in
     return static_cast<symbolstates>(SymNext);
 }
 
-void symbolTable::symbolize(const Tokens& token, const vector<Tokens>& tokens)
+void symbolTable::symbolize(const Tokens& initialToken, const vector<Tokens>& tokens)
 {
     symbolstates currentState = StartState;
     symbolstates nextState;
     int Code = 0;
     int address = 0;
     string segment;
+
     for(const auto& token : tokens)
     {
         symbolTypes input = symMap(token);
         nextState = getNextState(currentState, input);
-        switch(nextState)
+        currentState = nextState;
+         switch(nextState)
         {
-            case:: StartState:
-            {
+            case StartState:
                 currentState = nextState;
-                
                 break;
-            }
-            case:: ClassState:
-            {
+            case ClassState:
+                currentState = nextState;
                 break;
-            }
-            case:: PrgmState:
-            {
+            case PrgmState:
+                addSymbol(token.lexeme, "PrgmName", "PrgmName", " ", "CS");
                 break;
-            }
-            case:: LBState:
-            {
+            case constState:
+                addSymbol(token.lexeme, "const", " ", " ", "DS");
+                address += 2;
                 break;
-            }
-            case:: constState:
-            {
-                break;
-            }
             case:: VState:
             {
+                currentState = nextState;
+                addSymbol(token.lexeme, "constVar", " ", " ", "DS");
+                int address =+ 2;
+                string segment;
                 break;
             }
             case:: AssState:
             {
+                currentState = nextState;
                 break;
             }
             case:: integer_State:
             {
+                currentState = nextState;
+                addSymbol(token.lexeme, "int", " ", " ", "DS");
+                int address =+ 2;
+                string segment;
                 break;
             }
             case:: VarState:
             {
+                currentState = nextState;
+                string segment;
                 break;
             }
             case:: VariState:
             {
+                currentState = nextState;
+                addSymbol(token.lexeme, "var", " ", " ", "DS");
+                int address =+ 2;
+                string segment;
                 break;
             }
             case:: keyState:
             {
+                currentState = nextState;
                 break;
             }
             case:: literalState:
             {
+                currentState = nextState;
+                addSymbol(token.lexeme, "literal", " ", " ", "DS");
+                int address =+ 2;
+                string segment;
                 break;
             }
             case:: EOFState:
             {
+                currentState = nextState;
                 break;
             }
         }
