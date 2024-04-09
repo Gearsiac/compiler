@@ -1,5 +1,5 @@
-class larget(){
-    const m = 7, n = 85;
-    var x, y, z, q,r;
+class Pgrm1 {
+    const m=7,n=85;
+    var x,y,z;
+    x = m+y*z + 12;
 }
-    

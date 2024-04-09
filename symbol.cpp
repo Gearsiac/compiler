@@ -2,15 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <cstdio>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
 #include <iomanip>
-#include <fstream>
-#include <sstream>
 #include "lexical.h"
 #include "States.h"
 #include "FSA.h"
@@ -19,32 +11,40 @@
 
 using namespace std;
 
-symbol::symbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment) : syms(syms), Classification(Classification), value(value), address(address), segment(segment)
+symbol::symbol(const string& syms, const string& Classification, const string& value, const int address, const string& segment) : syms(syms), Classification(Classification), value(value), address(address), segment(segment)
 {
-    
+
 }
 
-void symbolTable::addSymbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment)
+void symbolTable::addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment)
 {
     symbols.push_back(symbol(syms, Classification, value, address, segment));
 }
 
 symbolTypes symbolTable::symMap(const Tokens &token)
 {
-    if(token.lexeme == "RESERVED WORD")
+    if(token.tokenType == "Variable") return variableType;
+    if(token.tokenType == "RESERVED WORD")
     {
         if(token.lexeme == "CLASS" || token.lexeme == "class" ) return ClassType;
-        if(token.lexeme == "CONST" || token.lexeme == "const") return constType;
-        if(token.lexeme == "VAR" || token.lexeme == "var") return identifierType;
+        if(token.lexeme == "CONST" || token.lexeme == "const") return constIdentifierType;
+        if(token.lexeme == "VAR" || token.lexeme == "var") return VarIdentifierType;
+        if(token.lexeme == "WHILE" || token.lexeme == "while") return keyType;
+        if(token.lexeme == "IF" || token.lexeme == "if") return keyType;
+        if(token.lexeme == "THEN" || token.lexeme == "then") return keyType;
+
     }
-    if(token.lexeme == "Variable") return identifierType;
     if(token.lexeme == "{") return LBType;
     if(token.lexeme == "=") return AssType;
     if(token.lexeme == ",") return commaType;
     if(token.lexeme == ";") return semitype;  
-    if(token.tokenType == "Numlit") return literalType;
-    if(token.lexeme == "EOF") return EOFtype;
+    if(token.tokenType == "Numlit") return int_Type;
+    if(token.tokenType == "EOF") return EOFtype;
+
+
     return otherType;
+    
+
 
 }         
 
@@ -61,27 +61,38 @@ symbolTable::symbolTable()
 void symbolTable::SymConfig()
 {
     SymTable[StartState][ClassType] = ClassState;
-    SymTable[ClassState][identifierType] = PrgmState;
+    SymTable[ClassState][variableType] = PrgmState;
     SymTable[PrgmState][LBType] = LBState;
-    SymTable[LBState][constType] = constState;
-    SymTable[constState][identifierType] = VState;
+    SymTable[LBState][constIdentifierType] = constState;
+    SymTable[LBState][VarIdentifierType] = VarState;
+    SymTable[LBState][variableType] = keyState;
+    SymTable[LBState][keyType] = keyState;
+    SymTable[constState][variableType] = VState;
     SymTable[VState][AssType] = AssState;
-    SymTable[AssState][int_Type] = literalState;
-    SymTable[literalState][semitype] = LBState;
-    SymTable[literalState][commaType] = LBState;
-    SymTable[LBState][identifierType] = VarState;
-    SymTable[VarState][identifierType] = VariState;
+    SymTable[AssState][int_Type] = integer_State;
+    SymTable[integer_State][semitype] = LBState;
+    SymTable[integer_State][commaType] = constState;
+    SymTable[VarState][variableType] = VariState;
     SymTable[VariState][commaType] = VarState;
     SymTable[VariState][semitype] = LBState;
-    SymTable[LBState][identifierType] = keyState;
-    SymTable[LBState][keyType] = keyState;
-    SymTable[keyState][constType] = constState;
-    SymTable[keyState][identifierType] = VarState;
+    SymTable[keyState][constIdentifierType] = constState;
+    SymTable[keyState][VarIdentifierType] = VarState;
+    SymTable[keyState][AssType] = keyState;
+    SymTable[keyState][semitype] = keyState;
+    SymTable[keyState][commaType] = keyState;
+    SymTable[keyState][LBType] = keyState;
+    SymTable[keyState][keyType] = keyState;
+    SymTable[keyState][variableType] = keyState;
+    SymTable[keyState][int_Type] = literalState;
     SymTable[keyState][otherType] = keyState;
-    SymTable[keyState][literalType] = integer_State;
     SymTable[keyState][EOFtype] = EOFState;
-    SymTable[integer_State][otherType] = keyState;
-    SymTable[integer_State][EOFtype] = EOFState;
+    SymTable[literalState][semitype] = keyState;
+    SymTable[literalState][commaType] = keyState;
+    SymTable[literalState][LBType] = keyState;
+    SymTable[literalState][variableType] = keyState;
+    SymTable[literalState][int_Type] = keyState;
+    SymTable[literalState][otherType] = keyType;
+    SymTable[literalState][EOFtype] = EOFState;
     }
 
 symbolstates symbolTable::getNextState(symbolstates currentState, symbolTypes input)
@@ -89,21 +100,22 @@ symbolstates symbolTable::getNextState(symbolstates currentState, symbolTypes in
     int SymNext = SymTable[currentState][input];
     return static_cast<symbolstates>(SymNext);
 }
-
-void symbolTable::symbolize(const Tokens& initialToken, const vector<Tokens>& tokens)
+void symbolTable::symTable(const Tokens& initialToken, vector<Tokens>& tokens)
 {
     symbolstates currentState = StartState;
     symbolstates nextState;
     int Code = 0;
     int address = 0;
-    string segment;
+    string sym, Classification, value, segment;
 
     for(const auto& token : tokens)
     {
+        string tokenType = token.tokenType;
+        string lexeme = token.lexeme;
         symbolTypes input = symMap(token);
         nextState = getNextState(currentState, input);
         currentState = nextState;
-         switch(nextState)
+        switch(nextState)
         {
             case StartState:
                 currentState = nextState;
@@ -112,75 +124,65 @@ void symbolTable::symbolize(const Tokens& initialToken, const vector<Tokens>& to
                 currentState = nextState;
                 break;
             case PrgmState:
-                addSymbol(token.lexeme, "PrgmName", "PrgmName", " ", "CS");
+                addToSymbolTable(lexeme, "PrgmName", " ", Code, "CS");
+                Code += 2;
+                currentState = nextState;
+                break;
+            case LBState:
+                currentState = nextState;
                 break;
             case constState:
-                addSymbol(token.lexeme, "const", " ", " ", "DS");
+                currentState = nextState;
+                break;
+            case VState:
+                sym = lexeme;
+                Classification = "CONST";
+                currentState = nextState;
+                break;
+            case AssState:
+                currentState = nextState;
+                break;
+            case integer_State:
+                value = token.lexeme;
+                addToSymbolTable(sym, Classification, value, address, "DS");
                 address += 2;
-                break;
-            case:: VState:
-            {
-                currentState = nextState;
-                addSymbol(token.lexeme, "constVar", " ", " ", "DS");
-                int address =+ 2;
-                string segment;
-                break;
-            }
-            case:: AssState:
-            {
                 currentState = nextState;
                 break;
-            }
-            case:: integer_State:
-            {
-                currentState = nextState;
-                addSymbol(token.lexeme, "int", " ", " ", "DS");
-                int address =+ 2;
-                string segment;
-                break;
-            }
-            case:: VarState:
-            {
-                currentState = nextState;
-                string segment;
-                break;
-            }
-            case:: VariState:
-            {
-                currentState = nextState;
-                addSymbol(token.lexeme, "var", " ", " ", "DS");
-                int address =+ 2;
-                string segment;
-                break;
-            }
-            case:: keyState:
-            {
+            case VarState:
                 currentState = nextState;
                 break;
-            }
-            case:: literalState:
-            {
-                currentState = nextState;
-                addSymbol(token.lexeme, "literal", " ", " ", "DS");
-                int address =+ 2;
-                string segment;
-                break;
-            }
-            case:: EOFState:
-            {
+            case VariState:
+                sym = lexeme;
+                Classification = "VAR";
+                value = "?";
+                addToSymbolTable(sym, Classification, value, address, "DS");
+                address += 2;
                 currentState = nextState;
                 break;
-            }
+            case keyState:
+                currentState = nextState;
+                break;
+            case literalState:
+                sym = lexeme;
+                Classification = "LITERAL";
+                value = token.lexeme;
+                addToSymbolTable(sym, Classification, value, address, "DS");
+                address += 2;
+                currentState = nextState;
+                break;
+            case EOFState:
+                break;
+            default:
+
+                break;
         }
-        
-        
     }
-        
+    int temp;
+    addToSymbolTable("Temp1", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp2", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp3", "Var", " ", address, "DS");
+    address += 2;
+
 }
-
-
-
-
-
-
-

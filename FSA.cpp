@@ -4,14 +4,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
 #include "lexical.h"
 using namespace std;
 

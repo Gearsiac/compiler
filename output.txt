@@ -1,16 +1,14 @@
 Input Read from File:
-class larget(){
-    const m = 7, n = 85;
-    var x, y, z, q,r;
+class Pgrm1 {
+    const m=7,n=85;
+    var x,y,z;
+    x = m+y*z + 12;
 }
-    
 
 Lexical Analysis Result:
 LexemeToken Type
 class                      RESERVED WORD
-larget                          Variable
-(                              leftparen
-)                             rightparen
+Pgrm1                           Variable
 {                              leftbrace
 const                      RESERVED WORD
 m                               Variable
@@ -27,13 +25,30 @@ x                               Variable
 y                               Variable
 ,                                  comma
 z                               Variable
-,                                  comma
-q                               Variable
-,                                  comma
-r                               Variable
+;                              semicolon
+x                               Variable
+=                             assignment
+m                               Variable
++                                  ADDOP
+y                               Variable
+*                                    MOP
+z                               Variable
++                                  ADDOP
+12                                Numlit
 ;                              semicolon
 }                             rightbrace
+EOF                                  EOF
 
 Symbol Table:
-Symbol      Classification               Value             Address             Segment
+Symbol              Classification      Value               Address             Segment             
+Pgrm1               PrgmName                                0                   CS                  
+m                   CONST               7                   0                   DS                  
+n                   CONST               85                  2                   DS                  
+x                   VAR                 ?                   4                   DS                  
+y                   VAR                 ?                   6                   DS                  
+z                   VAR                 ?                   8                   DS                  
+12                  LITERAL             12                  10                  DS                  
+Temp1               Var                                     12                  DS                  
+Temp2               Var                                     14                  DS                  
+Temp3               Var                                     16                  DS                  
 

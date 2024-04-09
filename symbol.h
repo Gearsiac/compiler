@@ -4,14 +4,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
 #include "lexical.h"
 #include "States.h"
 #include "FSA.h"
@@ -27,9 +19,9 @@ struct symbol
     string syms;
     string Classification;
     string value;
-    string address;
+    int address;
     string segment;
-    symbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment);
+    symbol(const string& syms, const string& Classification, const string& value, const int address, const string& segment);
 };
 class symbolTable
 {
@@ -37,12 +29,16 @@ private:
     vector<symbol> symbols;
     int SymTable[Numstates][Numintputs] = {};
     void SymConfig();
-    void addSymbol(const string& syms, const string& Classification, const string& value, const string& address, const string& segment);
+    void addToTable();
+    size_t position = 0;
+
     public:
     symbolTable();
     symbolTypes symMap(const Tokens& token);
     symbolstates getNextState(symbolstates currentState, symbolTypes input);
-    void symbolize(const Tokens& token, const vector<Tokens>& tokens);
+    void addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment);
+    void symTable(const Tokens& token, vector<Tokens>& tokens);
+    void Setinput(const string& ins);
     vector<symbol>& getSymbols();
 
 };

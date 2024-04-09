@@ -1,12 +1,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <string>
-#include <cctype>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
@@ -35,17 +29,14 @@ int main()
     }
     cout << endl;
     symbolTable symTable;
+    symTable.symTable(tokens[0], tokens); // Call this only once, outside of the loop
+    vector<symbol>& symbols = symTable.getSymbols();
     cout << "Symbol Table:" << endl;
-    cout << "Symbol" << setw(20) << "Classification" << setw(20) << "Value" << setw(20) << "Address" << setw(20) << "Segment" << endl;
-    for (const auto& symbol : symTable.getSymbols()) {
-        cout << setw(20) << left << symbol.syms << setw(20) << right << symbol.Classification << setw(20) << right << symbol.value << setw(20) << right << symbol.address << setw(20) << right << symbol.segment << endl;
+    cout << setw(20) << left << "Symbol" << setw(20) << "Classification" << setw(20) << "Value" << setw(20) << "Address" << setw(20) << "Segment" << endl;
+    for (const auto& symbol : symbols) {
+        cout << setw(20) << left << symbol.syms << setw(20) << symbol.Classification << setw(20) << symbol.value << setw(20) << symbol.address << setw(20) << symbol.segment << endl;
     }
     cout << endl;
-    
-
-
-    
-
     return 0;
 }
 

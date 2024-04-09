@@ -1,13 +1,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <string>
-#include <cctype>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
 #include <iomanip>
+#include <string>
 #include <fstream>
 #include <sstream>
 #include "files.h"

@@ -4,14 +4,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <map>
-#include <algorithm>
-#include <iterator>
-#include <regex>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
 using namespace std;
 enum state
 {
@@ -85,15 +77,15 @@ enum symbolstates
 enum symbolTypes
 {
     ClassType,
-    identifierType,
+    variableType,
     LBType,
-    constType,
+    constIdentifierType,
     AssType,
     int_Type,
     semitype,
     commaType,
+    VarIdentifierType,
     keyType,
-    literalType,
     EOFtype,
     otherType,
     SymTypeCount
