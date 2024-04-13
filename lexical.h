@@ -1,35 +1,51 @@
 #ifndef LEXICAL_H
 #define LEXICAL_H
 #include <string>
-#include <vector>
 #include <iostream>
 #include <string>
-#include "FSA.h"
 #include "States.h"
 
 using namespace std;
+const int NumberOfStates = static_cast<int>(StateCount);
+const int NumberOfInputs = static_cast<int>(typeCount);
+class FSA
+{
+private:
 
+    int StateTransitionTable[NumberOfStates][NumberOfInputs] = {};
+    void FSAConfig();
+    
+public:
+    FSA();
+    state MoveToNextStateOfTable(state currentState, types input);
+};
 struct Tokens
 {
     string lexeme;
     string tokenType;
     Tokens(const string& lexeme, const string& tokenType);
+    Tokens() : lexeme(""), tokenType("") {}
 };
 class Lexical
 {
 private:
     string input;
-    FSA fsa;
-    vector<Tokens> tokens;
-    size_t position = 0;
-    void add(const string& lexeme, const string& types);
+    FSA& fsa;
+    Tokens tokens[10000]; 
+    size_t position;
+    size_t tokenCount;
+    size_t tokenCapacity;
+    void AddToTokenList(const string& lexeme, const string& tokenType);
     types getChType(char ch);
 
 public:
     explicit Lexical(FSA& fsa);
     void setInput(const string& lexeme);
     void tokenize(const string& lexeme);
-    string keyword(const string& lexeme);
-    vector<Tokens>& getTokens();
+    void Resizing();
+    size_t getTokenCount() const;
+    string MapToken(const state, const string& lexeme) const;
+    Tokens* getTokens(); 
 };
+
 #endif

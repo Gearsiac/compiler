@@ -1,5 +1,11 @@
-class Pgrm1 {
+class Pgrm1 
+{
     const m=7,n=85;
     var x,y,z;
     x = m+y*z + 12;
+    if (x > n) then 
+    {
+        m == n;
+        
+    }
 }

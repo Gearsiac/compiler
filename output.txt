@@ -1,12 +1,15 @@
-Input Read from File:
-class Pgrm1 {
+Program read:
+ class Pgrm1 
+{
     const m=7,n=85;
     var x,y,z;
     x = m+y*z + 12;
+    if (x > n) then 
+    {
+        m == n;
+        
+    }
 }
-
-Lexical Analysis Result:
-LexemeToken Type
 class                      RESERVED WORD
 Pgrm1                           Variable
 {                              leftbrace
@@ -36,9 +39,21 @@ z                               Variable
 +                                  ADDOP
 12                                Numlit
 ;                              semicolon
+if                         RESERVED WORD
+(                              leftparen
+x                               Variable
+>                            greaterThan
+n                               Variable
+)                             rightparen
+then                       RESERVED WORD
+{                              leftbrace
+m                               Variable
+==                              equality
+n                               Variable
+;                              semicolon
+}                             rightbrace
 }                             rightbrace
 EOF                                  EOF
-
 Symbol Table:
 Symbol              Classification      Value               Address             Segment             
 Pgrm1               PrgmName                                0                   CS                  
@@ -51,4 +66,3 @@ z                   VAR                 ?                   8                   
 Temp1               Var                                     12                  DS                  
 Temp2               Var                                     14                  DS                  
 Temp3               Var                                     16                  DS                  
-

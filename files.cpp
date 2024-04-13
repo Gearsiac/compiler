@@ -1,5 +1,4 @@
 #include <string>
-#include <vector>
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -10,30 +9,28 @@
 
 using namespace std;
 
-string Files::read(const string& filename) const
+string Files::read(const string &files) const
 {
-    ifstream file(filename);
-    string line;
-    string text;
-    if (file.is_open())
+    ifstream file(files);
+    if(!file.is_open())
     {
-        while (getline(file, line))
-        {
-            text += line + "\n";
-        }
-        file.close();
+        cerr << "Error: Unable to open file " << files << endl;
+        exit(1);
     }
-    return text;
+    stringstream buffer;
+    buffer << file.rdbuf();
+    file.close(); // Close the file after reading
+    return buffer.str();
 }
-void Files::write(const vector<Tokens>& tokens)
+
+void Files::write(const string &files, const string &output) const
 {
-    ofstream file("output.txt");
-    if (file.is_open())
+    ofstream file(files);
+    if(!file.is_open())
     {
-        for (const auto& token : tokens)
-        {
-            file << left << setw(20) << token.lexeme << token.tokenType << endl;
-        }
-        file.close();
+        cerr << "Error: Unable to open file " << files << endl;
+        exit(1);
     }
+    file << output;
+    file.close(); // Close the file after writing
 }

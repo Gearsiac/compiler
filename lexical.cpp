@@ -2,34 +2,248 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "FSA.h"
 #include "lexical.h"
 #include "States.h"
 using namespace std;
 
-
-
-Tokens::Tokens(const string& lexeme, const string& tokenType) : lexeme(lexeme), tokenType(tokenType)
+FSA::FSA() // Constructor for FSA class
 {
-    
-
+    FSAConfig();
 }
-Lexical::Lexical(FSA& fsa) : fsa(fsa)
+state FSA::MoveToNextStateOfTable(state currentState, types inputType) // Function to move to the next state of the table
+{
+    int nextState = StateTransitionTable[currentState][inputType]; // Get the next state from the table
+    return static_cast<state>(nextState); // Return the next state
+}
+void FSA::FSAConfig() // Function to configure the FSA
 {
 
-}
-void Lexical::add(const string& lexeme, const string& types)
-{
-    tokens.push_back(Tokens(lexeme, types));
-}
-void Lexical::setInput(const string& ins)
-{
-    input = ins;
-    position = 0;
-    tokens.clear();
+    // 2D array of states and types
+StateTransitionTable[start][letter] = VariableState;
+StateTransitionTable[start][digit] = digitState;
+StateTransitionTable[start][astrix] = operation;
+StateTransitionTable[start][plusType] = operation;
+StateTransitionTable[start][minusType] = operation;
+StateTransitionTable[start][divisor] = slashState;
+StateTransitionTable[start][equals] = equalsState;
+StateTransitionTable[start][lessThan] = lessThanState;
+StateTransitionTable[start][greaterThan] = greaterThanState;
+StateTransitionTable[start][exlimation] = exclemationState;
+StateTransitionTable[start][leftparen] = parenState;
+StateTransitionTable[start][rightparen] = parenState;
+StateTransitionTable[start][leftbrace] = braceState;
+StateTransitionTable[start][rightbrace] = braceState;
+StateTransitionTable[start][comma] = delimiterState;
+StateTransitionTable[start][semicolon] = delimiterState;
+StateTransitionTable[start][WS] = start;
+StateTransitionTable[start][other] = error;
+
+
+
+
+//digit state
+StateTransitionTable[digitState][letter] = integerFinal;
+StateTransitionTable[digitState][digit] = digitState;
+StateTransitionTable[digitState][astrix] = integerFinal;
+StateTransitionTable[digitState][plusType] = integerFinal;
+StateTransitionTable[digitState][minusType] = integerFinal;
+StateTransitionTable[digitState][divisor] = integerFinal;
+StateTransitionTable[digitState][equals] = integerFinal;
+StateTransitionTable[digitState][lessThan] = integerFinal;
+StateTransitionTable[digitState][greaterThan] = integerFinal;
+StateTransitionTable[digitState][exlimation] = integerFinal;
+StateTransitionTable[digitState][leftparen] = integerFinal;
+StateTransitionTable[digitState][rightparen] = integerFinal;
+StateTransitionTable[digitState][leftbrace] = integerFinal;
+StateTransitionTable[digitState][rightbrace] = integerFinal;
+StateTransitionTable[digitState][comma] = integerFinal;
+StateTransitionTable[digitState][semicolon] = integerFinal;
+StateTransitionTable[digitState][WS] = integerFinal;
+StateTransitionTable[digitState][other] = error;
+
+
+//Variable state
+StateTransitionTable[VariableState][letter] = VariableState;
+StateTransitionTable[VariableState][digit] = VariableState;
+StateTransitionTable[VariableState][astrix] = VariableFinal;
+StateTransitionTable[VariableState][plusType] = VariableFinal;
+StateTransitionTable[VariableState][minusType] = VariableFinal;
+StateTransitionTable[VariableState][divisor] = VariableFinal;
+StateTransitionTable[VariableState][equals] = VariableFinal;
+StateTransitionTable[VariableState][lessThan] = VariableFinal;
+StateTransitionTable[VariableState][greaterThan] = VariableFinal;
+StateTransitionTable[VariableState][exlimation] = VariableFinal;
+StateTransitionTable[VariableState][leftparen] = VariableFinal;
+StateTransitionTable[VariableState][rightparen] = VariableFinal;
+StateTransitionTable[VariableState][leftbrace] = VariableFinal;
+StateTransitionTable[VariableState][rightbrace] = VariableFinal;
+StateTransitionTable[VariableState][comma] = VariableFinal;
+StateTransitionTable[VariableState][semicolon] = VariableFinal;
+StateTransitionTable[VariableState][WS] = VariableFinal;
+StateTransitionTable[VariableState][other] = error;
+
+
+//slash state
+StateTransitionTable[slashState][letter] = DivisorFinal;
+StateTransitionTable[slashState][digit] = DivisorFinal;
+StateTransitionTable[slashState][astrix] = commentState;
+StateTransitionTable[slashState][plusType] = DivisorFinal;
+StateTransitionTable[slashState][minusType] = DivisorFinal;
+StateTransitionTable[slashState][divisor] = DivisorFinal;
+StateTransitionTable[slashState][equals] = DivisorFinal;
+StateTransitionTable[slashState][lessThan] = DivisorFinal;
+StateTransitionTable[slashState][greaterThan] = DivisorFinal;
+StateTransitionTable[slashState][exlimation] = DivisorFinal;
+StateTransitionTable[slashState][leftparen] = DivisorFinal;
+StateTransitionTable[slashState][rightparen] = DivisorFinal;
+StateTransitionTable[slashState][leftbrace] = DivisorFinal;
+StateTransitionTable[slashState][rightbrace] = DivisorFinal;
+StateTransitionTable[slashState][comma] = DivisorFinal;
+StateTransitionTable[slashState][semicolon] = DivisorFinal;
+StateTransitionTable[slashState][WS] = DivisorFinal;
+StateTransitionTable[slashState][other] = error;
+
+//comment state
+StateTransitionTable[commentState][letter] = commentState;
+StateTransitionTable[commentState][digit] = commentState;
+StateTransitionTable[commentState][astrix] = commentFinal;
+StateTransitionTable[commentState][plusType] = commentState;
+StateTransitionTable[commentState][minusType] = commentState;
+StateTransitionTable[commentState][divisor] = commentState;
+StateTransitionTable[commentState][equals] = commentState;
+StateTransitionTable[commentState][lessThan] = commentState;
+StateTransitionTable[commentState][greaterThan] = commentState;
+StateTransitionTable[commentState][exlimation] = commentState;
+StateTransitionTable[commentState][leftparen] = commentState;
+StateTransitionTable[commentState][rightparen] = commentState;
+StateTransitionTable[commentState][leftbrace] = commentState;
+StateTransitionTable[commentState][rightbrace] = commentState;
+StateTransitionTable[commentState][comma] = commentState;
+StateTransitionTable[commentState][semicolon] = commentState;
+StateTransitionTable[commentState][WS] = commentState;
+
+StateTransitionTable[commentFinal][letter] = commentState;
+StateTransitionTable[commentFinal][digit] = commentState;
+StateTransitionTable[commentFinal][astrix] = commentState;
+StateTransitionTable[commentFinal][plusType] = commentState;
+StateTransitionTable[commentFinal][minusType] = commentState;
+StateTransitionTable[commentFinal][divisor] = start;
+StateTransitionTable[commentFinal][equals] = commentState;
+StateTransitionTable[commentFinal][lessThan] = commentState;
+StateTransitionTable[commentFinal][greaterThan] = commentState;
+StateTransitionTable[commentFinal][exlimation] = commentState;
+StateTransitionTable[commentFinal][leftparen] = commentState;
+StateTransitionTable[commentFinal][rightparen] = commentState;
+StateTransitionTable[commentFinal][leftbrace] = commentState;
+StateTransitionTable[commentFinal][rightbrace] = commentState;
+StateTransitionTable[commentFinal][comma] = commentState;
+StateTransitionTable[commentFinal][semicolon] = commentState;
+StateTransitionTable[commentFinal][WS] = commentState;
+
+//equals state
+StateTransitionTable[equalsState][letter] = assignmentFinal;
+StateTransitionTable[equalsState][digit] = assignmentFinal;
+StateTransitionTable[equalsState][astrix] = assignmentFinal;
+StateTransitionTable[equalsState][plusType] = assignmentFinal;
+StateTransitionTable[equalsState][minusType] = assignmentFinal;
+StateTransitionTable[equalsState][divisor] = assignmentFinal;
+StateTransitionTable[equalsState][equals] = equalityFinal;
+StateTransitionTable[equalsState][lessThan] = assignmentFinal;
+StateTransitionTable[equalsState][greaterThan] = assignmentFinal;
+StateTransitionTable[equalsState][exlimation] = assignmentFinal;
+StateTransitionTable[equalsState][leftparen] = assignmentFinal;
+StateTransitionTable[equalsState][rightparen] = assignmentFinal;
+StateTransitionTable[equalsState][leftbrace] = assignmentFinal;
+StateTransitionTable[equalsState][rightbrace] = assignmentFinal;
+StateTransitionTable[equalsState][comma] = assignmentFinal;
+StateTransitionTable[equalsState][semicolon] = assignmentFinal;
+StateTransitionTable[equalsState][WS] = assignmentFinal;
+StateTransitionTable[equalsState][other] = error;
+
+
+
+//less than state
+StateTransitionTable[lessThanState][letter] = lessThanFinal;
+StateTransitionTable[lessThanState][digit] = lessThanFinal;
+StateTransitionTable[lessThanState][astrix] = lessThanFinal;
+StateTransitionTable[lessThanState][plusType] = lessThanFinal;
+StateTransitionTable[lessThanState][minusType] = lessThanFinal;
+StateTransitionTable[lessThanState][divisor] = lessThanFinal;
+StateTransitionTable[lessThanState][equals] = lessThanEqualsStateFinal;
+StateTransitionTable[lessThanState][lessThan] = lessThanState;
+StateTransitionTable[lessThanState][greaterThan] = lessThanFinal;
+StateTransitionTable[lessThanState][exlimation] = lessThanFinal;
+StateTransitionTable[lessThanState][leftparen] = lessThanFinal;
+StateTransitionTable[lessThanState][rightparen] = lessThanFinal;
+StateTransitionTable[lessThanState][leftbrace] = lessThanFinal;
+StateTransitionTable[lessThanState][rightbrace] = lessThanFinal;
+StateTransitionTable[lessThanState][comma] = lessThanFinal;
+StateTransitionTable[lessThanState][semicolon] = lessThanFinal;
+StateTransitionTable[lessThanState][WS] = lessThanFinal;
+StateTransitionTable[lessThanState][other] = error;
+
+//greater than state
+StateTransitionTable[greaterThanState][letter] = greaterThanFinal;
+StateTransitionTable[greaterThanState][digit] = greaterThanFinal;
+StateTransitionTable[greaterThanState][astrix] = greaterThanFinal;
+StateTransitionTable[greaterThanState][plusType] = greaterThanFinal;
+StateTransitionTable[greaterThanState][minusType] = greaterThanFinal;
+StateTransitionTable[greaterThanState][divisor] = greaterThanFinal;
+StateTransitionTable[greaterThanState][equals] = greaterThanEqualsStateFinal;
+StateTransitionTable[greaterThanState][lessThan] = greaterThanFinal;
+StateTransitionTable[greaterThanState][greaterThan] = greaterThanState;
+StateTransitionTable[greaterThanState][exlimation] = greaterThanFinal;
+StateTransitionTable[greaterThanState][leftparen] = greaterThanFinal;
+StateTransitionTable[greaterThanState][rightparen] = greaterThanFinal;
+StateTransitionTable[greaterThanState][leftbrace] = greaterThanFinal;
+StateTransitionTable[greaterThanState][rightbrace] = greaterThanFinal;
+StateTransitionTable[greaterThanState][comma] = greaterThanFinal;
+StateTransitionTable[greaterThanState][semicolon] = greaterThanFinal;
+StateTransitionTable[greaterThanState][WS] = greaterThanFinal;
+StateTransitionTable[greaterThanState][other] = error;
+
+
+
+//exclemation state
+StateTransitionTable[exclemationState][letter] = NotstateFinal;
+StateTransitionTable[exclemationState][digit] = NotstateFinal;
+StateTransitionTable[exclemationState][astrix] = NotstateFinal;
+StateTransitionTable[exclemationState][plusType] = NotstateFinal;
+StateTransitionTable[exclemationState][minusType] = NotstateFinal;
+StateTransitionTable[exclemationState][divisor] = NotstateFinal;
+StateTransitionTable[exclemationState][equals] = notEqualsStateFinal;
+StateTransitionTable[exclemationState][lessThan] = NotstateFinal;
+StateTransitionTable[exclemationState][greaterThan] = NotstateFinal;
+StateTransitionTable[exclemationState][exlimation] = NotstateFinal;
+StateTransitionTable[exclemationState][leftparen] = NotstateFinal;
+StateTransitionTable[exclemationState][rightparen] = NotstateFinal;
+StateTransitionTable[exclemationState][leftbrace] = NotstateFinal;
+StateTransitionTable[exclemationState][rightbrace] = NotstateFinal;
+StateTransitionTable[exclemationState][comma] = NotstateFinal;
+StateTransitionTable[exclemationState][semicolon] = NotstateFinal;
+StateTransitionTable[exclemationState][WS] = NotstateFinal;
+StateTransitionTable[exclemationState][other] = error;
 }
 
-types Lexical::getChType(char ch)
+Tokens::Tokens(const string& lexeme, const string& tokenType) : 
+lexeme(lexeme), tokenType(tokenType){} // Constructor for Tokens class
+
+Lexical::Lexical(FSA& fsa) : fsa(fsa){} // Constructor for Lexical class
+
+void Lexical::AddToTokenList(const string& lexeme, const string& tokenType) // Function to add to the token list
+{
+    tokens[tokenCount] = Tokens(lexeme, tokenType); // Add the lexeme and token type to the token list
+    tokenCount++; // Increment the token count
+}
+void Lexical::setInput(const string& ins) // Function to set the input
+{
+    input = ins; // Set the input to the input string
+    position = 0; // Set the position to 0
+    tokenCount = 0; // Set the token count to 0
+    tokenCapacity = 10000; // Set the token capacity to 100
+}
+
+types Lexical::getChType(char ch) // Function to get the type of character
 {
     if (isalpha(ch))
     {
@@ -104,230 +318,253 @@ types Lexical::getChType(char ch)
         return types::other;
     }
 }
-string Lexical::keyword(const string& lexeme)
+string Lexical::MapToken(state State, const string& lexeme) const // Function to map the token
 {
-    vector<string> keywords = {"const","CONST", "PROCEDURE","procedure", "ODD", "odd", "IF", "if", "WHILE", "while", "CLASS", "class", "VAR", "var", "CALL", "call","THEN", "then", "DO", "do"};
-    for (auto& keyword : keywords)
+    switch (State)
     {
-        if (lexeme == keyword)
-        {
-            return "RESERVED WORD";
-        }
+    case state::operation:
+        if(lexeme == "*") return "MOP";
+        if(lexeme == "+") return "ADDOP";
+        if(lexeme == "-")  return "SUBOP";
+    case state::integerFinal:
+        return "Numlit";
+    case state::VariableFinal:
+        if(lexeme == "CONST"|| lexeme == "const") return "RESERVED WORD";
+        if(lexeme == "VAR" || lexeme == "var") return "RESERVED WORD";
+        if(lexeme == "IF" || lexeme == "if") return "RESERVED WORD";
+        if(lexeme == "THEN" || lexeme == "then") return "RESERVED WORD";
+        if(lexeme == "ELSE" || lexeme == "else") return "RESERVED WORD";
+        if(lexeme == "WHILE" || lexeme == "while") return "RESERVED WORD";
+        if(lexeme == "DO" || lexeme == "do") return "RESERVED WORD";
+        if(lexeme == "PROCEDURE" || lexeme == "procedure") return "RESERVED WORD";
+        if(lexeme == "ODD" || lexeme == "odd") return "RESERVED WORD";
+        if(lexeme == "CALL" || lexeme == "call") return "RESERVED WORD";
+        if(lexeme == "CLASS" || lexeme == "class") return "RESERVED WORD";
+        return "Variable";
+    case state::DivisorFinal:
+        return "DIVOP";
+    case state::assignmentFinal:
+        return "assignment";
+    case state::equalityFinal:
+        return "equality";
+    case state::lessThanFinal:
+        return "lessThan";
+    case state::lessThanEqualsStateFinal:
+        return "lessThanEquals";
+    case state::greaterThanFinal:
+        return "greaterThan";
+    case state::greaterThanEqualsStateFinal:
+        return "greaterThanEquals";
+    case state::NotstateFinal:
+        return "Not";
+    case state::notEqualsStateFinal:
+        return "notEquals";
+    case state::delimiterState:
+        if(lexeme == ",") return "comma";
+        if(lexeme == ";") return "semicolon";
+    case state::braceState:
+        if(lexeme == "{") return "leftbrace";
+        if(lexeme == "}") return "rightbrace";
+    case state::parenState:
+        if(lexeme == "(") return "leftparen";
+        if(lexeme == ")") return "rightparen";
+    default:
+        return "error";
     }
-    return "Variable";
-}
-vector<Tokens>& Lexical::getTokens()
+    cout << "Debug: Reached end of MapToken function without returning a value." << endl;
+};
+Tokens* Lexical::getTokens() // Function to get the tokens
 {
-    return tokens;
+    return tokens; // Return the tokens
 }
-void Lexical::tokenize(const string& ins)
+size_t Lexical::getTokenCount() const // Function to get the token count
 {
-    state currentState = start;
-    state nextState;
-    string currentlexeme;
-    while(position < input.length())
+    return tokenCount; // Return the token count
+}
+void Lexical::tokenize(const string& ins) // Function to tokenize the input
+{
+    state currentState = start; // Set the current state to start
+    state nextState; // Set the next state
+    string currentlexeme; // Set the current lexeme
+    while(position < ins.length()) // While the position is less than the length of the input
     {
-        char ch = input[position];
-        types chType = getChType(ch);
-        nextState = fsa.nextState(currentState, chType);
+        char ch = ins[position]; // Get the character at the position
+        types chType = getChType(ch); // Get the type of character
+        nextState = fsa.MoveToNextStateOfTable(currentState, chType); // Get the next state
         switch (nextState)
         {
         case state::start:
             currentState = nextState;
             position++;
+           
             break;
         case state ::error:
-            add(currentlexeme, "error");
-            currentlexeme.clear();
             currentState = start;
             position++;
+          
             break;
         case state ::operation:
             currentlexeme += ch;
-            if(ch == '*')
-            {
-                add(currentlexeme, "MOP");
-                currentlexeme.clear();
-                currentState = start;
-            }
-            else if(ch == '+')
-            {
-                add(currentlexeme, "ADDOP");
-                currentlexeme.clear();
-                currentState = start;
-            }
-            else if(ch == '-')
-            {
-                add(currentlexeme, "SUBOP");
-                currentlexeme.clear();
-                currentState = start;
-            }
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            currentlexeme.clear();
             currentState = start;
             position++;
+          
             break;
-
         case state :: digitState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+         
             break;
         case state :: integerFinal:
-            add(currentlexeme, "Numlit");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+          
             break;
         case state ::VariableState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+   
             break;
         case state :: VariableFinal:
-            add(currentlexeme, keyword(currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+   
             break;
         case state :: slashState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+
             break;
         case state::DivisorFinal:
-            add(currentlexeme, "DIVOP");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+
             break;
         case state :: commentState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+
             break;
         case state :: commentFinal:
             currentlexeme += ch;
             currentState = nextState;
-            currentlexeme.clear();
             position++;
+
             break;
         case state :: equalsState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+
             break;
         case state :: assignmentFinal:   
-            add(currentlexeme, "assignment");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+
             break;
         case state :: equalityFinal:
             currentlexeme += ch;
-            add(currentlexeme, "equality");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
+
             break;
         case state :: lessThanState:
             currentlexeme+= ch;
             currentState = nextState;
             position++;
+   
             break;
         case state :: lessThanFinal:
-            add(currentlexeme, "lessThan");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+   
             break;
         case state :: lessThanEqualsStateFinal: 
             currentlexeme += ch;
-            add(currentlexeme, "lessThanEquals");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
+
             break;
         case state :: greaterThanState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+  
             break;
         case state :: greaterThanFinal:
-            add(currentlexeme, "greaterThan");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+
             break;
         case state :: greaterThanEqualsStateFinal:
             currentlexeme += ch;
-            add(currentlexeme, "greaterThanEquals");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
+
             break;
         case state :: exclemationState:
             currentlexeme += ch;
             currentState = nextState;
             position++;
+     
             break;
         case state :: NotstateFinal:
-            add(currentlexeme, "Not");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
+
             break;
         case state :: notEqualsStateFinal:
             currentlexeme += ch;
-            add(currentlexeme, "notEquals");
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
+   
             break;
         case state :: delimiterState:
             currentlexeme += ch;
-            if(ch == ',')
-            {
-                add(currentlexeme, "comma");
-                currentlexeme.clear();
-            }
-            else if(ch == ';')
-            {
-                add(currentlexeme, "semicolon");
-                currentlexeme.clear();
-            }
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            currentlexeme.clear();
             currentState = start;
             position++;
+
             break;
         case state :: braceState:
             currentlexeme += ch;
-            if(ch == '{')
-            {
-                add(currentlexeme, "leftbrace");
-                currentlexeme.clear();
-            }
-            else if(ch == '}')
-            {
-                add(currentlexeme, "rightbrace");
-                currentlexeme.clear();
-            }
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
+
             break;
         case state :: parenState:
             currentlexeme += ch;
-            if(ch == '(')
-            {
-                add(currentlexeme, "leftparen");
-                currentlexeme.clear();
-            }
-            else if(ch == ')')
-            {
-                add(currentlexeme, "rightparen");
-                currentlexeme.clear();
-            }
+            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme ));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
-            default:
+        default:
             break;
         }
-        
-        
     }   
-    add("EOF", "EOF");
-    currentlexeme.clear();
+    AddToTokenList("EOF", "EOF");
 }

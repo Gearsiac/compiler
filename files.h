@@ -11,12 +11,12 @@ using namespace std;
 
 class Files
 {
-    private:
+private:
     string files;
 
-    public:
-    string read(const string& filename) const;
-    void write(const vector<Tokens>& tokens);
+public:
+    string read(const string &files) const;
+    void write(const string &files, const string &output) const;
 };
 
 

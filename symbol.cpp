@@ -1,24 +1,20 @@
 #include <string>
-#include <vector>
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include "lexical.h"
 #include "States.h"
-#include "FSA.h"
 #include "Files.h"
 #include "symbol.h"
 
 using namespace std;
+symbol :: symbol(const string& syms, const string& Classification, const string& value, const int address, const string& segment) : 
+syms(syms), Classification(Classification), value(value), address(address), segment(segment){}
 
-symbol::symbol(const string& syms, const string& Classification, const string& value, const int address, const string& segment) : syms(syms), Classification(Classification), value(value), address(address), segment(segment)
+void symbolTable::addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment) //chanage 
 {
-
-}
-
-void symbolTable::addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment)
-{
-    symbols.push_back(symbol(syms, Classification, value, address, segment));
+    symbols[SymbolCount] = symbol(syms, Classification, value, address, segment);
+    SymbolCount++;
 }
 
 symbolTypes symbolTable::symMap(const Tokens &token)
@@ -31,8 +27,13 @@ symbolTypes symbolTable::symMap(const Tokens &token)
         if(token.lexeme == "VAR" || token.lexeme == "var") return VarIdentifierType;
         if(token.lexeme == "WHILE" || token.lexeme == "while") return keyType;
         if(token.lexeme == "IF" || token.lexeme == "if") return keyType;
+        if(token.lexeme == "ELSE" || token.lexeme == "else") return keyType;
+        if(token.lexeme == "PROCEDURE" || token.lexeme == "procedure") return keyType;
+        if(token.lexeme == "ODD" || token.lexeme == "odd") return keyType;
+        if(token.lexeme == "CALL" || token.lexeme == "call") return keyType;
         if(token.lexeme == "THEN" || token.lexeme == "then") return keyType;
-
+        if(token.lexeme == "DO" || token.lexeme == "do") return keyType;
+        
     }
     if(token.lexeme == "{") return LBType;
     if(token.lexeme == "=") return AssType;
@@ -47,8 +48,7 @@ symbolTypes symbolTable::symMap(const Tokens &token)
 
 
 }         
-
-vector<symbol>& symbolTable::getSymbols()
+symbol* symbolTable :: getSymbols()
 {
     return symbols;
 }
@@ -56,6 +56,11 @@ vector<symbol>& symbolTable::getSymbols()
 symbolTable::symbolTable()
 {
     SymConfig();
+}
+
+size_t symbolTable::getSymbolCount() const
+{
+    return SymbolCount;
 }
 
 void symbolTable::SymConfig()
@@ -100,7 +105,7 @@ symbolstates symbolTable::getNextState(symbolstates currentState, symbolTypes in
     int SymNext = SymTable[currentState][input];
     return static_cast<symbolstates>(SymNext);
 }
-void symbolTable::symTable(const Tokens& initialToken, vector<Tokens>& tokens)
+void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, int numTokens) 
 {
     symbolstates currentState = StartState;
     symbolstates nextState;
@@ -108,8 +113,9 @@ void symbolTable::symTable(const Tokens& initialToken, vector<Tokens>& tokens)
     int address = 0;
     string sym, Classification, value, segment;
 
-    for(const auto& token : tokens)
+    for(int i = 0; i < numTokens; i++)
     {
+        Tokens token = tokens[i];
         string tokenType = token.tokenType;
         string lexeme = token.lexeme;
         symbolTypes input = symMap(token);
@@ -186,3 +192,4 @@ void symbolTable::symTable(const Tokens& initialToken, vector<Tokens>& tokens)
     address += 2;
 
 }
+
