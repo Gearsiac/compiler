@@ -2,7 +2,6 @@
 #define SYMBOL_H
 #include <string>
 #include <iostream>
-#include <string>
 #include <iomanip>
 #include "lexical.h"
 #include "States.h"
@@ -28,7 +27,7 @@ class symbolTable
 private:
     symbol symbols[10000]; // Array of symbols
     int SymTable[Numstates][Numintputs] = {}; // Symbol table
-    void SymConfig(); // Symbol configuration
+    void SymbolTableFSA(); // FSA configuration
     void addToTable(); // Add to table
     size_t position; // Position
     size_t SymbolCount; // Symbol count
@@ -37,9 +36,9 @@ public:
     symbolTable(); // Constructor
     size_t getSymbolCount() const; // Get symbol count
     symbolTypes symMap(const Tokens& token); // Symbol map
-    symbolstates getNextState(symbolstates currentState, symbolTypes input); // Get next state
+    symbolstates ReadRowsAndCollums(symbolstates currentState, symbolTypes input); // Get next state
     void addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment); // Add to symbol table
-    void symTable(const Tokens& token, Tokens* tokens, int numTokens); // Symbol table
+    void symTable(const Tokens& token, Tokens* tokens, size_t tokenCount); // Symbol table
     void Setinput(const string& ins); // Set input
     symbol* getSymbols(); // Get symbols
 };

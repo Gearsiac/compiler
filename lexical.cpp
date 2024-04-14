@@ -1,21 +1,10 @@
 #include <string>
-#include <vector>
 #include <iostream>
 #include <string>
 #include "lexical.h"
 #include "States.h"
 using namespace std;
-
-FSA::FSA() // Constructor for FSA class
-{
-    FSAConfig();
-}
-state FSA::MoveToNextStateOfTable(state currentState, types inputType) // Function to move to the next state of the table
-{
-    int nextState = StateTransitionTable[currentState][inputType]; // Get the next state from the table
-    return static_cast<state>(nextState); // Return the next state
-}
-void FSA::FSAConfig() // Function to configure the FSA
+void Lexical::LexicalFSA() // Function to configure the FSA
 {
 
     // 2D array of states and types
@@ -37,9 +26,6 @@ StateTransitionTable[start][comma] = delimiterState;
 StateTransitionTable[start][semicolon] = delimiterState;
 StateTransitionTable[start][WS] = start;
 StateTransitionTable[start][other] = error;
-
-
-
 
 //digit state
 StateTransitionTable[digitState][letter] = integerFinal;
@@ -160,8 +146,6 @@ StateTransitionTable[equalsState][semicolon] = assignmentFinal;
 StateTransitionTable[equalsState][WS] = assignmentFinal;
 StateTransitionTable[equalsState][other] = error;
 
-
-
 //less than state
 StateTransitionTable[lessThanState][letter] = lessThanFinal;
 StateTransitionTable[lessThanState][digit] = lessThanFinal;
@@ -202,8 +186,6 @@ StateTransitionTable[greaterThanState][semicolon] = greaterThanFinal;
 StateTransitionTable[greaterThanState][WS] = greaterThanFinal;
 StateTransitionTable[greaterThanState][other] = error;
 
-
-
 //exclemation state
 StateTransitionTable[exclemationState][letter] = NotstateFinal;
 StateTransitionTable[exclemationState][digit] = NotstateFinal;
@@ -224,23 +206,30 @@ StateTransitionTable[exclemationState][semicolon] = NotstateFinal;
 StateTransitionTable[exclemationState][WS] = NotstateFinal;
 StateTransitionTable[exclemationState][other] = error;
 }
+Lexical::Lexical() // Constructor for Lexical class
+{
+    LexicalFSA(); // Configure the FSA
+}
+state Lexical::ReadRowsAndCollums(state currentState, types input) // Function to read the rows and collums of the table
+{
+    int NextStateTransition = StateTransitionTable[currentState][input]; // reads the rows and collums of the next state transition
+    return static_cast<state>(NextStateTransition); // Return the next state transition
+}
 
 Tokens::Tokens(const string& lexeme, const string& tokenType) : 
 lexeme(lexeme), tokenType(tokenType){} // Constructor for Tokens class
-
-Lexical::Lexical(FSA& fsa) : fsa(fsa){} // Constructor for Lexical class
 
 void Lexical::AddToTokenList(const string& lexeme, const string& tokenType) // Function to add to the token list
 {
     tokens[tokenCount] = Tokens(lexeme, tokenType); // Add the lexeme and token type to the token list
     tokenCount++; // Increment the token count
 }
+
 void Lexical::setInput(const string& ins) // Function to set the input
 {
     input = ins; // Set the input to the input string
     position = 0; // Set the position to 0
     tokenCount = 0; // Set the token count to 0
-    tokenCapacity = 10000; // Set the token capacity to 100
 }
 
 types Lexical::getChType(char ch) // Function to get the type of character
@@ -371,7 +360,6 @@ string Lexical::MapToken(state State, const string& lexeme) const // Function to
     default:
         return "error";
     }
-    cout << "Debug: Reached end of MapToken function without returning a value." << endl;
 };
 Tokens* Lexical::getTokens() // Function to get the tokens
 {
@@ -384,180 +372,157 @@ size_t Lexical::getTokenCount() const // Function to get the token count
 void Lexical::tokenize(const string& ins) // Function to tokenize the input
 {
     state currentState = start; // Set the current state to start
-    state nextState; // Set the next state
+    state NextStateTransition; // Set the next state transition
     string currentlexeme; // Set the current lexeme
     while(position < ins.length()) // While the position is less than the length of the input
     {
         char ch = ins[position]; // Get the character at the position
         types chType = getChType(ch); // Get the type of character
-        nextState = fsa.MoveToNextStateOfTable(currentState, chType); // Get the next state
-        switch (nextState)
+        NextStateTransition = ReadRowsAndCollums(currentState, chType); // Get the next state
+        switch (NextStateTransition) // Switch statement for the next state transition
         {
         case state::start:
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-           
             break;
         case state ::error:
             currentState = start;
+            currentlexeme.clear();
             position++;
-          
             break;
         case state ::operation:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-          
             break;
         case state :: digitState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-         
             break;
         case state :: integerFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-          
             break;
         case state ::VariableState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-   
             break;
         case state :: VariableFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-   
             break;
         case state :: slashState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-
             break;
         case state::DivisorFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-
             break;
         case state :: commentState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-
             break;
         case state :: commentFinal:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
+            currentlexeme.clear();
             position++;
-
             break;
         case state :: equalsState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-
             break;
         case state :: assignmentFinal:   
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-
             break;
         case state :: equalityFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-
             break;
         case state :: lessThanState:
             currentlexeme+= ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-   
             break;
         case state :: lessThanFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-   
             break;
         case state :: lessThanEqualsStateFinal: 
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-
             break;
         case state :: greaterThanState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-  
             break;
         case state :: greaterThanFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-
             break;
         case state :: greaterThanEqualsStateFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-
             break;
         case state :: exclemationState:
             currentlexeme += ch;
-            currentState = nextState;
+            currentState = NextStateTransition;
             position++;
-     
             break;
         case state :: NotstateFinal:
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
-
             break;
         case state :: notEqualsStateFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-   
             break;
         case state :: delimiterState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-
             break;
         case state :: braceState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
-
             break;
         case state :: parenState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(nextState, currentlexeme ));
+            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme ));
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -566,5 +531,5 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             break;
         }
     }   
-    AddToTokenList("EOF", "EOF");
+    AddToTokenList("EOF", "EOF"); // Add EOF to the token list
 }

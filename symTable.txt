@@ -9,8 +9,9 @@ class LargestCommonDenominator
         a = x; b = y; z = 0; 
         while b > 0 DO
         {
-            if odd b then z = z + a;
+            if { odd b then z = z + a 
             a = 2 * a; b = / 2
+            }
         }
     }
     while

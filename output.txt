@@ -1,68 +1,262 @@
-Program read:
- class Pgrm1 
-{
-    const m=7,n=85;
-    var x,y,z;
-    x = m+y*z + 12;
-    if (x > n) then 
-    {
-        m == n;
-        
-    }
-}
-class                      RESERVED WORD
-Pgrm1                           Variable
+Token                               Type
+CLASS                      RESERVED WORD
+LargestCommonDenominator            Variable
 {                              leftbrace
-const                      RESERVED WORD
-m                               Variable
+CONST                      RESERVED WORD
+M                               Variable
 =                             assignment
 7                                 Numlit
 ,                                  comma
-n                               Variable
+N                               Variable
 =                             assignment
 85                                Numlit
 ;                              semicolon
-var                        RESERVED WORD
-x                               Variable
+VAR                        RESERVED WORD
+X                               Variable
 ,                                  comma
-y                               Variable
+Y                               Variable
 ,                                  comma
-z                               Variable
+Z                               Variable
+,                                  comma
+Q                               Variable
+,                                  comma
+R                               Variable
 ;                              semicolon
-x                               Variable
-=                             assignment
-m                               Variable
-+                                  ADDOP
-y                               Variable
-*                                    MOP
-z                               Variable
-+                                  ADDOP
-12                                Numlit
-;                              semicolon
-if                         RESERVED WORD
+PROCEDURE                  RESERVED WORD
+Multiply                        Variable
 (                              leftparen
-x                               Variable
->                            greaterThan
-n                               Variable
 )                             rightparen
-then                       RESERVED WORD
 {                              leftbrace
-m                               Variable
-==                              equality
-n                               Variable
+VAR                        RESERVED WORD
+A                               Variable
+,                                  comma
+B                               Variable
+;                              semicolon
+A                               Variable
+=                             assignment
+X                               Variable
+;                              semicolon
+B                               Variable
+=                             assignment
+Y                               Variable
+;                              semicolon
+Z                               Variable
+=                             assignment
+0                                 Numlit
+;                              semicolon
+WHILE                      RESERVED WORD
+B                               Variable
+>                            greaterThan
+0                                 Numlit
+DO                         RESERVED WORD
+{                              leftbrace
+IF                         RESERVED WORD
+ODD                        RESERVED WORD
+B                               Variable
+THEN                       RESERVED WORD
+Z                               Variable
+=                             assignment
+Z                               Variable
++                                  ADDOP
+A                               Variable
+;                              semicolon
+A                               Variable
+=                             assignment
+2                                 Numlit
+*                                    MOP
+A                               Variable
+;                              semicolon
+B                               Variable
+=                             assignment
+B                               Variable
+/                                  DIVOP
+2                                 Numlit
+}                             rightbrace
+}                             rightbrace
+PROCEDURE                  RESERVED WORD
+Divide                          Variable
+(                              leftparen
+)                             rightparen
+{                              leftbrace
+VAR                        RESERVED WORD
+W                               Variable
+;                              semicolon
+R                               Variable
+=                             assignment
+X                               Variable
+;                              semicolon
+Q                               Variable
+=                             assignment
+0                                 Numlit
+;                              semicolon
+W                               Variable
+=                             assignment
+Y                               Variable
+;                              semicolon
+WHILE                      RESERVED WORD
+W                               Variable
+<=                        lessThanEquals
+R                               Variable
+DO                         RESERVED WORD
+W                               Variable
+=                             assignment
+2                                 Numlit
+*                                    MOP
+W                               Variable
+;                              semicolon
+WHILE                      RESERVED WORD
+W                               Variable
+>                            greaterThan
+Y                               Variable
+DO                         RESERVED WORD
+{                              leftbrace
+Q                               Variable
+=                             assignment
+2                                 Numlit
+*                                    MOP
+Q                               Variable
+;                              semicolon
+W                               Variable
+=                             assignment
+W                               Variable
+/                                  DIVOP
+2                                 Numlit
+;                              semicolon
+IF                         RESERVED WORD
+W                               Variable
+<=                        lessThanEquals
+R                               Variable
+THEN                       RESERVED WORD
+{                              leftbrace
+R                               Variable
+=                             assignment
+R                               Variable
+W                               Variable
+;                              semicolon
+Q                               Variable
+=                             assignment
+Q                               Variable
++                                  ADDOP
+1                                 Numlit
+}                             rightbrace
+}                             rightbrace
+}                             rightbrace
+PROCEDURE                  RESERVED WORD
+GCD                             Variable
+(                              leftparen
+)                             rightparen
+{                              leftbrace
+VAR                        RESERVED WORD
+F                               Variable
+,                                  comma
+G                               Variable
+;                              semicolon
+F                               Variable
+=                             assignment
+X                               Variable
+;                              semicolon
+G                               Variable
+=                             assignment
+Y                               Variable
+;                              semicolon
+WHILE                      RESERVED WORD
+F                               Variable
+!=                             notEquals
+G                               Variable
+DO                         RESERVED WORD
+{                              leftbrace
+IF                         RESERVED WORD
+F                               Variable
+<                               lessThan
+G                               Variable
+THEN                       RESERVED WORD
+G                               Variable
+=                             assignment
+G                               Variable
+F                               Variable
+;                              semicolon
+IF                         RESERVED WORD
+G                               Variable
+<                               lessThan
+F                               Variable
+THEN                       RESERVED WORD
+F                               Variable
+=                             assignment
+F                               Variable
+G                               Variable
 ;                              semicolon
 }                             rightbrace
+Z                               Variable
+=                             assignment
+F                               Variable
+}                             rightbrace
+X                               Variable
+=                             assignment
+M                               Variable
+;                              semicolon
+Y                               Variable
+=                             assignment
+N                               Variable
+CALL                       RESERVED WORD
+Multiply                        Variable
+(                              leftparen
+)                             rightparen
+;                              semicolon
+X                               Variable
+=                             assignment
+25                                Numlit
+;                              semicolon
+Y                               Variable
+=                             assignment
+3                                 Numlit
+;                              semicolon
+CALL                       RESERVED WORD
+Divide                          Variable
+(                              leftparen
+)                             rightparen
+;                              semicolon
+X                               Variable
+=                             assignment
+84                                Numlit
+;                              semicolon
+Y                               Variable
+=                             assignment
+36                                Numlit
+;                              semicolon
+CALL                       RESERVED WORD
+GCD                             Variable
+(                              leftparen
+)                             rightparen
 }                             rightbrace
 EOF                                  EOF
 Symbol Table:
 Symbol              Classification      Value               Address             Segment             
-Pgrm1               PrgmName                                0                   CS                  
-m                   CONST               7                   0                   DS                  
-n                   CONST               85                  2                   DS                  
-x                   VAR                 ?                   4                   DS                  
-y                   VAR                 ?                   6                   DS                  
-z                   VAR                 ?                   8                   DS                  
-12                  LITERAL             12                  10                  DS                  
-Temp1               Var                                     12                  DS                  
-Temp2               Var                                     14                  DS                  
-Temp3               Var                                     16                  DS                  
+LargestCommonDenominatorPrgmName                                0                   CS                  
+M                   CONST               7                   0                   DS                  
+N                   CONST               85                  2                   DS                  
+X                   VAR                 ?                   4                   DS                  
+Y                   VAR                 ?                   6                   DS                  
+Z                   VAR                 ?                   8                   DS                  
+Q                   VAR                 ?                   10                  DS                  
+R                   VAR                 ?                   12                  DS                  
+A                   VAR                 ?                   14                  DS                  
+B                   VAR                 ?                   16                  DS                  
+0                   LITERAL             0                   18                  DS                  
+0                   LITERAL             0                   20                  DS                  
+2                   LITERAL             2                   22                  DS                  
+2                   LITERAL             2                   24                  DS                  
+W                   VAR                 ?                   26                  DS                  
+0                   LITERAL             0                   28                  DS                  
+2                   LITERAL             2                   30                  DS                  
+2                   LITERAL             2                   32                  DS                  
+2                   LITERAL             2                   34                  DS                  
+1                   LITERAL             1                   36                  DS                  
+F                   VAR                 ?                   38                  DS                  
+G                   VAR                 ?                   40                  DS                  
+25                  LITERAL             25                  42                  DS                  
+3                   LITERAL             3                   44                  DS                  
+84                  LITERAL             84                  46                  DS                  
+36                  LITERAL             36                  48                  DS                  
+Temp1               Var                                     50                  DS                  
+Temp2               Var                                     52                  DS                  
+Temp3               Var                                     54                  DS                  

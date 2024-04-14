@@ -1,9 +1,7 @@
 #ifndef STATES_H
 #define STATES_H
 #include <string>
-#include <vector>
 #include <iostream>
-#include <string>
 using namespace std;
 enum state
 {
