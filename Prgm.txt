@@ -1,4 +1,4 @@
-CLASS LargestCommonDenominator
+CLASS LCD
 {
     CONST M = 7, N = 85;
     VAR X, Y, Z, Q, R;

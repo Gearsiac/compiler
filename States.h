@@ -89,4 +89,31 @@ enum symbolTypes
     SymTypeCount
 
 };
+
+enum ParseStates
+{
+    ArnoldState,
+    Assign_State,
+    Add_State,
+    Sub_state,
+    LeftPren_State,
+    RightPren_State,
+    Mul_State,
+    Div_State,
+    IF_State,
+    Else_State,
+    While_State,
+    Do_State,
+    ODD_State,
+    Equality_State,
+    NotEqual_State,
+    GreaterThan_State,
+    LessThan_State,
+    GreaterThanEqual_State,
+    LessThanEqual_State,
+    RightBrace_State,
+    LeftBrace_State,
+    Call_State,
+    ParseCount
+};
 #endif

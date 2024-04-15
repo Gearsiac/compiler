@@ -1,6 +1,6 @@
 Token                               Type
 CLASS                      RESERVED WORD
-LargestCommonDenominator            Variable
+LCD                             Variable
 {                              leftbrace
 CONST                      RESERVED WORD
 M                               Variable
@@ -231,7 +231,7 @@ GCD                             Variable
 EOF                                  EOF
 Symbol Table:
 Symbol              Classification      Value               Address             Segment             
-LargestCommonDenominatorPrgmName                                0                   CS                  
+LCD                 PrgmName                                0                   CS                  
 M                   CONST               7                   0                   DS                  
 N                   CONST               85                  2                   DS                  
 X                   VAR                 ?                   4                   DS                  
