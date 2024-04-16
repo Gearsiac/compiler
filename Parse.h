@@ -2,44 +2,43 @@
 #define PARSE_H
 #include <string>
 #include <iostream>
-#include <string>
 #include <iomanip>
 #include <stack>
 #include "lexical.h"
 #include "symbol.h"
 #include "States.h"
 using namespace std;
-struct ParseStack // Structure for the parse stack
-{
-    string stack; // Stack
-    string input; // Input
-    string action; // Action
-    ParseStack(const string& stack, const string& input, const string& action); // Constructor
-    ParseStack() : stack(""), input(""), action(""){} // Default constructor
-};
+const int OPState  = static_cast<int>(ParseCount); // Number of states
+const int OPInput = static_cast<int>(ParseCount); // Number of inputs
 struct ParseQuads // Structure for the parse quads
 {
     string quad; // Quad
-    string action; // Action
-    ParseQuads(const string& quad, const string& action); // Constructor
-    ParseQuads() : quad(""), action(""){} // Default constructor
+    ParseQuads(); // Constructor
+
 };
 class Parse // Parse class
 {
 
-    private:
-         
-
+    private: 
+    size_t ParseStackCount; // Parse stack count
+    size_t ParseQuadsCount; // Parse quads count
+    char PDAPrecedence[OPState][OPInput] = {}; // PDA
+    ParseQuads* ParseQuad[1000]; // Array of parse quads
+    void ParseQuads(); // Quads
+    void ParseLookAtStack( ); // Look at stack
+    void PDAConfig(); // PDA configuration
+    
     public:
         Parse(); // Constructor
-        void ParseStack();
+        void ParseStack(); // Parse stack
         void ParsePush(); // Push
         void ParsePop(); // Pop
         void ParseAccept(); // Accept
         void ParseError(); // Error
-        void ParseQuads(); // Quads
         void ParseGoto(); // Goto
-        void ParseLookAtStack(); // Look at stack
-
+        void ParseTransition(); // Transition
+        void ParseReduce(); // Reduce
+        ParseOps ParseMap(const Tokens& token); // Parse map
+        
 };
 #endif
