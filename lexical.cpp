@@ -329,6 +329,8 @@ string Lexical::MapToken(state State, const string& lexeme) const // Function to
         if(lexeme == "ODD" || lexeme == "odd") return "RESERVED WORD";
         if(lexeme == "CALL" || lexeme == "call") return "RESERVED WORD";
         if(lexeme == "CLASS" || lexeme == "class") return "RESERVED WORD";
+        if(lexeme == "CIN" || "cin") return "RESERVED WORD";
+        if(lexeme == "COUT" || "cout") return "RESERVED WORD";
         return "Variable";
     case state::DivisorFinal:
         return "DIVOP";

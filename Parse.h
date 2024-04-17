@@ -10,35 +10,40 @@
 using namespace std;
 const int OPState  = static_cast<int>(ParseCount); // Number of states
 const int OPInput = static_cast<int>(ParseCount); // Number of inputs
-struct ParseQuads // Structure for the parse quads
+struct Quads // Structure for the parse quads
 {
-    string quad; // Quad
-    ParseQuads(); // Constructor
+
+    string op; // Operator
+    string arg1; // Argument 1
+    string arg2; // Argument 2
+    string Temp; // Temp
+    Quads(const string& op, const string& arg1, const string& arg2, const string& Temp); // Constructor
+    Quads() : op("?"), arg1("?"), arg2("?"), Temp("?") {} // Default constructor
 
 };
 class Parse // Parse class
 {
 
     private: 
-    size_t ParseStackCount; // Parse stack count
-    size_t ParseQuadsCount; // Parse quads count
-    char PDAPrecedence[OPState][OPInput] = {}; // PDA
-    ParseQuads* ParseQuad[1000]; // Array of parse quads
-    void ParseQuads(); // Quads
-    void ParseLookAtStack( ); // Look at stack
+    size_t StackCount; // Parse stack count
+    size_t QuadsCount; // Parse quads count
+    char PDAPrecedenceTable[OPState][OPInput] = {}; // PDA
+    Quads* ParseQuads[1000]; // Array of parse quad
+    Tokens* ParseStack[1000]; // Array of parse stack
     void PDAConfig(); // PDA configuration
     
     public:
         Parse(); // Constructor
-        void ParseStack(); // Parse stack
-        void ParsePush(); // Push
-        void ParsePop(); // Pop
-        void ParseAccept(); // Accept
-        void ParseError(); // Error
-        void ParseGoto(); // Goto
-        void ParseTransition(); // Transition
-        void ParseReduce(); // Reduce
         ParseOps ParseMap(const Tokens& token); // Parse map
+        ParseOps ReadRowsAndCollums(ParseOps currentState, ParseOps input); // Read rows and collums
+        size_t getQuadsCount() const; // Get parse quads count
+        size_t getStackCount() const; // Get parse stack count
+        Quads* getParseQuads(); // Get parse quads
+        Tokens* getParseStack(); // Get parse stack
+        void AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp); // Add to parse quads
+        void AddTemp(const string& Temp); // Add temp
+        void Parseing(const Tokens& token, Tokens* tokens, size_t tokenCount);
+         
         
 };
 #endif

@@ -13,237 +13,237 @@ void Parse::PDAConfig()
     {
         for(int j = 0; j < OPInput; j++) // Loop through the inputs
         {
-            PDAPrecedence[i][j] = '?'; // Set the precedence to a space
+            PDAPrecedenceTable[i][j] = '?'; // Set the precedence to a space
         }
     }
 
-    
+
         // Set the Terminator precedence
-    PDAPrecedence[ArnoldOP][AssignOp] = '<';
-    PDAPrecedence[ArnoldOP][LeftBraceOP] = '<';
+    PDAPrecedenceTable[ArnoldOP][AssignOp] = '<';
+    PDAPrecedenceTable[ArnoldOP][LeftBraceOP] = '<';
 
 
     // Set the Assignment operator precedence
-    PDAPrecedence[AssignOp][ArnoldOP] = '>';
-    PDAPrecedence[AssignOp][ADDOP] = '<';
-    PDAPrecedence[AssignOp][SUBOP] = '<';
-    PDAPrecedence[AssignOp][LeftPrenOP] = '<';
-    PDAPrecedence[AssignOp][MulOP] = '<';
-    PDAPrecedence[AssignOp][DivOP] = '<';
+    PDAPrecedenceTable[AssignOp][ArnoldOP] = '>';
+    PDAPrecedenceTable[AssignOp][ADDOP] = '<';
+    PDAPrecedenceTable[AssignOp][SUBOP] = '<';
+    PDAPrecedenceTable[AssignOp][LeftPrenOP] = '<';
+    PDAPrecedenceTable[AssignOp][MulOP] = '<';
+    PDAPrecedenceTable[AssignOp][DivOP] = '<';
 
     // Set the ADD operator precedence
-    PDAPrecedence[ADDOP][ArnoldOP] = '>';
-    PDAPrecedence[ADDOP][ADDOP] = '>';
-    PDAPrecedence[ADDOP][SUBOP] = '>';
-    PDAPrecedence[ADDOP][LeftPrenOP] = '<';
-    PDAPrecedence[ADDOP][RightPrenOP] = '>';
-    PDAPrecedence[ADDOP][MulOP] = '<';
-    PDAPrecedence[ADDOP][DivOP] = '<';
-    PDAPrecedence[ADDOP][THENOP] = '>';
-    PDAPrecedence[ADDOP][EqualityOP] = '>';
-    PDAPrecedence[ADDOP][NotEqualOP] = '>';
-    PDAPrecedence[ADDOP][GreaterThanOP] = '>';
-    PDAPrecedence[ADDOP][LessThanOP] = '>';
-    PDAPrecedence[ADDOP][GreaterThanEqualOP] = '>';
-    PDAPrecedence[ADDOP][LessThanEqualOP] = '>';
-    PDAPrecedence[ADDOP][RightBraceOP] = '>';
+    PDAPrecedenceTable[ADDOP][ArnoldOP] = '>';
+    PDAPrecedenceTable[ADDOP][ADDOP] = '>';
+    PDAPrecedenceTable[ADDOP][SUBOP] = '>';
+    PDAPrecedenceTable[ADDOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[ADDOP][RightPrenOP] = '>';
+    PDAPrecedenceTable[ADDOP][MulOP] = '<';
+    PDAPrecedenceTable[ADDOP][DivOP] = '<';
+    PDAPrecedenceTable[ADDOP][THENOP] = '>';
+    PDAPrecedenceTable[ADDOP][EqualityOP] = '>';
+    PDAPrecedenceTable[ADDOP][NotEqualOP] = '>';
+    PDAPrecedenceTable[ADDOP][GreaterThanOP] = '>';
+    PDAPrecedenceTable[ADDOP][LessThanOP] = '>';
+    PDAPrecedenceTable[ADDOP][GreaterThanEqualOP] = '>';
+    PDAPrecedenceTable[ADDOP][LessThanEqualOP] = '>';
+    PDAPrecedenceTable[ADDOP][RightBraceOP] = '>';
 
     // Set the SUB operator precedence
-    PDAPrecedence[SUBOP][ArnoldOP] = '>';
-    PDAPrecedence[SUBOP][ADDOP] = '>';
-    PDAPrecedence[SUBOP][SUBOP] = '>';
-    PDAPrecedence[SUBOP][LeftPrenOP] = '<';
-    PDAPrecedence[SUBOP][RightPrenOP] = '>';
-    PDAPrecedence[SUBOP][MulOP] = '<';
-    PDAPrecedence[SUBOP][DivOP] = '<';
-    PDAPrecedence[SUBOP][THENOP] = '>';
-    PDAPrecedence[SUBOP][EqualityOP] = '>';
-    PDAPrecedence[SUBOP][NotEqualOP] = '>';
-    PDAPrecedence[SUBOP][GreaterThanOP] = '>';
-    PDAPrecedence[SUBOP][LessThanOP] = '>';
-    PDAPrecedence[SUBOP][GreaterThanEqualOP] = '>';
-    PDAPrecedence[SUBOP][LessThanEqualOP] = '>';
-    PDAPrecedence[SUBOP][RightBraceOP] = '>';
+    PDAPrecedenceTable[SUBOP][ArnoldOP] = '>';
+    PDAPrecedenceTable[SUBOP][ADDOP] = '>';
+    PDAPrecedenceTable[SUBOP][SUBOP] = '>';
+    PDAPrecedenceTable[SUBOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[SUBOP][RightPrenOP] = '>';
+    PDAPrecedenceTable[SUBOP][MulOP] = '<';
+    PDAPrecedenceTable[SUBOP][DivOP] = '<';
+    PDAPrecedenceTable[SUBOP][THENOP] = '>';
+    PDAPrecedenceTable[SUBOP][EqualityOP] = '>';
+    PDAPrecedenceTable[SUBOP][NotEqualOP] = '>';
+    PDAPrecedenceTable[SUBOP][GreaterThanOP] = '>';
+    PDAPrecedenceTable[SUBOP][LessThanOP] = '>';
+    PDAPrecedenceTable[SUBOP][GreaterThanEqualOP] = '>';
+    PDAPrecedenceTable[SUBOP][LessThanEqualOP] = '>';
+    PDAPrecedenceTable[SUBOP][RightBraceOP] = '>';
 
     // Set the Left Parenthesis precedence
-    PDAPrecedence[LeftPrenOP][ADDOP] = '<';
-    PDAPrecedence[LeftPrenOP][SUBOP] = '<';
-    PDAPrecedence[LeftPrenOP][LeftPrenOP] = '<';
-    PDAPrecedence[LeftPrenOP][RightPrenOP] = '=';
-    PDAPrecedence[LeftPrenOP][MulOP] = '<';
-    PDAPrecedence[LeftPrenOP][DivOP] = '<';
+    PDAPrecedenceTable[LeftPrenOP][ADDOP] = '<';
+    PDAPrecedenceTable[LeftPrenOP][SUBOP] = '<';
+    PDAPrecedenceTable[LeftPrenOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[LeftPrenOP][RightPrenOP] = '=';
+    PDAPrecedenceTable[LeftPrenOP][MulOP] = '<';
+    PDAPrecedenceTable[LeftPrenOP][DivOP] = '<';
 
 
     // Set the Right Parenthesis precedence
-    PDAPrecedence[RightPrenOP][ArnoldOP] = '>';
-    PDAPrecedence[RightPrenOP][ADDOP] = '>';
-    PDAPrecedence[RightPrenOP][SUBOP] = '>';
-    PDAPrecedence[RightPrenOP][RightPrenOP] = '>';
-    PDAPrecedence[RightPrenOP][MulOP] = '>';
-    PDAPrecedence[RightPrenOP][DivOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][ArnoldOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][ADDOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][SUBOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][RightPrenOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][MulOP] = '>';
+    PDAPrecedenceTable[RightPrenOP][DivOP] = '>';
 
     // Set the Multiplication operator precedence
-    PDAPrecedence[MulOP][ArnoldOP] = '>';
-    PDAPrecedence[MulOP][ADDOP] = '>';
-    PDAPrecedence[MulOP][SUBOP] = '>';
-    PDAPrecedence[MulOP][LeftPrenOP] = '<';
-    PDAPrecedence[MulOP][RightPrenOP] = '>';
-    PDAPrecedence[MulOP][MulOP] = '>';
-    PDAPrecedence[MulOP][DivOP] = '>';
-    PDAPrecedence[MulOP][THENOP] = '>';
-    PDAPrecedence[MulOP][EqualityOP] = '>';
-    PDAPrecedence[MulOP][NotEqualOP] = '>';
-    PDAPrecedence[MulOP][GreaterThanOP] = '>';
-    PDAPrecedence[MulOP][LessThanOP] = '>';
-    PDAPrecedence[MulOP][GreaterThanEqualOP] = '>';
-    PDAPrecedence[MulOP][LessThanEqualOP] = '>';
-    PDAPrecedence[MulOP][RightBraceOP] = '>';
+    PDAPrecedenceTable[MulOP][ArnoldOP] = '>';
+    PDAPrecedenceTable[MulOP][ADDOP] = '>';
+    PDAPrecedenceTable[MulOP][SUBOP] = '>';
+    PDAPrecedenceTable[MulOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[MulOP][RightPrenOP] = '>';
+    PDAPrecedenceTable[MulOP][MulOP] = '>';
+    PDAPrecedenceTable[MulOP][DivOP] = '>';
+    PDAPrecedenceTable[MulOP][THENOP] = '>';
+    PDAPrecedenceTable[MulOP][EqualityOP] = '>';
+    PDAPrecedenceTable[MulOP][NotEqualOP] = '>';
+    PDAPrecedenceTable[MulOP][GreaterThanOP] = '>';
+    PDAPrecedenceTable[MulOP][LessThanOP] = '>';
+    PDAPrecedenceTable[MulOP][GreaterThanEqualOP] = '>';
+    PDAPrecedenceTable[MulOP][LessThanEqualOP] = '>';
+    PDAPrecedenceTable[MulOP][RightBraceOP] = '>';
 
 
     // Set the Division operator precedence
-    PDAPrecedence[DivOP][ArnoldOP] = '>';
-    PDAPrecedence[DivOP][ADDOP] = '>';
-    PDAPrecedence[DivOP][SUBOP] = '>';
-    PDAPrecedence[DivOP][LeftPrenOP] = '<';
-    PDAPrecedence[DivOP][RightPrenOP] = '>';
-    PDAPrecedence[DivOP][MulOP] = '>'; 
-    PDAPrecedence[DivOP][DivOP] = '>';
-    PDAPrecedence[DivOP][THENOP] = '>';
-    PDAPrecedence[DivOP][EqualityOP] = '>';
-    PDAPrecedence[DivOP][NotEqualOP] = '>';
-    PDAPrecedence[DivOP][GreaterThanOP] = '>';
-    PDAPrecedence[DivOP][LessThanOP] = '>';
-    PDAPrecedence[DivOP][GreaterThanEqualOP] = '>';
-    PDAPrecedence[DivOP][LessThanEqualOP] = '>';
-    PDAPrecedence[DivOP][RightBraceOP] = '>';
+    PDAPrecedenceTable[DivOP][ArnoldOP] = '>';
+    PDAPrecedenceTable[DivOP][ADDOP] = '>';
+    PDAPrecedenceTable[DivOP][SUBOP] = '>';
+    PDAPrecedenceTable[DivOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[DivOP][RightPrenOP] = '>';
+    PDAPrecedenceTable[DivOP][MulOP] = '>'; 
+    PDAPrecedenceTable[DivOP][DivOP] = '>';
+    PDAPrecedenceTable[DivOP][THENOP] = '>';
+    PDAPrecedenceTable[DivOP][EqualityOP] = '>';
+    PDAPrecedenceTable[DivOP][NotEqualOP] = '>';
+    PDAPrecedenceTable[DivOP][GreaterThanOP] = '>';
+    PDAPrecedenceTable[DivOP][LessThanOP] = '>';
+    PDAPrecedenceTable[DivOP][GreaterThanEqualOP] = '>';
+    PDAPrecedenceTable[DivOP][LessThanEqualOP] = '>';
+    PDAPrecedenceTable[DivOP][RightBraceOP] = '>';
 
 
     // Set the IF operator precedence
-    PDAPrecedence[IFOP][ADDOP] = '<';
-    PDAPrecedence[IFOP][SUBOP] = '<';
-    PDAPrecedence[IFOP][LeftPrenOP] = '<';
-    PDAPrecedence[IFOP][MulOP] = '<';
-    PDAPrecedence[IFOP][DivOP] = '<';
-    PDAPrecedence[IFOP][THENOP] = '=';
-    PDAPrecedence[IFOP][ODDOP] = '<';
-    PDAPrecedence[IFOP][EqualityOP] = '<';
-    PDAPrecedence[IFOP][NotEqualOP] = '<';
-    PDAPrecedence[IFOP][GreaterThanOP] = '<';
-    PDAPrecedence[IFOP][LessThanOP] = '<';
-    PDAPrecedence[IFOP][GreaterThanEqualOP] = '<';
-    PDAPrecedence[IFOP][LessThanEqualOP] = '<';
+    PDAPrecedenceTable[IFOP][ADDOP] = '<';
+    PDAPrecedenceTable[IFOP][SUBOP] = '<';
+    PDAPrecedenceTable[IFOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[IFOP][MulOP] = '<';
+    PDAPrecedenceTable[IFOP][DivOP] = '<';
+    PDAPrecedenceTable[IFOP][THENOP] = '=';
+    PDAPrecedenceTable[IFOP][ODDOP] = '<';
+    PDAPrecedenceTable[IFOP][EqualityOP] = '<';
+    PDAPrecedenceTable[IFOP][NotEqualOP] = '<';
+    PDAPrecedenceTable[IFOP][GreaterThanOP] = '<';
+    PDAPrecedenceTable[IFOP][LessThanOP] = '<';
+    PDAPrecedenceTable[IFOP][GreaterThanEqualOP] = '<';
+    PDAPrecedenceTable[IFOP][LessThanEqualOP] = '<';
 
 
     // Set the THEN operator precedence
-    PDAPrecedence[THENOP][AssignOp] = '<';
-    PDAPrecedence[THENOP][IFOP] = '<';
-    PDAPrecedence[THENOP][ElseOP] = '=';
-    PDAPrecedence[THENOP][WhileOP] = '<';
-    PDAPrecedence[THENOP][LeftBraceOP] = '<';
-    PDAPrecedence[THENOP][CallOP] = '<';
+    PDAPrecedenceTable[THENOP][AssignOp] = '<';
+    PDAPrecedenceTable[THENOP][IFOP] = '<';
+    PDAPrecedenceTable[THENOP][ElseOP] = '=';
+    PDAPrecedenceTable[THENOP][WhileOP] = '<';
+    PDAPrecedenceTable[THENOP][LeftBraceOP] = '<';
+    PDAPrecedenceTable[THENOP][CallOP] = '<';
 
 
     // Set the ELSE operator precedence
-    PDAPrecedence[ElseOP][AssignOp] = '<';
-    PDAPrecedence[ElseOP][IFOP] = '<';
-    PDAPrecedence[ElseOP][WhileOP] = '<';
-    PDAPrecedence[ElseOP][LeftBraceOP] = '<';
-    PDAPrecedence[ElseOP][CallOP] = '<';
+    PDAPrecedenceTable[ElseOP][AssignOp] = '<';
+    PDAPrecedenceTable[ElseOP][IFOP] = '<';
+    PDAPrecedenceTable[ElseOP][WhileOP] = '<';
+    PDAPrecedenceTable[ElseOP][LeftBraceOP] = '<';
+    PDAPrecedenceTable[ElseOP][CallOP] = '<';
 
 
     // Set the WHILE operator precedence
-    PDAPrecedence[WhileOP][ADDOP] = '<';
-    PDAPrecedence[WhileOP][SUBOP] = '<';
-    PDAPrecedence[WhileOP][LeftPrenOP] = '<';
-    PDAPrecedence[WhileOP][MulOP] = '<';
-    PDAPrecedence[WhileOP][DivOP] = '<';
-    PDAPrecedence[WhileOP][DoOP] = '=';
-    PDAPrecedence[WhileOP][ODDOP] = '<';
-    PDAPrecedence[WhileOP][EqualityOP] = '<';
-    PDAPrecedence[WhileOP][NotEqualOP] = '<';
-    PDAPrecedence[WhileOP][GreaterThanOP] = '<';
-    PDAPrecedence[WhileOP][LessThanOP] = '<';
-    PDAPrecedence[WhileOP][GreaterThanEqualOP] = '<';
-    PDAPrecedence[WhileOP][LessThanEqualOP] = '<';
+    PDAPrecedenceTable[WhileOP][ADDOP] = '<';
+    PDAPrecedenceTable[WhileOP][SUBOP] = '<';
+    PDAPrecedenceTable[WhileOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[WhileOP][MulOP] = '<';
+    PDAPrecedenceTable[WhileOP][DivOP] = '<';
+    PDAPrecedenceTable[WhileOP][DoOP] = '=';
+    PDAPrecedenceTable[WhileOP][ODDOP] = '<';
+    PDAPrecedenceTable[WhileOP][EqualityOP] = '<';
+    PDAPrecedenceTable[WhileOP][NotEqualOP] = '<';
+    PDAPrecedenceTable[WhileOP][GreaterThanOP] = '<';
+    PDAPrecedenceTable[WhileOP][LessThanOP] = '<';
+    PDAPrecedenceTable[WhileOP][GreaterThanEqualOP] = '<';
+    PDAPrecedenceTable[WhileOP][LessThanEqualOP] = '<';
 
 
     // Set the DO operator precedence
-    PDAPrecedence[DoOP][AssignOp] = '<';
-    PDAPrecedence[DoOP][WhileOP] = '<';
-    PDAPrecedence[DoOP][RightBraceOP] = '<';
-    PDAPrecedence[DoOP][CallOP] = '<';
+    PDAPrecedenceTable[DoOP][AssignOp] = '<';
+    PDAPrecedenceTable[DoOP][WhileOP] = '<';
+    PDAPrecedenceTable[DoOP][RightBraceOP] = '<';
+    PDAPrecedenceTable[DoOP][CallOP] = '<';
 
 
     // Set the ODD operator precedence
-    PDAPrecedence[ODDOP][ADDOP] = '<';
-    PDAPrecedence[ODDOP][SUBOP] = '<';
-    PDAPrecedence[ODDOP][LeftPrenOP] = '<';
-    PDAPrecedence[ODDOP][MulOP] = '<';
-    PDAPrecedence[ODDOP][DivOP] = '<';
-    PDAPrecedence[ODDOP][THENOP] = '>';
+    PDAPrecedenceTable[ODDOP][ADDOP] = '<';
+    PDAPrecedenceTable[ODDOP][SUBOP] = '<';
+    PDAPrecedenceTable[ODDOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[ODDOP][MulOP] = '<';
+    PDAPrecedenceTable[ODDOP][DivOP] = '<';
+    PDAPrecedenceTable[ODDOP][THENOP] = '>';
 
 
     // Set the Equality operator precedence
-    PDAPrecedence[EqualityOP][ADDOP] = '<';
-    PDAPrecedence[EqualityOP][SUBOP] = '<';
-    PDAPrecedence[EqualityOP][LeftPrenOP] = '<';
-    PDAPrecedence[EqualityOP][MulOP] = '<';
-    PDAPrecedence[EqualityOP][DivOP] = '<';
-    PDAPrecedence[EqualityOP][THENOP] = '>';
+    PDAPrecedenceTable[EqualityOP][ADDOP] = '<';
+    PDAPrecedenceTable[EqualityOP][SUBOP] = '<';
+    PDAPrecedenceTable[EqualityOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[EqualityOP][MulOP] = '<';
+    PDAPrecedenceTable[EqualityOP][DivOP] = '<';
+    PDAPrecedenceTable[EqualityOP][THENOP] = '>';
 
 
     // Set the Not Equal operator precedence
-    PDAPrecedence[NotEqualOP][ADDOP] = '<';
-    PDAPrecedence[NotEqualOP][SUBOP] = '<';
-    PDAPrecedence[NotEqualOP][LeftPrenOP] = '<';
-    PDAPrecedence[NotEqualOP][MulOP] = '<';
-    PDAPrecedence[NotEqualOP][DivOP] = '<';
-    PDAPrecedence[NotEqualOP][THENOP] = '>';
+    PDAPrecedenceTable[NotEqualOP][ADDOP] = '<';
+    PDAPrecedenceTable[NotEqualOP][SUBOP] = '<';
+    PDAPrecedenceTable[NotEqualOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[NotEqualOP][MulOP] = '<';
+    PDAPrecedenceTable[NotEqualOP][DivOP] = '<';
+    PDAPrecedenceTable[NotEqualOP][THENOP] = '>';
 
 
     // Set the Greater Than operator precedence
-    PDAPrecedence[GreaterThanOP][ADDOP] = '<';
-    PDAPrecedence[GreaterThanOP][SUBOP] = '<';
-    PDAPrecedence[GreaterThanOP][LeftPrenOP] = '<';
-    PDAPrecedence[GreaterThanOP][MulOP] = '<';
-    PDAPrecedence[GreaterThanOP][DivOP] = '<';
-    PDAPrecedence[GreaterThanOP][THENOP] = '>';
+    PDAPrecedenceTable[GreaterThanOP][ADDOP] = '<';
+    PDAPrecedenceTable[GreaterThanOP][SUBOP] = '<';
+    PDAPrecedenceTable[GreaterThanOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[GreaterThanOP][MulOP] = '<';
+    PDAPrecedenceTable[GreaterThanOP][DivOP] = '<';
+    PDAPrecedenceTable[GreaterThanOP][THENOP] = '>';
 
 
     // Set the Less Than operator precedence
-    PDAPrecedence[LessThanOP][ADDOP] = '<';
-    PDAPrecedence[LessThanOP][SUBOP] = '<';
-    PDAPrecedence[LessThanOP][LeftPrenOP] = '<';
-    PDAPrecedence[LessThanOP][MulOP] = '<';
-    PDAPrecedence[LessThanOP][DivOP] = '<';
-    PDAPrecedence[LessThanOP][THENOP] = '>';
+    PDAPrecedenceTable[LessThanOP][ADDOP] = '<';
+    PDAPrecedenceTable[LessThanOP][SUBOP] = '<';
+    PDAPrecedenceTable[LessThanOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[LessThanOP][MulOP] = '<';
+    PDAPrecedenceTable[LessThanOP][DivOP] = '<';
+    PDAPrecedenceTable[LessThanOP][THENOP] = '>';
 
 
     // Set the Greater Than Equal operator precedence
-    PDAPrecedence[GreaterThanEqualOP][ADDOP] = '<';
-    PDAPrecedence[GreaterThanEqualOP][SUBOP] = '<';
-    PDAPrecedence[GreaterThanEqualOP][LeftPrenOP] = '<';
-    PDAPrecedence[GreaterThanEqualOP][MulOP] = '<';
-    PDAPrecedence[GreaterThanEqualOP][DivOP] = '<';
-    PDAPrecedence[GreaterThanEqualOP][THENOP] = '>';
+    PDAPrecedenceTable[GreaterThanEqualOP][ADDOP] = '<';
+    PDAPrecedenceTable[GreaterThanEqualOP][SUBOP] = '<';
+    PDAPrecedenceTable[GreaterThanEqualOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[GreaterThanEqualOP][MulOP] = '<';
+    PDAPrecedenceTable[GreaterThanEqualOP][DivOP] = '<';
+    PDAPrecedenceTable[GreaterThanEqualOP][THENOP] = '>';
 
 
     // Set the Less Than Equal operator precedence
-    PDAPrecedence[LessThanEqualOP][ADDOP] = '<';
-    PDAPrecedence[LessThanEqualOP][SUBOP] = '<';
-    PDAPrecedence[LessThanEqualOP][LeftPrenOP] = '<';
-    PDAPrecedence[LessThanEqualOP][MulOP] = '<';
-    PDAPrecedence[LessThanEqualOP][DivOP] = '<';
-    PDAPrecedence[LessThanEqualOP][THENOP] = '>';
+    PDAPrecedenceTable[LessThanEqualOP][ADDOP] = '<';
+    PDAPrecedenceTable[LessThanEqualOP][SUBOP] = '<';
+    PDAPrecedenceTable[LessThanEqualOP][LeftPrenOP] = '<';
+    PDAPrecedenceTable[LessThanEqualOP][MulOP] = '<';
+    PDAPrecedenceTable[LessThanEqualOP][DivOP] = '<';
+    PDAPrecedenceTable[LessThanEqualOP][THENOP] = '>';
 
 
     // Set the Left Brace operator precedence
-    PDAPrecedence[LeftBraceOP][AssignOp] = '<';
-    PDAPrecedence[LeftBraceOP][IFOP] = '<';
-    PDAPrecedence[LeftBraceOP][WhileOP] = '<';
-    PDAPrecedence[LeftBraceOP][LeftBraceOP] = '<';
-    PDAPrecedence[LeftBraceOP][RightBraceOP] = '=';
-    PDAPrecedence[LeftBraceOP][CallOP] = '<';
+    PDAPrecedenceTable[LeftBraceOP][AssignOp] = '<';
+    PDAPrecedenceTable[LeftBraceOP][IFOP] = '<';
+    PDAPrecedenceTable[LeftBraceOP][WhileOP] = '<';
+    PDAPrecedenceTable[LeftBraceOP][LeftBraceOP] = '<';
+    PDAPrecedenceTable[LeftBraceOP][RightBraceOP] = '=';
+    PDAPrecedenceTable[LeftBraceOP][CallOP] = '<';
 
 }
 ParseOps Parse::ParseMap(const Tokens &token) // Parse map
@@ -274,6 +274,85 @@ ParseOps Parse::ParseMap(const Tokens &token) // Parse map
     return NonOP; // Return the Non operator for everything else
 
 }
+Quads :: Quads(const string& op, const string& arg1, const string& arg2, const string& Temp) :
+op(op), arg1(arg1), arg2(arg2), Temp(Temp){} // Constructor
+
+Parse :: Parse() // Constructor
+{
+    StackCount = 0; // Set the Parse stack count to 0
+    QuadsCount = 0; // Set the Parse quads count to 0
+    PDAConfig(); // Configure the PDA
+}
+ParseOps Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read rows and collums
+{
+    char CurrentOperation = PDAPrecedenceTable[currentState][input]; // Get the CurrentOperation precedence
+    return static_cast <ParseOps>(PDAPrecedenceTable[currentState][input]); // Return the precedence
+}
+size_t Parse :: getQuadsCount() const // Get the Parse quads count
+{
+    return QuadsCount; // Return the Parse quads count
+}
+size_t Parse :: getStackCount() const // Get the Parse stack count
+{
+    return StackCount; // Return the Parse stack count
+}
+Quads* Parse :: getParseQuads() // Get the Parse quads
+{
+    return *ParseQuads; // Return the Parse quads
+}
+Tokens* Parse :: getParseStack() // Get the Parse stack
+{
+    return *ParseStack; // Return the Parse stack
+}
+
+void Parse :: AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp) // Add to the Parse quads
+{
+    ParseQuads[QuadsCount] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads
+    QuadsCount++; // Increment the Parse quads count
+}
+void Parse :: AddTemp(const string& Temp) // Add the Temp
+{
+    ParseStack[StackCount] = new Tokens(Temp, "Temp"); // Add the Temp
+    StackCount++; // Increment the Parse stack count
+}
+
+void Parse ::Parseing(const Tokens& TokensArray, Tokens* tokens, size_t tokenCount) // Stack handling
+{
+    bool Parsing = false; // Set the NeedsReduction to false
+    ParseOps NextStateTrasition; // Set the next state
+    for(size_t i = 0; i < tokenCount; i++) // Loop through the tokens
+    {
+        Tokens token = tokens[i]; // Get the token
+        ParseOps tokenType = ParseMap(token); // Get the token type
+        
+       
+
+
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

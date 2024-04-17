@@ -82,6 +82,8 @@ symbolTypes symbolTable::symMap(const Tokens &token) //function to map the symbo
         if(token.lexeme == "CALL" || token.lexeme == "call") return keyType;
         if(token.lexeme == "THEN" || token.lexeme == "then") return keyType;
         if(token.lexeme == "DO" || token.lexeme == "do") return keyType;
+        if(token.lexeme == "CIN" || token.lexeme == "cin") return keyType;
+        if(token.lexeme == "COUT" || token.lexeme == "cout") return keyType;
     }
     if(token.lexeme == "{") return LBType;
     if(token.lexeme == "=") return AssType;
@@ -94,10 +96,6 @@ symbolTypes symbolTable::symMap(const Tokens &token) //function to map the symbo
 symbol* symbolTable :: getSymbols() //function to get the symbols
 {
     return symbols;
-}
-symbolTable::symbolTable() //constructor
-{
-    SymbolTableFSA();
 }
 size_t symbolTable::getSymbolCount() const //function to get the symbol count
 {

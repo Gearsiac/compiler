@@ -1,5 +1,5 @@
-CLASS LCD
-{
-  Q = 2 * Q;  W = W / 2;          
+class test {
+  VAR A, B;
+  A = A + B;
 }
  

@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include "Parse.h"
 #include "lexical.h"
 #include "symbol.h"
 #include "States.h"
@@ -17,8 +18,16 @@ int main()
     Lex.tokenize(input); // Tokenize the input
     Tokens* tokens = Lex.getTokens(); // Get the tokens
     size_t tokenCount = Lex.getTokenCount(); // Get the token count
-    
-
+    symbolTable symTable; // Create an instance of the symbolTable class
+    symTable.symTable(tokens[0], tokens, tokenCount); // Symbol table
+    symTable.getSymbolCount(); // Get the symbol count
+    symTable.getSymbols(); // Get the symbols
+    Parse parse; // Create an instance of the Parse class
+    parse.Parseing(tokens[0], tokens, tokenCount); // Parse
+    Quads* quads = parse.getParseQuads(); // Get the parse quads
+    Tokens* stack = parse.getParseStack(); // Get the parse stack
+    size_t quadsCount = parse.getQuadsCount(); // Get the parse quads count
+    size_t stackCount = parse.getStackCount(); // Get the parse stack count
     return 0;
 }
 

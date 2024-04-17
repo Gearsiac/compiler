@@ -115,7 +115,7 @@ enum ParseOps
     RightBraceOP,
     LeftBraceOP,
     CallOP,
+    ParseCount,
     NonOP,
-    ParseCount
 };
 #endif
