@@ -316,19 +316,16 @@ void Parse :: AddTemp(const string& Temp) // Add the Temp
     StackCount++; // Increment the Parse stack count
 }
 
-void Parse ::Parseing(const Tokens& TokensArray, Tokens* tokens, size_t tokenCount) // Stack handling
+void Parse::Parseing(const Tokens& TokensArray, Tokens* tokens, size_t tokenCount) // Stack handling
 {
     bool Parsing = false; // Set the NeedsReduction to false
-    ParseOps NextStateTrasition; // Set the next state
+    int TopOp = ArnoldOP;
     for(size_t i = 0; i < tokenCount; i++) // Loop through the tokens
     {
         Tokens token = tokens[i]; // Get the token
         ParseOps tokenType = ParseMap(token); // Get the token type
-        
-       
-
-
-        
+        ParseOps NextOp = ReadRowsAndCollums(static_cast<ParseOps>(TopOp), tokenType); // Get the next operator
+      
     }
 }
 

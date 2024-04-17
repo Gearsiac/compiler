@@ -1,32 +1,54 @@
-Token Type: 24
-Current State: 63
-Token Type: 24
-Current State: 63
-Token Type: 21
-Current State: 60
-Token Type: 24
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 0
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 1
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 2
-Current State: 0
-Token Type: 24
-Current State: 0
-Token Type: 0
-Current State: 0
-Token Type: 20
-Current State: 0
-Token Type: 24
-Current State: 0
+Token: class, Token Type: 24
+Next Operator: 63
+Token: test, Token Type: 24
+Next Operator: 63
+Token: {, Token Type: 21
+Next Operator: 60
+Pushed to quads, Top Operator now: 21
+Token: VAR, Token Type: 24
+Next Operator: 63
+Token: A, Token Type: 24
+Next Operator: 63
+Token: ,, Token Type: 24
+Next Operator: 63
+Token: B, Token Type: 24
+Next Operator: 63
+Token: ;, Token Type: 0
+Next Operator: 63
+Token: cin, Token Type: 24
+Next Operator: 63
+Token: A, Token Type: 24
+Next Operator: 63
+Token: ;, Token Type: 0
+Next Operator: 63
+Token: cin, Token Type: 24
+Next Operator: 63
+Token: B, Token Type: 24
+Next Operator: 63
+Token: ;, Token Type: 0
+Next Operator: 63
+Token: A, Token Type: 24
+Next Operator: 63
+Token: =, Token Type: 1
+Next Operator: 60
+Pushed to quads, Top Operator now: 1
+Token: A, Token Type: 24
+Next Operator: 63
+Token: +, Token Type: 2
+Next Operator: 60
+Pushed to quads, Top Operator now: 2
+Token: B, Token Type: 24
+Next Operator: 63
+Token: ;, Token Type: 0
+Next Operator: 62
+Reduced, Top Operator now: 0
+Token: cout, Token Type: 24
+Next Operator: 63
+Token: A, Token Type: 24
+Next Operator: 63
+Token: ;, Token Type: 0
+Next Operator: 63
+Token: }, Token Type: 20
+Next Operator: 63
+Token: EOF, Token Type: 24
+Next Operator: 63
