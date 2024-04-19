@@ -212,7 +212,7 @@ Lexical::Lexical() // Constructor for Lexical class
 }
 state Lexical::ReadRowsAndCollums(state currentState, types input) // Function to read the rows and collums of the table
 {
-    int NextStateTransition = StateTransitionTable[currentState][input]; // reads the rows and collums of the next state transition
+    int NextStateTransition = StateTransitionTable[currentState][input]; // Get the next state transition
     return static_cast<state>(NextStateTransition); // Return the next state transition
 }
 
@@ -221,8 +221,7 @@ lexeme(lexeme), tokenType(tokenType){} // Constructor for Tokens class
 
 void Lexical::AddToTokenList(const string& lexeme, const string& tokenType) // Function to add to the token list
 {
-    tokens[tokenCount] = Tokens(lexeme, tokenType); // Add the lexeme and token type to the token list
-    tokenCount++; // Increment the token count
+    tokens[tokenCount++] = Tokens(lexeme, tokenType); // Add the lexeme and token type to the token list
 }
 
 void Lexical::setInput(const string& ins) // Function to set the input
@@ -317,8 +316,8 @@ string Lexical::MapToken(state State, const string& lexeme) const // Function to
         if(lexeme == "-")  return "SUBOP";
     case state::integerFinal:
         return "Numlit";
-    case state::VariableFinal:
-        if(lexeme == "CONST"|| lexeme == "const") return "RESERVED WORD";
+        case state::VariableFinal:
+        if(lexeme == "CONST" || lexeme == "const") return "RESERVED WORD";
         if(lexeme == "VAR" || lexeme == "var") return "RESERVED WORD";
         if(lexeme == "IF" || lexeme == "if") return "RESERVED WORD";
         if(lexeme == "THEN" || lexeme == "then") return "RESERVED WORD";
@@ -329,8 +328,8 @@ string Lexical::MapToken(state State, const string& lexeme) const // Function to
         if(lexeme == "ODD" || lexeme == "odd") return "RESERVED WORD";
         if(lexeme == "CALL" || lexeme == "call") return "RESERVED WORD";
         if(lexeme == "CLASS" || lexeme == "class") return "RESERVED WORD";
-        if(lexeme == "CIN" || "cin") return "RESERVED WORD";
-        if(lexeme == "COUT" || "cout") return "RESERVED WORD";
+        if(lexeme == "CIN" || lexeme == "cin") return "RESERVED WORD";
+        if(lexeme == "COUT" || lexeme == "cout") return "RESERVED WORD";
         return "Variable";
     case state::DivisorFinal:
         return "DIVOP";

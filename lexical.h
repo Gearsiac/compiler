@@ -7,6 +7,7 @@
 using namespace std;
 const int NumberOfStates = static_cast<int>(StateCount); // Number of states
 const int NumberOfInputs = static_cast<int>(typeCount); // Number of inputs
+const int NumberOfTokens = 300; // Number of tokens
 struct Tokens // Structure for tokens
 {
     string lexeme; // Lexeme
@@ -18,7 +19,7 @@ class Lexical // Lexical class
 {
 private:
     string input; // Input
-    Tokens tokens[1000]; // Array of tokens 
+    Tokens tokens[NumberOfTokens]; // Array of tokens 
     size_t position; // Position
     size_t tokenCount; // Token count
     int StateTransitionTable[NumberOfStates][NumberOfInputs] = {}; // State transition table

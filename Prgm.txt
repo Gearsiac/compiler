@@ -1,7 +1,6 @@
-class test {
+CLASS test 
+{
   VAR A, B;
-  cin A;
-  cin B;
   A = A + B;
-  cout A;
+
 }

@@ -63,8 +63,7 @@ syms(syms), Classification(Classification), value(value), address(address), segm
 
 void symbolTable::addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment) //function to add to the symbol table  
 {
-    symbols[SymbolCount] = symbol(syms, Classification, value, address, segment); // Add to the symbol table
-    SymbolCount++; // Increment the symbol count
+    symbols[SymbolCount++] = symbol(syms, Classification, value, address, segment); // Add to the symbol table
 }
 symbolTypes symbolTable::symMap(const Tokens &token) //function to map the symbols
 {
@@ -183,6 +182,20 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
     addToSymbolTable("Temp2", "Var", " ", address, "DS");
     address += 2;
     addToSymbolTable("Temp3", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp4", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp5", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp6", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp7", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp8", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp9", "Var", " ", address, "DS");
+    address += 2;
+    addToSymbolTable("Temp10", "Var", " ", address, "DS");
     address += 2;
 
 }

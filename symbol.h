@@ -10,7 +10,7 @@
 using namespace std;
 const int Numstates = static_cast<int>(SymStateCount); // Number of states
 const int Numintputs = static_cast<int>(SymTypeCount); // Number of inputs
-
+const int NumSymbols = 300; // Number of symbols
 struct symbol // Structure for symbol table
 {
     string syms; // Symbol
@@ -21,11 +21,10 @@ struct symbol // Structure for symbol table
     symbol(const string& syms, const string& Classification, const string& value, const int address, const string& segment); // Constructor
     symbol() : syms(""), Classification(""), value(""), address(0), segment(""){} // Default constructor
 };
-
 class symbolTable
 {
 private:
-    symbol symbols[10000]; // Array of symbols
+    symbol symbols[NumSymbols]; // Array of symbols
     int SymTable[Numstates][Numintputs] = {}; // Symbol table
     void SymbolTableFSA(); // FSA configuration
     void addToTable(); // Add to table

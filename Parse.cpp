@@ -5,6 +5,7 @@
 #include "Parse.h"
 #include "symbol.h"
 #include "States.h"
+#include <stack>
 using namespace std;
 
 void Parse::PDAConfig()
@@ -248,7 +249,7 @@ void Parse::PDAConfig()
 }
 ParseOps Parse::ParseMap(const Tokens &token) // Parse map
 {
-    if(token.lexeme == ";") return ArnoldOP; // Return the Arnold operator
+    if(token.lexeme == ";" || token.lexeme == "%") return ArnoldOP; // Return the Arnold operator
     if(token.lexeme == "=") return AssignOp; // Return the Assignment operator
     if(token.lexeme == "+") return ADDOP; // Return the ADD operator
     if(token.lexeme == "-") return SUBOP; // Return the SUB operator
@@ -262,6 +263,7 @@ ParseOps Parse::ParseMap(const Tokens &token) // Parse map
     if(token.lexeme == "WHILE" || token.lexeme == "while") return WhileOP; // Return the WHILE operator
     if(token.lexeme == "DO" || token.lexeme == "do") return DoOP; // Return the DO operator
     if(token.lexeme == "ODD" || token.lexeme == "odd") return ODDOP; // Return the ODD operator
+    if(token.lexeme == "CALL" || token.lexeme == "call") return CallOP; // Return the CALL operator
     if(token.lexeme == "==") return EqualityOP; // Return the Equality operator
     if(token.lexeme == "!=") return NotEqualOP; // Return the Not Equal operator
     if(token.lexeme == ">") return GreaterThanOP; // Return the Greater Than operator
@@ -270,7 +272,6 @@ ParseOps Parse::ParseMap(const Tokens &token) // Parse map
     if(token.lexeme == "<=") return LessThanEqualOP; // Return the Less Than Equal operator
     if(token.lexeme == "{") return LeftBraceOP; // Return the Left Brace operator
     if(token.lexeme == "}") return RightBraceOP; // Return the Right Brace operator
-    if(token.lexeme == "CALL" || token.lexeme == "call") return CallOP; // Return the CALL operator
     return NonOP; // Return the Non operator for everything else
 
 }
@@ -283,82 +284,57 @@ Parse :: Parse() // Constructor
     QuadsCount = 0; // Set the Parse quads count to 0
     PDAConfig(); // Configure the PDA
 }
-ParseOps Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read rows and collums
+char Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read rows and collums
 {
-    char CurrentOperation = PDAPrecedenceTable[currentState][input]; // Get the CurrentOperation precedence
-    return static_cast <ParseOps>(PDAPrecedenceTable[currentState][input]); // Return the precedence
+    return PDAPrecedenceTable[currentState][input]; 
+
 }
 size_t Parse :: getQuadsCount() const // Get the Parse quads count
 {
     return QuadsCount; // Return the Parse quads count
 }
-size_t Parse :: getStackCount() const // Get the Parse stack count
-{
-    return StackCount; // Return the Parse stack count
-}
 Quads* Parse :: getParseQuads() // Get the Parse quads
 {
     return *ParseQuads; // Return the Parse quads
 }
-Tokens* Parse :: getParseStack() // Get the Parse stack
+void Parse :: AddToQuads(const string& op = "?", const string& arg1 = "?", const string& arg2 = "?", const string& Temp = "?") // Add to the Parse quads
 {
-    return *ParseStack; // Return the Parse stack
+    ParseQuads[QuadsCount++] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads
+    
 }
 
-void Parse :: AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp) // Add to the Parse quads
-{
-    ParseQuads[QuadsCount] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads
-    QuadsCount++; // Increment the Parse quads count
-}
-void Parse :: AddTemp(const string& Temp) // Add the Temp
-{
-    ParseStack[StackCount] = new Tokens(Temp, "Temp"); // Add the Temp
-    StackCount++; // Increment the Parse stack count
-}
 
-void Parse::Parseing(const Tokens& TokensArray, Tokens* tokens, size_t tokenCount) // Stack handling
+void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Stack handling 
 {
-    bool Parsing = false; // Set the NeedsReduction to false
-    int TopOp = ArnoldOP;
-    for(size_t i = 0; i < tokenCount; i++) // Loop through the tokens
+    Tokens CurrentToken, TopToken;
+    ParseOps CurrentOPS, TopOPSDrops;
+    ParseStack[StackCount++] = new Tokens("%", "T101");
+    for(int i = 0; i < tokenCount; i++) // Loop through the tokens
     {
-        Tokens token = tokens[i]; // Get the token
-        ParseOps tokenType = ParseMap(token); // Get the token type
-        ParseOps NextOp = ReadRowsAndCollums(static_cast<ParseOps>(TopOp), tokenType); // Get the next operator
-      
+        bool Parsing = false;
+        CurrentToken = tokens[i]; // Get the token
+        CurrentOPS = ParseMap(token); // Get the input
+        TopOPSDrops; // Get the top ops that drop
+        char Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS);
+        cout << "Processing Token: " << tokens[i].lexeme << endl;
+        for(int i = 0; i < tokenCount; i++)
+        {
+            if(tokens[i].lexeme == "CLASS" || "class")
+            {
+                cout << "skipping Token: " << tokens[i].lexeme << endl;
+                i++;
+                continue;
+            }
+            if(tokens[i].tokenType == "Variable")
+            {
+                cout << "skipping Token: " << tokens[i].lexeme << endl;
+                i++;
+                Parsing = true;
+            }
+            
+
+        }
+        
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
