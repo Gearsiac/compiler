@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include "lexical.h"
-#include "States.h"
+#include "EnumerationTypes.h"
 #include "Files.h"
 #include "symbol.h"
 using namespace std;

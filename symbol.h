@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include "lexical.h"
-#include "States.h"
+#include "EnumerationTypes.h"
 #include "Files.h"
  
 using namespace std;

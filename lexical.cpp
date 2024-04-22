@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include "lexical.h"
-#include "States.h"
+#include "EnumerationTypes.h"
 using namespace std;
 void Lexical::LexicalFSA() // Function to configure the FSA
 {

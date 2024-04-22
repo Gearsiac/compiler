@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include <string>
-#include "States.h"
+#include "EnumerationTypes.h"
 using namespace std;
 const int NumberOfStates = static_cast<int>(StateCount); // Number of states
 const int NumberOfInputs = static_cast<int>(typeCount); // Number of inputs

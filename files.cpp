@@ -4,7 +4,6 @@
 #include <fstream>
 #include <sstream>
 #include "files.h"
-#include "lexical.h"
 using namespace std;
 string Files::read(const string &files) const // Read the file
 {

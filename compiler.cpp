@@ -6,7 +6,7 @@
 #include "Parse.h"
 #include "lexical.h"
 #include "symbol.h"
-#include "States.h"
+#include "EnumerationTypes.h"
 #include "Files.h"
 using namespace std;
 
