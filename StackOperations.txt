@@ -1,0 +1,1 @@
+Popping and locking the top operator that drops

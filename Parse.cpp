@@ -246,10 +246,12 @@ void Parse::PDAConfig()
     PDAPrecedenceTable[LeftBraceOP][RightBraceOP] = '=';
     PDAPrecedenceTable[LeftBraceOP][CallOP] = '<';
 
+   
+
 }
 ParseOps Parse::ParseMap(const Tokens &token) // Parse map
 {
-    if(token.lexeme == ";" || token.lexeme == "%") return ArnoldOP; // Return the Arnold operator
+    if(token.lexeme == ";") return ArnoldOP; // Return the Arnold operator
     if(token.lexeme == "=") return AssignOp; // Return the Assignment operator
     if(token.lexeme == "+") return ADDOP; // Return the ADD operator
     if(token.lexeme == "-") return SUBOP; // Return the SUB operator
@@ -284,12 +286,68 @@ Parse :: Parse() // Constructor
     QuadsCount = 0; // Set the Parse quads count to 0
     PDAConfig(); // Configure the PDA
 }
-char Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read rows and collums
+void Parse :: LabelGenerator(string Label) // Label generator
 {
-    return PDAPrecedenceTable[currentState][input]; 
-
+    Label = "L" + to_string(LabelCount++); // Get the Label
 }
-size_t Parse :: getQuadsCount() const // Get the Parse quads count
+void Parse :: WhileGenerator(string While) // While generator
+{
+    While = "W" + to_string(WhileCount++); // Get the While
+}
+void Parse :: AddToFixerUpper(const string fixer) // Add to the fixer upper
+{
+    FixerUpper[FixerCount++] = stoi(fixer); // Add to the fixer upper
+}
+void Parse :: AddToWhileStack(const string While) // Add to the while stack
+{
+    WhileStack[WhileCount++] = stoi(While); // Add to the while stack
+}
+void Parse :: HandleClosingPrens(const Tokens& tokens ) // Handle the closing parenthesis
+{
+    
+    
+}
+void Parse :: HandleClosingBraces() // Handle the closing braces
+{
+    
+}
+void Parse :: HandleIF() // Handle the IF
+{
+    cout << "Handling IF" << endl;
+}
+void Parse :: HandleThen() // Handle the THEN
+{
+    cout << "Handling THEN" << endl;
+}
+void Parse :: HandleIfElse() // Handle the IF ELSE
+{
+    cout << "Handling IF ELSE" << endl;
+}
+void Parse :: PopIFTHEN() // Pop the IF THEN
+{
+    cout << "Popping IF THEN" << endl;
+}
+void Parse :: PopIfThenElse() // Pop the IF THEN ELSE
+{
+    cout << "Popping IF THEN ELSE" << endl;
+}
+void Parse :: HandleWhile() // Handle the WHILE
+{
+    cout << "Handling WHILE" << endl;
+}
+void Parse :: HandleDo() // Handle the DO
+{
+    cout << "Handling DO" << endl;
+}
+void Parse :: PopWhileDo() // Pop the WHILE DO
+{
+    cout << "Popping WHILE DO" << endl;
+}
+char Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read the rows and collums
+{
+    return PDAPrecedenceTable[currentState][input]; // Return the rows and collums
+}
+int Parse :: getQuadsCount() const // Get the Parse quads count
 {
     return QuadsCount; // Return the Parse quads count
 }
@@ -297,44 +355,133 @@ Quads* Parse :: getParseQuads() // Get the Parse quads
 {
     return *ParseQuads; // Return the Parse quads
 }
-void Parse :: AddToQuads(const string& op = "?", const string& arg1 = "?", const string& arg2 = "?", const string& Temp = "?") // Add to the Parse quads
-{
-    ParseQuads[QuadsCount++] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads
-    
-}
 
+ParseOps Parse::PopAndLockTheTopOPThatDrop() // Pop and lock the top OP that drop
+{
+    Tokens TopToken;
+    ParseOps TopOPSDrops;
+    for(int i = StackCount - 1; i >= 0; i--) // Loop through the stack
+    {
+        TopToken = *ParseStack[i]; // Get the top token
+        TopOPSDrops = ParseMap(TopToken); // Get the top input
+        if(TopOPSDrops != NonOP) // If the top drops
+        {
+            break; // Break
+        }    
+    }
+    return TopOPSDrops; // Return the top drops
+}
+void Parse :: AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp) // Add to the Parse quads
+{
+    ParseQuads[QuadsCount++] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads    
+}
 
 void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Stack handling 
 {
     Tokens CurrentToken, TopToken;
     ParseOps CurrentOPS, TopOPSDrops;
-    ParseStack[StackCount++] = new Tokens("%", "T101");
+    ParseStack[StackCount++] = new Tokens(";", "T-101");
+    cout << "Top token is " << TopToken.lexeme << endl;
+    string op, arg1, arg2, Temp;
     for(int i = 0; i < tokenCount; i++) // Loop through the tokens
     {
-        bool Parsing = false;
         CurrentToken = tokens[i]; // Get the token
-        CurrentOPS = ParseMap(token); // Get the input
-        TopOPSDrops; // Get the top ops that drop
-        char Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS);
-        cout << "Processing Token: " << tokens[i].lexeme << endl;
-        for(int i = 0; i < tokenCount; i++)
+        CurrentOPS = ParseMap(CurrentToken); // Get the input
+        cout << "Processing token " << CurrentToken.lexeme << endl;
+        if(CurrentToken.lexeme == "CLASS")
         {
-            if(tokens[i].lexeme == "CLASS" || "class")
+            while(tokens[i].lexeme != "{")
             {
-                cout << "skipping Token: " << tokens[i].lexeme << endl;
-                i++;
-                continue;
+                 i++;
+                cout << "skipping" << tokens[i].lexeme << endl;
             }
-            if(tokens[i].tokenType == "Variable")
+            continue;
+        }
+        if(CurrentToken.lexeme == "CONST" || CurrentToken.lexeme == "VAR")
+        {
+            while(tokens[i].lexeme != ";")
             {
-                cout << "skipping Token: " << tokens[i].lexeme << endl;
                 i++;
-                Parsing = true;
+                cout << "skipping" << tokens[i].lexeme << endl;
             }
+            continue;
+        }
+        if(CurrentOPS == NonOP) // Fix: Replace CurrentOps with CurrentOPS
+        {
+            cout << "Pushing " << CurrentToken.lexeme << endl;
+            cout << "Current token is " << CurrentToken.lexeme << endl;
+             cout << "Top token is " << TopToken.lexeme << endl;
+            ParseStack[StackCount++] = new Tokens(CurrentToken.lexeme, CurrentToken.tokenType);
+            TopToken  = *ParseStack[StackCount - 1];
+            cout << " Stack :" << endl;
+                for(int i = 0; i < StackCount; i++)
+                {
+                    cout << ParseStack[i]->lexeme << " ";
+                }
+        }
+        TopOPSDrops = PopAndLockTheTopOPThatDrop(); // Get the top operator
+        char Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS); // Get the precedence
+        cout << "Relation is " << Relation << endl;
+        if(Relation == '<' || Relation == '=')
+        {
+            ParseStack[StackCount++] = new Tokens(CurrentToken.lexeme, CurrentToken.tokenType);
+            TopToken = *ParseStack[StackCount - 1];
+            cout << "Pushing " << CurrentToken.lexeme << endl;
+            cout << "Current token is " << CurrentToken.lexeme << endl;
+            cout << "Top token is " << TopToken.lexeme << endl;
+            cout << " Stack :" << endl;
+                for(int i = 0; i < StackCount; i++)
+                {
+                    cout << ParseStack[i]->lexeme << " ";
+                }
+        }
+        if (Relation == '>') 
+        {
             
+            bool reduce = true;
+            while (reduce) 
+            {
+                // Access elements for potential reduction
+                arg1 = (*ParseStack[StackCount - 1]).lexeme; // First argument right below the top
+                op = (*ParseStack[StackCount - 2]).lexeme;  // Operator
+                arg2 = (*ParseStack[StackCount - 3]).lexeme; // Second argument below the operator
+                StackCount -= 3; // Reduce the stack
+                if(op == "+"|| op == "-" || op == "*" || op == "/")
+                {
+                    AddToQuads(op, arg1, arg2, Temp); // Add to the quads
+                    Temp = "T" + to_string(TempCount++); // Get the new Temp
+                    ParseStack[StackCount++] = new Tokens(Temp, " "); // Add to the stack
 
+                    cout << "Currently reducing: " << op << " " << arg2 << " " << arg1 << " " << Temp << " "<< endl;
+                }
+                else
+                {   
+                    AddToQuads(op, arg2, Temp, "?"); // Add to the quads
+                    cout << "Currently reducing: " << op << " " << arg2 << " " << Temp << " " << "?" << endl;
+                    
+
+                }
+                cout << "Reduced stack count: " << StackCount << endl;
+                TopOPSDrops = PopAndLockTheTopOPThatDrop(); // Get the top operator
+                Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS); // Get the precedence
+                if(Relation == '<' ||Relation == '=' || Relation == '?')
+                {
+                    reduce = false;
+                  
+                    if(CurrentToken.lexeme != ";")
+                    {
+                       ParseStack[StackCount++] = new Tokens(CurrentToken.lexeme, CurrentToken.tokenType);
+                       cout << "Pushing " << CurrentToken.lexeme << endl;
+                        break;
+                    }
+                    break;
+                }
+
+                
+            }
         }
         
-
     }
 }
+
+

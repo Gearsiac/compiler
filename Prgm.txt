@@ -1,6 +1,6 @@
 CLASS test 
 {
-  VAR A, B;
-  A = A + B;
-
+  CONST M = 7, N = 85;
+  VAR X, Y, Z;
+   X = (Y + B) * 2;
 }

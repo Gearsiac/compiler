@@ -366,7 +366,7 @@ Tokens* Lexical::getTokens() // Function to get the tokens
 {
     return tokens; // Return the tokens
 }
-size_t Lexical::getTokenCount() const // Function to get the token count
+int Lexical::getTokenCount() const // Function to get the token count
 {
     return tokenCount; // Return the token count
 }

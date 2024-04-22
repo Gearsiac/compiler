@@ -96,7 +96,7 @@ symbol* symbolTable :: getSymbols() //function to get the symbols
 {
     return symbols;
 }
-size_t symbolTable::getSymbolCount() const //function to get the symbol count
+int symbolTable::getSymbolCount() const //function to get the symbol count
 {
     return SymbolCount;
 }
