@@ -1,7 +1,12 @@
-CLASS test{
-  
-  VAR A, B;
-    IF A > B THEN {
-      A = B;
+CLASS test
+{
+ WHILE J < 10 DO{
+  WHILE K <= 5 DO{
+    WHILE X > 6 DO{
+        J = J + 1;
     }
+    J = J + 1;
+  }
+  J = J + 1;
+ }
 }
