@@ -25,15 +25,11 @@ int main()
     symTable.getSymbols(); // Get the symbols
     Parse parse; // Create an instance of the Parse class
     parse.Parseing(tokens[0], tokens, tokenCount); // Parse
-    Quads* quads = parse.PrintQuads(); // Get the quads
+    Quads* quads = parse.getParseQuads(); // Get the parse quads
     int quadsCount = parse.getQuadsCount(); // Get the quads count
-    for(int i = 0; i <= quadsCount; i++) {
-        cout << "Quad " << i << ": " 
-         << quads[i].op << " "
-         << quads[i].arg1 << " " 
-         << quads[i].arg2 << " " 
-         << quads[i].Temp << endl;
-    }
+    parse.PrintQuads(); // Print the quads
+ 
+    
    
     
     
