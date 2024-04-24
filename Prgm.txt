@@ -1,4 +1,21 @@
 CLASS test
 {
- 
+    VAR A,B;
+    CIN A;
+    CIN B;
+    IF A >= B THEN {
+        IF C == D THEN 
+        {
+            Y = X;
+        }
+        ELSE
+        {
+            Y = z;
+
+        }
+    }
+    ELSE
+    {
+        M = N;
+    }
 }

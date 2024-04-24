@@ -3,17 +3,13 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <stack>
 #include "lexical.h"
 #include "symbol.h"
 #include "EnumerationTypes.h"
 using namespace std;
 const int OPState  = static_cast<int>(ParseCount); // Number of states
 const int OPInput = static_cast<int>(ParseCount); // Number of inputs
-const int maxQuads = 1000; // Maximum number of quads
-const int maxFixer = 1000; // Maximum number of fixer
 const int maxStack = 1000; // Maximum number of stack
-const int maxWhile = 1000; // Maximum number of while
 
 struct Quads // Structure for the parse quads
 {
@@ -30,18 +26,19 @@ class Parse // Parse class
 {
 
     private: 
-    int StackCount; // Parse stack count
-    int QuadsCount; // Parse quads count
-    int LabelCount; // Label count
-    int WhileCount; // While count
-    int FixerCount; // Fixer count
-    int TempCount; // Temp count
+    int StackCount = 0; // Parse stack count
+    int QuadsCount = 0; // Parse quads count
+    int LabelCount = 0; // IF then, Else Label count
+    int WhileCount = 0; // While count for While Label Stack
+    int FixerCount = 0; // Fixer count
+    int EndOfStackCount = 0; // End of stack count
+    int TempCount = 0; // Temp count
     char PDAPrecedenceTable[OPState][OPInput] = {}; // PDA
-    Quads* ParseQuads[maxQuads]; // Array of parse quad
+    Quads* ParseQuads[maxStack]; // Array of parse quad
     Tokens* ParseStack[maxStack]; // Array of parse stack
-    int FixerUpper[maxFixer]; // Fixer upper
-    int WhileStack[maxStack]; // Label stack
-    int ElseStack[maxStack]; // Else stack
+    string FixerUpper[maxStack]; // Fixer upper
+    string WhileStack[maxStack]; // Label stack
+    string EndOfStack[maxStack]; // End of stack
     void PDAConfig(); // PDA configuration
     
     public:
@@ -51,28 +48,29 @@ class Parse // Parse class
         int getQuadsCount() const; // Get parse quads count
         Quads* getParseQuads(); // Get parse quads
         void AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp); // Add to parse quads
-        void IFQuads(const string& op, const string& arg1, const string& arg2, const string& Temp); // If quads
-        void AddToFixerUpper(const string fixer); // Add to fixer upper
-        void AddToWhileStack(const string While); // Add to while stack
         void Parseing(const Tokens& token, Tokens* tokens, int tokenCount); // Parse
         ParseOps PopAndLockTheTopOPThatDrop(); // get top operator 
         void LabelGenerator(string Label); // Label generator
         void WhileGenerator(string While); // While generator
+        void AddTofixer(string Label); // Add to fixer
+        void AddToWhileStack(string While); // Add to while stack
+        void AddToEndOfStack(string Label); // Add to end of stack
+        int GetWhileCount(); // Get while count
+        int GetFixxerCount(); // Get fixer count
+        int GetEndOfStackCount(); // Get end of stack count
         void HandleClosingPrens(); // done
         void HandleClosingBraces(); // done
         void HandleIF(); // nedd
         void HandleThen(); // Need
         void HandleElse(); // Handle if else
+        void HandelEOF(); // Handle if then
         void PopIFTHEN(); // Pop if then
         void PopIfThenElse(); // Pop if then else
         void HandleWhile(); // Handle while
         void HandleDo(); // Handle do
+        void HandleIO(Tokens* token); // Handle end
+        void HandleAritmatic(); // Handle aritmatic
         void PopWhileDo(); // Pop while do
-        void PrintQuads(); // Print quads
-        void ComparisonLabels(); // Comparison labels
-        
-        
-         
-        
+        Quads* PrintQuads(); // Print the quads
 };
 #endif
