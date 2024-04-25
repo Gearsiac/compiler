@@ -5,7 +5,6 @@
 #include "Parse.h"
 #include "symbol.h"
 #include "EnumerationTypes.h"
-#include <stack>
 using namespace std;
 
 void Parse::PDAConfig()
@@ -285,7 +284,6 @@ ParseOps Parse::ParseMap(const Tokens &token) // Parse map
 }
 Quads :: Quads(const string& op, const string& arg1, const string& arg2, const string& Temp) :
 op(op), arg1(arg1), arg2(arg2), Temp(Temp){} // Constructor
-
 Parse :: Parse() // Constructor
 {
     
@@ -400,8 +398,8 @@ void Parse :: HandleIF() // Handle the IF
 }
 void Parse :: HandleWhile() // Handle the WHILE
 {
-    string WhileStart = "W" + to_string(WhileCount + 1);
-    AddToQuads("WHILE", WhileStart, "?", "?");
+    string WhileStart = "W" + to_string(WhileLabelCount++);
+    AddToQuads("While", WhileStart, "?", "?");
     cout << "Adding to quads" << endl;
     cout << " Quads" << " WHILE " << WhileStart << " " << "?" << " " << "?" << endl;
     AddToWhileStack(WhileStart);
@@ -465,21 +463,18 @@ void Parse :: HandleAritmatic() // Handle the aritmatic
                     cout << "Currently reducing: " << op << " " << arg1 << " " << arg2 << " " << " ? " << endl;
                 }
 }
-void Parse :: HandleIO(Tokens* token){
-    if(CurrentToken.lexeme === )
-
-}
 void Parse :: PopWhileDo() // Pop the WHILE DO
 {
     string Label = EndOfStack[EndOfStackCount - 1];
     string While = WhileStack[WhileCount - 1];
+    string JMP = "JMP" + to_string(JMPCount++);
     if(ParseStack[StackCount - 1]->lexeme == "DO" && ParseStack[StackCount - 2]->lexeme == "WHILE")
     {
             cout << "Popping WHILE DO" << endl;
             StackCount -= 2;
     }
     WhileCount -= 1;
-    AddToQuads(While, "?", "?", "?");
+    AddToQuads(While, JMP, "?", "?");
     cout << "Quads contents " << While << " " << "?" << " " << "?" << " " << "?" << endl;
     EndOfStackCount-=1;
     AddToQuads(Label, " ?", "?", "?");
@@ -492,10 +487,6 @@ char Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read 
 int Parse :: getQuadsCount() const // Get the Parse quads count
 {
     return QuadsCount; // Return the Parse quads count
-}
-int Parse :: GetEndOfStackCount() // Get the End of stack count
-{
-   return EndOfStackCount; // Return the End of stack count
 }
 void Parse :: AddToEndOfStack(string Label) // Add to the End of stack
 {
@@ -531,17 +522,9 @@ void Parse :: AddToQuads(const string& op, const string& arg1, const string& arg
 {
     ParseQuads[QuadsCount++] = new Quads(op, arg1, arg2, Temp); // Add to the Parse quads  
 }
-void Parse :: AddToWhileStack(string While) // Add to the While stack
+void Parse :: AddToWhileStack(string WhileLabel) // Add to the While stack
 {
-    WhileStack[WhileCount++] = While; // Add to the While stack
-}
-int Parse :: GetWhileCount() // Get the While count
-{
-    return WhileCount; // Return the While count
-}
-int Parse :: GetFixxerCount() // Get the Fixer count
-{
-    return FixerCount; // Return the Fixer count
+    WhileStack[WhileCount++] = WhileLabel; // Add to the While stack
 }
 void Parse :: AddTofixer(string Label) // Add to the Fixer
 {
@@ -586,6 +569,19 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
             }
             continue;
         }
+        if(CurrentToken.lexeme == "CIN" || CurrentToken.lexeme == "COUT")
+        {
+            while(tokens[i].lexeme != ";")
+            {
+                Tokens CurrentToken = tokens[i];
+                if(tokens[++i].tokenType == "Variable")
+                {
+                AddToQuads(CurrentToken.lexeme, tokens[i].lexeme, "?", "?");
+                cout << "Quads contents " << CurrentToken.lexeme << " " << tokens[i].lexeme << " " << "?" << " " << "?" << endl;
+                }
+            }
+            continue;
+        }
         if(CurrentOPS == NonOP) 
         {
             cout << "Pushing " << CurrentToken.lexeme << endl;
@@ -604,7 +600,6 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
         cout << "Relation is " << Relation << endl;
         if((Relation == '<' || Relation == '='|| Relation == '?' ) && CurrentOPS != NonOP)
         {
-        
             ParseStack[StackCount++] = new Tokens(CurrentToken.lexeme, CurrentToken.tokenType);
             TopToken = *ParseStack[StackCount - 1];
             cout << "Pushing " << CurrentToken.lexeme << endl;
@@ -614,8 +609,7 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
                 for(int i = 0; i < StackCount; i++)
                 {
                     cout << ParseStack[i]->lexeme << " ";
-                }
-            
+                } 
         }
         if (Relation == '>') 
         {
@@ -644,9 +638,7 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
                         break;
                     }
                     break;
-                }
-
-                
+                }   
             }
         }
         if(CurrentToken.lexeme == "}")
@@ -694,9 +686,7 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
         if(CurrentToken.lexeme == "EOF")
         {
             HandelEOF();
-        }
-        
-        
+        } 
     }
 }
 

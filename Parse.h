@@ -28,11 +28,13 @@ class Parse // Parse class
     private: 
     int StackCount = 0; // Parse stack count
     int QuadsCount = 0; // Parse quads count
-    int LabelCount = 0; // IF then, Else Label count
-    int WhileCount = 0; // While count for While Label Stack
-    int FixerCount = 0; // Fixer count
-    int EndOfStackCount = 0; // End of stack count
-    int TempCount = 0; // Temp count
+    int LabelCount = 1; // IF then, Else Label count
+    int WhileCount = 0;
+    int WhileLabelCount = 1; // While count for While Label Stack
+    int FixerCount = 1; // Fixer count
+    int JMPCount = 1; // JMP count
+    int EndOfStackCount = 1; // End of stack count
+    int TempCount = 1; // Temp count
     char PDAPrecedenceTable[OPState][OPInput] = {}; // PDA
     Quads* ParseQuads[maxStack]; // Array of parse quad
     Tokens* ParseStack[maxStack]; // Array of parse stack
@@ -55,9 +57,6 @@ class Parse // Parse class
         void AddTofixer(string Label); // Add to fixer
         void AddToWhileStack(string While); // Add to while stack
         void AddToEndOfStack(string Label); // Add to end of stack
-        int GetWhileCount(); // Get while count
-        int GetFixxerCount(); // Get fixer count
-        int GetEndOfStackCount(); // Get end of stack count
         void HandleClosingPrens(); // done
         void HandleClosingBraces(); // done
         void HandleIF(); // nedd
@@ -68,7 +67,6 @@ class Parse // Parse class
         void PopIfThenElse(); // Pop if then else
         void HandleWhile(); // Handle while
         void HandleDo(); // Handle do
-        void HandleIO(Tokens* token); // Handle end
         void HandleAritmatic(); // Handle aritmatic
         void PopWhileDo(); // Pop while do
         Quads* PrintQuads(); // Print the quads

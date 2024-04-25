@@ -18,3 +18,15 @@ void CodeGen :: LinixLinking()
     asmCode <<"stdout\tequ\t1\n";
     asmCode <<"stder\tequ\t3\n";
 }
+void GnerateData(symbol* symbols, int symbolCount)
+{
+
+}
+void CodeGen :: IOSection()
+{
+
+}
+void CodeGen :: ProcessQuads()
+{
+    
+}
