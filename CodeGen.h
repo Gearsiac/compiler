@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "lexical.h"
 #include "Parse.h"
 #include "symbol.h"
 #include "EnumerationTypes.h"
@@ -11,8 +12,13 @@ using namespace std;
 class CodeGen
 {
     private:
-     void LinixConfig(); // Linux configuration
-     
+        void LinixLinking(); // Linux configuration
+        void GenerateData(symbol* symbols, int symbolCount); // Generate code
+        void IOSection(); // IO section
 
+     public:
+        CodeGen(); // Constructor
+        void ProcessQuads(); // Process quads
+        void CreateASMFile(); // Create ASM file
 };
 #endif
