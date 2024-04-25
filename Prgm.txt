@@ -3,19 +3,9 @@ CLASS test
     VAR A,B;
     CIN A;
     CIN B;
-    IF A >= B THEN {
-        IF C == D THEN 
-        {
-            Y = X;
-        }
-        ELSE
-        {
-            Y = z;
-
-        }
+    WHILE J >= B DO{
+        J = J + 1;
     }
-    ELSE
-    {
-        M = N;
-    }
+    COUT A;
+    COUT B;
 }
