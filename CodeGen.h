@@ -7,6 +7,7 @@
 #include "Parse.h"
 #include "symbol.h"
 #include "EnumerationTypes.h"
+#include "Files.h"
 using namespace std;
 
 class CodeGen
@@ -15,6 +16,7 @@ class CodeGen
         Quads* quads; // Quads
         void LinixLinking(); // Linux configuration
         void GenerateData(symbol* symbols, int symbolCount); // Generate code
+        void GenerateBss(symbol* symbols, int symbolCount); // Generate BSS
         void IOSection(); // IO section
 
      public:
