@@ -164,7 +164,7 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
                 break;
             case literalState:
                 sym = lexeme;
-                Classification = "LITERAL";
+                Classification = "Numeric Literal";
                 value = token.lexeme;
                 addToSymbolTable(sym, Classification, value, address, "DS");
                 address += 2;
@@ -177,25 +177,25 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
                 break;
         }
     }
-    addToSymbolTable("Temp1", "Var", " ", address, "DS");
+    addToSymbolTable("Temp1", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp2", "Var", " ", address, "DS");
+    addToSymbolTable("Temp2", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp3", "Var", " ", address, "DS");
+    addToSymbolTable("Temp3", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp4", "Var", " ", address, "DS");
+    addToSymbolTable("Temp4", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp5", "Var", " ", address, "DS");
+    addToSymbolTable("Temp5", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp6", "Var", " ", address, "DS");
+    addToSymbolTable("Temp6", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp7", "Var", " ", address, "DS");
+    addToSymbolTable("Temp7", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp8", "Var", " ", address, "DS");
+    addToSymbolTable("Temp8", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp9", "Var", " ", address, "DS");
+    addToSymbolTable("Temp9", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp10", "Var", " ", address, "DS");
+    addToSymbolTable("Temp10", "Var (int)", " ", address, "DS");
     address += 2;
 
 }

@@ -37,7 +37,14 @@ void GnerateData(symbol* symbols, int symbolCount)
 
     asmCode << "\tnumEnd\tequ\t$-num\n";
 
+    for(int i = 0; i < symbolCount; i++)
+    {
+        if(symbols[i].Classification == "CONST"|| symbols[i].Classification == "Numeric Literal")
+        {
+            asmCode << symbols[i].syms << "\tDW\t" << symbols[i].value << "\n";
+        }
     
+    }
 
 
 }
@@ -49,6 +56,14 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
     asmCode << "\tReadInt\tRESW\t1\n";
     asmCode << "\tTempint\tRESW\t1\n";
     asmCode << "\tnegflag\tRESB\t1\n";
+
+    for(int i = 0; i < symbolCount; i++)
+    {
+        if(symbols[i].Classification == "VAR" || symbols[i].Classification == "Var (int)")
+        {
+            asmCode << symbols[i].syms << "\tRESW\t1\n";
+        }
+    }
 
 
 }
