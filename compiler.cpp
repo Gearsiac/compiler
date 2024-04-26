@@ -25,8 +25,9 @@ int main()
     symTable.getSymbols(); // Get the symbols
     Parse parse; // Create an instance of the Parse class
     parse.Parseing(tokens[0], tokens, tokenCount); // Parse
-    Quads* quads = parse.getParseQuads(); // Get the quads
+    Quads* quads = parse.getParseQuads(); // Get the parse quads
     int quadCount = parse.getQuadsCount(); // Get the quad count
+ 
     
     
  

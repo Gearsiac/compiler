@@ -67,9 +67,33 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
 
 
 }
-void CodeGen :: ProcessQuads()
+void CodeGen :: ProcessQuads(Quads* quads, int quadCount)
 {
+    for(int i = 0; i < quadCount; i++)
+    {
+        Quads quad = quads[i];
+        string op = quad.op;
+        string arg1 = quad.arg1;
+        string arg2 = quad.arg2;
+        string result = quad.Temp;
     
+        if(op == "+")
+        {
+            
+        }
+        else if(op == "-")
+        {
+            
+        }
+        else if(op == "*")
+        {
+        
+        }
+        else if(op == "/")
+        {
+
+        }
+    }
 }
 void CodeGen :: IOSection()
 {

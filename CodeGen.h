@@ -21,7 +21,7 @@ class CodeGen
 
      public:
         CodeGen(); // Constructor
-        void ProcessQuads(); // Process quads
+        void ProcessQuads(Quads* quads, int quadCount); // Process quads
         void CreateASMFile(); // Create ASM file
 };
 #endif
