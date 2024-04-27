@@ -13,15 +13,15 @@ using namespace std;
 class CodeGen
 {
     private:
-        Quads* quads; // Quads
-        void LinixLinking(); // Linux configuration
-        void GenerateData(symbol* symbols, int symbolCount); // Generate code
-        void GenerateBss(symbol* symbols, int symbolCount); // Generate BSS
-        void IOSection(); // IO section
+    
 
      public:
         CodeGen(); // Constructor
-        void ProcessQuads(Quads* quads, int quadCount); // Process quads
+        void GenerateAssembly(Quads* quads, int quadCount); // Process quads
         void CreateASMFile(); // Create ASM file
+        void LinixCommands(); // Linux configuration
+        void GenerateData(symbol* symbols, int symbolCount); // Generate code
+        void GenerateBss(symbol* symbols, int symbolCount); // Generate BSS
+        void IOSection(); // IO section
 };
 #endif

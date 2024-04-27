@@ -36,11 +36,12 @@ class Parse // Parse class
     int EndOfStackCount = 1; // End of stack count
     int TempCount = 1; // Temp count
     char PDAPrecedenceTable[OPState][OPInput] = {}; // PDA
-    Quads* ParseQuads[maxStack]; // Array of parse quad
+    Quads ParseQuads[maxStack]; // Array of parse quad
     Tokens* ParseStack[maxStack]; // Array of parse stack
     string FixerUpper[maxStack]; // Fixer upper
     string WhileStack[maxStack]; // Label stack
     string EndOfStack[maxStack]; // End of stack
+    string JumpStack[maxStack]; // Jump stack
     void PDAConfig(); // PDA configuration
     
     public:
@@ -57,6 +58,7 @@ class Parse // Parse class
         void AddTofixer(string Label); // Add to fixer
         void AddToWhileStack(string While); // Add to while stack
         void AddToEndOfStack(string Label); // Add to end of stack
+        void AddToJumpStack(string Jump); // Add to jump stack
         void HandleClosingPrens(); // done
         void HandleClosingBraces(); // done
         void HandleIF(); // nedd

@@ -8,7 +8,10 @@
 using namespace std;
 
 stringstream asmCode;
-void CodeGen :: LinixLinking()
+
+CodeGen :: CodeGen(){};
+
+void CodeGen :: LinixCommands()
 {
     asmCode <<"sys_exit\tequ\t1\n";
     asmCode <<"sys_read\tequ\t3\n";
@@ -17,7 +20,7 @@ void CodeGen :: LinixLinking()
     asmCode <<"stdout\tequ\t1\n";
     asmCode <<"stder\tequ\t3\n";
 }
-void GnerateData(symbol* symbols, int symbolCount)
+void CodeGen :: GenerateData(symbol* symbols, int symbolCount)
 {
     asmCode << "section\t.data\n";
     asmCode << "\tuserMsg\tdb\t'Enter an Integer:'\n";
@@ -37,11 +40,12 @@ void GnerateData(symbol* symbols, int symbolCount)
 
     asmCode << "\tnumEnd\tequ\t$-num\n";
 
+    //Still need to set flag for Literalls 
     for(int i = 0; i < symbolCount; i++)
     {
         if(symbols[i].Classification == "CONST"|| symbols[i].Classification == "Numeric Literal")
         {
-            asmCode << symbols[i].syms << "\tDW\t" << symbols[i].value << "\n";
+            asmCode << "\t" << symbols[i].syms << "\tDW\t" << symbols[i].value << "\n";
         }
     
     }
@@ -67,8 +71,10 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
 
 
 }
-void CodeGen :: ProcessQuads(Quads* quads, int quadCount)
-{
+void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
+{   asmCode << "\tglobal\t_start\n";
+    asmCode << "section\t.text\n";
+    asmCode << "_start:\n";
     for(int i = 0; i < quadCount; i++)
     {
         Quads quad = quads[i];
@@ -76,22 +82,98 @@ void CodeGen :: ProcessQuads(Quads* quads, int quadCount)
         string arg1 = quad.arg1;
         string arg2 = quad.arg2;
         string result = quad.Temp;
-    
+        if(op == "CIN"){
+
+            asmCode << "\tcall\tPrintString\n";
+            asmCode << "\tcall\tGetAnInteger\n";
+            asmCode << "\tmove\tax,[ReadInt]\n";
+            asmCode << "\tmove\t[" << arg1 << "],ax\n";
+
+        }
         if(op == "+")
         {
-            
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tadd\tax,["<< arg2 <<"]\n";
+            asmCode << "\tmov\t["<< result <<"],ax\n";
         }
-        else if(op == "-")
+        if(op == "-")
         {
-            
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tsub\tax,["<< arg2 <<"]\n";
+            asmCode << "\tmov\t["<< result <<"],ax\n";
         }
-        else if(op == "*")
+        if(op == "*")
         {
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tmul\tword\t["<< arg2 <<"]\n";
+            asmCode << "\tmov\t["<< result <<"],ax\n";
         
         }
-        else if(op == "/")
+        if(op == "/")
         {
+            asmCode << "\tmov\tdx,0\n";
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tmov\tcx,["<< arg2 <<"]\n";
+            asmCode << "\tdiv\tcx\n";
+            asmCode << "\tmov\t["<< result <<"],ax\n";
 
+        }
+        if(op == "="){
+            asmCode << "\tmov\tax,["<< arg2 << "] \n";
+            asmCode << "\tmov\t["<< arg1 <<"],ax\n";
+        }
+        if(op == ">"){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == ">="){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == "<"){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == "<="){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == "=="){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == "!="){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcmp\tax,["<< arg2 <<"]\n";
+        }
+        if(op == "THEN")
+        {
+            asmCode << "\t"<< arg2 <<" "<< arg1 << "\n";
+        }
+        if(op == "ELSE"){
+            asmCode << "\t"<< arg1 <<"\n";
+        }
+        if(op == "WHILE")
+        {
+            asmCode << arg1 <<"\n";
+        }
+        if(op == "DO")
+        {
+            asmCode << "\t"<< arg2 <<" "<< arg1 << "\n";
+        }
+        if(op == "JMP")
+        {
+            asmCode << "\t"<< op <<" "<< arg1 << "\n";
+
+        }
+        if(op == "COUT"){
+            asmCode << "\tmov\tax,["<< arg1 <<"] \n";
+            asmCode << "\tcall\tConvertIntegerToString\n";
+            asmCode << "\tmov\teax, 4\n";
+            asmCode << "\tmov\tebx, 1\n";
+            asmCode << "\tmov\tecx, Result\n";
+            asmCode << "\tedx, ResultEnd\n";
+            asmCode << "\tint\t80h\n";
         }
     }
 }
@@ -105,8 +187,8 @@ void CodeGen :: IOSection()
     asmCode << "PringString:\n";
     asmCode << "\tpush\tax\n";
     asmCode << "\tpush\tdx\n";
-    asmCode << "\tmov\teax, 4\n"; //Cheange if need be eax,4 no tabs 
-    asmCode << "\tmov\tebx, 1\n"; //Change if need be eax,1 no tabs 
+    asmCode << "\tmov\teax, 4\n"; //Cheange if need be eax,4 tabs 
+    asmCode << "\tmov\tebx, 1\n"; //Change if need be eax,1 tabs 
     asmCode << "\tmov\tecx,\tuserMsg\n";
     asmCode << "\tmov\tedx,\tlenUserMsg\n";
     asmCode << "\tint\t80h\n";
@@ -160,4 +242,18 @@ void CodeGen :: IOSection()
     asmCode << "\tret\n";
 
 
+}
+
+//still need to create ASM specific file writer 
+void CodeGen :: CreateASMFile()
+{
+    ofstream file("Prgm.asm");
+    if(!file.is_open())
+    {
+        cerr << "Error: Unable to open file output.asm" << endl;
+        exit(1);
+    }
+    file << asmCode.str();
+    file.close();
+   
 }
