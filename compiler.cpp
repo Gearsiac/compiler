@@ -24,10 +24,6 @@ int main()
     symTable.symTable(tokens[0], tokens, tokenCount); // Symbol table
     symTable.getSymbolCount(); // Get the symbol count
     symTable.getSymbols(); // Get the symbols
-    for(int i = 0; i < symTable.getSymbolCount(); i++) // Print the symbols
-    {
-        cout << symTable.getSymbols()[i].syms << " " << symTable.getSymbols()[i].Classification << " " << symTable.getSymbols()[i].value << endl;
-    }
     Parse parse; // Create an instance of the Parse class
     parse.Parseing(tokens[0], tokens, tokenCount); // Parse
     Quads* quads = parse.getParseQuads(); // Get the parse quads
@@ -39,15 +35,6 @@ int main()
     codeGen.GenerateAssembly(quads, quadCount); // Generate assembly
     codeGen.IOSection(); // IO section
     codeGen.CreateASMFile(); // Create the ASM file
-
- 
-    
-    
- 
-    
-   
-    
-    
     return 0;
 }
 
