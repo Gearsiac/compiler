@@ -17,8 +17,8 @@ section	.data
 	ResultEnd	equ	$-Result
 	num	times	6	db	'ABCDEF'
 	numEnd	equ	$-num
-	Lit0	DW	Lit0
-	Lit2	DW	Lit2
+	Lit10	DW	Lit10
+	Lit5	DW	Lit5
 section	.bss
 	TempChar	RESB	1
 	testchar	RESB	1
@@ -40,49 +40,63 @@ section	.bss
 	global	_start
 section	.text
 _start:	nop
-	mov	ax,[X] 
+	call PrintString
+	call GetAnInteger
+	mov	ax,[ReadInt]
 	mov	[A],ax
-	mov	ax,[Y] 
+	call PrintString
+	call GetAnInteger
+	mov	ax,[ReadInt]
 	mov	[B],ax
-	mov	ax,[Lit0] 
-	mov	[Z],ax
-W1:
-	mov	ax,[B] 
-	cmp	ax,[Lit0]
+	mov	ax,[A] 
+	cmp	ax,[B]
 	JLE L1
-	mov	ax,[Lit2] 
-	mul	word	[A]
+	mov	ax,[B] 
+	add	ax,[Lit10]
 	mov	[T1],ax
 	mov	ax,[T1] 
 	mov	[A],ax
-	mov	dx,0
+	JMP	L2
+L1:	nop
 	mov	ax,[B] 
-	mov	cx,[Lit2]
-	div	cx
+	add	ax,[Lit5]
 	mov	[T2],ax
 	mov	ax,[T2] 
-	mov	[B],ax
-	JMP	W1
-L1:	nop
+	mov	[A],ax
+L2:	nop
+	mov	ax,[A] 
+	call ConvertIntegerToString
+	mov	eax, 4
+	mov	ebx, 1
+	mov	ecx, Result
+	mov	edx, ResultEnd
+	int	80h
+	mov	ax,[B] 
+	call ConvertIntegerToString
+	mov	eax, 4
+	mov	ebx, 1
+	mov	ecx, Result
+	mov	edx, ResultEnd
+	int	80h
 fini:
 	mov	eax,sys_exit
 	xor	ebx,ebx
 	int	80h
 PringString:
-	push	ax
-	push	dx
+	push ax
+	push dx
 	mov	eax, 4
 	mov	ebx, 1
-	mov	ecx,	userMsg
-	mov	edx,	lenUserMsg
+	mov	ecx, userMsg
+	mov	edx, lenUserMsg
 	int	80h
 	pop	dx
 	pop	ax
 	ret
-GetAnInteger
+GetAnInteger:
 	mov	eax, 3
 	mov	ebx, 2
-	mov	ecx,num
+	mov	ecx, num
 	mov	edx, 6
 	int	0x80
 	mov	edx,eax
@@ -115,7 +129,7 @@ ConvertLoop:
 	mov	cx, 10
 	div	cx
 	add	dl, '0'
-	move	[ebx], dl
+	mov	[ebx], dl
 	dec	ebx
 	cmp	ebx, ResultValue
 	jge	ConvertLoop

@@ -96,10 +96,10 @@ void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
         string result = quad.Temp;
         if(op == "CIN"){
 
-            asmCode << "\tcall\tPrintString\n";
-            asmCode << "\tcall\tGetAnInteger\n";
-            asmCode << "\tmove\tax,[ReadInt]\n";
-            asmCode << "\tmove\t[" << arg1 << "],ax\n";
+            asmCode << "\tcall PrintString\n";
+            asmCode << "\tcall GetAnInteger\n";
+            asmCode << "\tmov\tax,[ReadInt]\n";
+            asmCode << "\tmov\t[" << arg1 << "],ax\n";
 
         }
         if(op == "+")
@@ -183,11 +183,11 @@ void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
         }
         if(op == "COUT"){
             asmCode << "\tmov\tax,["<< arg1 <<"] \n";
-            asmCode << "\tcall\tConvertIntegerToString\n";
+            asmCode << "\tcall ConvertIntegerToString\n";
             asmCode << "\tmov\teax, 4\n";
             asmCode << "\tmov\tebx, 1\n";
             asmCode << "\tmov\tecx, Result\n";
-            asmCode << "\tedx, ResultEnd\n";
+            asmCode << "\tmov\tedx, ResultEnd\n";
             asmCode << "\tint\t80h\n";
         }
     }
@@ -200,21 +200,21 @@ void CodeGen :: IOSection()
     asmCode << "\tint\t80h\n";
 
     asmCode << "PringString:\n";
-    asmCode << "\tpush\tax\n";
-    asmCode << "\tpush\tdx\n";
+    asmCode << "\tpush ax\n";
+    asmCode << "\tpush dx\n";
     asmCode << "\tmov\teax, 4\n"; //Cheange if need be eax,4 tabs 
     asmCode << "\tmov\tebx, 1\n"; //Change if need be eax,1 tabs 
-    asmCode << "\tmov\tecx,\tuserMsg\n";
-    asmCode << "\tmov\tedx,\tlenUserMsg\n";
+    asmCode << "\tmov\tecx, userMsg\n";
+    asmCode << "\tmov\tedx, lenUserMsg\n";
     asmCode << "\tint\t80h\n";
     asmCode << "\tpop\tdx\n";
     asmCode << "\tpop\tax\n";
     asmCode << "\tret\n";
 
-    asmCode << "GetAnInteger\n";
+    asmCode << "GetAnInteger:\n";
     asmCode << "\tmov\teax, 3\n"; //Change if need be eax,3 tab
     asmCode << "\tmov\tebx, 2\n"; //Change if need be eax,2 tab
-    asmCode << "\tmov\tecx,num\n";
+    asmCode << "\tmov\tecx, num\n";
     asmCode << "\tmov\tedx, 6\n"; //Change if need be eax,6 tab
     asmCode << "\tint\t0x80\n";
     asmCode << "\tmov\tedx,eax\n";
@@ -250,7 +250,7 @@ void CodeGen :: IOSection()
     asmCode << "\tmov\tcx, 10\n";
     asmCode << "\tdiv\tcx\n";
     asmCode << "\tadd\tdl, '0'\n";
-    asmCode << "\tmove\t[ebx], dl\n";
+    asmCode << "\tmov\t[ebx], dl\n";
     asmCode << "\tdec\tebx\n";
     asmCode << "\tcmp\tebx, ResultValue\n";
     asmCode << "\tjge\tConvertLoop\n";

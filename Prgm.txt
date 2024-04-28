@@ -1,8 +1,15 @@
 CLASS test
 {
     VAR A, B;
-    A = X; B = Y; Z = 0;
-    WHILE B > 0 DO {
-        A = 2 * A; B = B / 2;
+    CIN A;
+    CIN B;
+    IF A > B THEN {
+        A = B + 10;
     }
+    ELSE 
+    {
+        A = B + 5;
+    }
+    COUT A;
+    COUT B;
 }
