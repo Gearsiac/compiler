@@ -19,7 +19,7 @@ class CodeGen
         CodeGen(); // Constructor
         void GenerateAssembly(Quads* quads, int quadCount); // Process quads
         void CreateASMFile(); // Create ASM file
-        void LinixCommands(); // Linux configuration
+        void Linix(); // Linux configuration
         void GenerateData(symbol* symbols, int symbolCount); // Generate code
         void GenerateBss(symbol* symbols, int symbolCount); // Generate BSS
         void IOSection(); // IO section

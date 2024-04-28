@@ -11,7 +11,7 @@ stringstream asmCode;
 
 CodeGen :: CodeGen(){};
 
-void CodeGen :: LinixCommands()
+void CodeGen :: Linix()
 {
     asmCode <<"sys_exit\tequ\t1\n";
     asmCode <<"sys_read\tequ\t3\n";
@@ -202,8 +202,8 @@ void CodeGen :: IOSection()
     asmCode << "PrintString:\n";
     asmCode << "\tpush ax\n";
     asmCode << "\tpush dx\n";
-    asmCode << "\tmov\teax, 4\n"; //Cheange if need be eax,4 tabs 
-    asmCode << "\tmov\tebx, 1\n"; //Change if need be eax,1 tabs 
+    asmCode << "\tmov\teax, 4\n"; 
+    asmCode << "\tmov\tebx, 1\n"; 
     asmCode << "\tmov\tecx, userMsg\n";
     asmCode << "\tmov\tedx, lenUserMsg\n";
     asmCode << "\tint\t80h\n";
@@ -212,15 +212,15 @@ void CodeGen :: IOSection()
     asmCode << "\tret\n";
 
     asmCode << "GetAnInteger:\n";
-    asmCode << "\tmov\teax, 3\n"; //Change if need be eax,3 tab
-    asmCode << "\tmov\tebx, 2\n"; //Change if need be eax,2 tab
+    asmCode << "\tmov\teax, 3\n"; 
+    asmCode << "\tmov\tebx, 2\n"; 
     asmCode << "\tmov\tecx, num\n";
-    asmCode << "\tmov\tedx, 6\n"; //Change if need be eax,6 tab
+    asmCode << "\tmov\tedx, 6\n";
     asmCode << "\tint\t0x80\n";
     asmCode << "\tmov\tedx,eax\n";
-    asmCode << "\tmov\teax, 4\n"; //Change if need be eax,4 tab
-    asmCode << "\tmov\tebx, 1\n"; //Change if need be eax,1 tab
-    asmCode << "\tmov\tecx, num\n"; //change if need be eax, num tab
+    asmCode << "\tmov\teax, 4\n"; 
+    asmCode << "\tmov\tebx, 1\n"; 
+    asmCode << "\tmov\tecx, num\n";
     asmCode << "\tint\t80h\n";
 
     asmCode << "ConvertStringToInteger:\n";

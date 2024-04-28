@@ -233,77 +233,50 @@ void Lexical::setInput(const string& ins) // Function to set the input
 
 types Lexical::getChType(char ch) // Function to get the type of character
 {
-    if (isalpha(ch))
+    switch (ch)
     {
-        return types:: letter;
-    }
-    else if (isdigit(ch))
-    {
-        return types :: digit;
-    }
-    else if (ch == '*')
-    {
-        return types::astrix;
-    }
-    else if (ch == '+')
-    {
-        return types::plusType;
-    }
-    else if (ch == '-')
-    {
-        return types:: minusType;
-    }
-    else if (ch == '/')
-    {
-        return types::divisor;
-    }
-    else if (ch == '=')
-    {
-        return types::equals;
-    }
-    else if (ch == '<')
-    {
-        return types::lessThan;
-    }
-    else if (ch == '>')
-    {
-        return types::greaterThan;
-    }
-    else if (ch == '!')
-    {
-        return types::exlimation;
-    }
-    else if (ch == '(' )
-    {
-        return types::leftparen;
-    }
-    else if (ch == ')')
-    {
-        return types::rightparen;
-    }
-    else if (ch == '{')
-    {
-        return types::leftbrace;
-    }
-    else if (ch == '}')
-    {
-        return types::rightbrace;
-    }
-    else if (ch == ',')
-    {
-        return types::comma;
-    }
-    else if (ch == ';')
-    {
-        return types::semicolon;
-    }
-    else if (isspace(ch))
-    {
-        return types::WS;
-    }
-    else
-    {
-        return types::other;
+    case '*':
+      return types ::astrix;
+    case '+':
+        return types :: plusType;
+    case '-':
+        return types :: minusType;
+    case '/':
+        return types ::divisor;
+    case '=':
+        return types :: equals;
+    case '<':
+        return types :: lessThan;
+    case '>':
+        return types :: greaterThan;
+    case '!':
+        return types :: exlimation;
+    case '(':
+        return types :: leftparen;
+    case ')':
+        return types :: rightparen;
+    case '{':
+        return types :: leftbrace;
+    case '}':
+        return types :: rightbrace;
+    case ',':
+        return types :: comma;
+    case ';':
+        return types :: semicolon;
+    default:
+        if(isalpha(ch)){
+            return types::letter;
+        }
+        else if(isdigit(ch)){
+            return types::digit;
+        }
+        else if(isspace(ch)){
+            return types :: WS;
+        }
+        else {
+            return types :: other;
+        }
+        break;
     }
 }
 string Lexical::IdentifyToken(state State, const string& lexeme) const // Function to map the token

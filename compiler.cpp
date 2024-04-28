@@ -25,11 +25,11 @@ int main()
     symTable.getSymbolCount(); // Get the symbol count
     symTable.getSymbols(); // Get the symbols
     Parse parse; // Create an instance of the Parse class
-    parse.Parseing(tokens[0], tokens, tokenCount); // Parse
+    parse.PDAParseing(tokens[0], tokens, tokenCount); // Parse
     Quads* quads = parse.getParseQuads(); // Get the parse quads
     int quadCount = parse.getQuadsCount(); // Get the quad count
     CodeGen codeGen; // Create an instance of the CodeGen class
-    codeGen.LinixCommands(); // Linux configuration
+    codeGen.Linix(); // Linux configuration
     codeGen.GenerateData(symTable.getSymbols(), symTable.getSymbolCount()); // Generate data
     codeGen.GenerateBss(symTable.getSymbols(), symTable.getSymbolCount()); // Generate BSS
     codeGen.GenerateAssembly(quads, quadCount); // Generate assembly

@@ -14,6 +14,5 @@ private:
 
 public:
     string read(const string &files) const; // Read the file
-    void write(const string &files, const string &output) const; // Write to the file
 };
 #endif
