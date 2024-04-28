@@ -1,31 +1,9 @@
 CLASS test
 {
-    VAR A, B, C, Y, X, Z, M, N;
-    CIN A;
-    CIN B;
-    CIN C;
-    CIN Y;
-    CIN X;
-    CIN Z;
-    CIN M;
-    CIN N;
-    IF A > B THEN {
-        IF C == D THEN{
-            Y = X;
-        }
-        ELSE{
-            Y = Z;
-        }
+    VAR J;
+    CIN J;
+    WHILE J > 10 DO {
+        J = J + 1;
     }
-    ELSE{
-        M = N;
-    }
-    COUT A;
-    COUT B;
-    COUT C;
-    COUT Y;
-    COUT X;
-    COUT Z;
-    COUT M;
-    COUT N;
+    COUT J;
 }

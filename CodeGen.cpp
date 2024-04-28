@@ -65,7 +65,7 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
     {
         if(symbols[i].Classification == "VAR" || symbols[i].Classification == "Var (int)")
         {
-            asmCode << symbols[i].syms << "\tRESW\t1\n";
+            asmCode << "\t"<< symbols[i].syms << "\tRESW\t1\n";
         }
     }
 
@@ -151,11 +151,11 @@ void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
             asmCode << "\t"<< arg2 <<" "<< arg1 << "\n";
         }
         if(op == "ELSE"){
-            asmCode << "\t"<< arg1 <<"\n";
+            asmCode << "\tJMP\t"<< arg1 <<"\n";
         }
         if(op == "WHILE")
         {
-            asmCode << arg1 <<"\n";
+            asmCode << arg1 <<":\n";
         }
         if(op == "DO")
         {
@@ -165,6 +165,9 @@ void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
         {
             asmCode << "\t"<< op <<" "<< arg1 << "\n";
 
+        }
+        if(op == "J"){
+            asmCode << ""<< arg1 << ":\tNOP\n";
         }
         if(op == "COUT"){
             asmCode << "\tmov\tax,["<< arg1 <<"] \n";
