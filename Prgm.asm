@@ -17,15 +17,16 @@ section	.data
 	ResultEnd	equ	$-Result
 	num	times	6	db	'ABCDEF'
 	numEnd	equ	$-num
-	10	DW	10
-	1	DW	1
+	Lit0	DW	Lit0
+	Lit2	DW	Lit2
 section	.bss
 	TempChar	RESB	1
 	testchar	RESB	1
 	ReadInt	RESW	1
 	Tempint	RESW	1
 	negflag	RESB	1
-	J	RESW	1
+	A	RESW	1
+	B	RESW	1
 	Temp1	RESW	1
 	Temp2	RESW	1
 	Temp3	RESW	1
@@ -38,29 +39,31 @@ section	.bss
 	Temp10	RESW	1
 	global	_start
 section	.text
-_start:
-	call	PrintString
-	call	GetAnInteger
-	move	ax,[ReadInt]
-	move	[J],ax
+_start:	nop
+	mov	ax,[X] 
+	mov	[A],ax
+	mov	ax,[Y] 
+	mov	[B],ax
+	mov	ax,[Lit0] 
+	mov	[Z],ax
 W1:
-	mov	ax,[J] 
-	cmp	ax,[10]
+	mov	ax,[B] 
+	cmp	ax,[Lit0]
 	JLE L1
-	mov	ax,[J] 
-	add	ax,[1]
+	mov	ax,[Lit2] 
+	mul	word	[A]
 	mov	[T1],ax
 	mov	ax,[T1] 
-	mov	[J],ax
-	JMP W1
-L1:	NOP
-	mov	ax,[J] 
-	call	ConvertIntegerToString
-	mov	eax, 4
-	mov	ebx, 1
-	mov	ecx, Result
-	edx, ResultEnd
-	int	80h
+	mov	[A],ax
+	mov	dx,0
+	mov	ax,[B] 
+	mov	cx,[Lit2]
+	div	cx
+	mov	[T2],ax
+	mov	ax,[T2] 
+	mov	[B],ax
+	JMP	W1
+L1:	nop
 fini:
 	mov	eax,sys_exit
 	xor	ebx,ebx

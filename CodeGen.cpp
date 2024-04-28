@@ -40,15 +40,27 @@ void CodeGen :: GenerateData(symbol* symbols, int symbolCount)
 
     asmCode << "\tnumEnd\tequ\t$-num\n";
 
-    //Still need to set flag for Literalls 
-    for(int i = 0; i < symbolCount; i++)
+
+   for(int i = 0; i < symbolCount; i++)
+{
+    if(symbols[i].Classification == "CONST"|| symbols[i].Classification == "Numeric Literal")
     {
-        if(symbols[i].Classification == "CONST"|| symbols[i].Classification == "Numeric Literal")
+        bool alreadyProcessed = false;
+        for(int j = 0; j < i; j++)
+        {
+            if(symbols[j].value == symbols[i].value)
+            {
+                alreadyProcessed = true;
+                break;
+            }
+        }
+
+        if(!alreadyProcessed)
         {
             asmCode << "\t" << symbols[i].syms << "\tDW\t" << symbols[i].value << "\n";
         }
-    
     }
+}
 
 
 }
@@ -74,7 +86,7 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
 void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
 {   asmCode << "\tglobal\t_start\n";
     asmCode << "section\t.text\n";
-    asmCode << "_start:\n";
+    asmCode << "_start:\tnop\n";
     for(int i = 0; i < quadCount; i++)
     {
         Quads quad = quads[i];
@@ -163,11 +175,11 @@ void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
         }
         if(op == "JMP")
         {
-            asmCode << "\t"<< op <<" "<< arg1 << "\n";
+             asmCode << "\tJMP\t"<< arg1 <<"\n";
 
         }
         if(op == "J"){
-            asmCode << ""<< arg1 << ":\tNOP\n";
+            asmCode << ""<< arg1 << ":\tnop\n";
         }
         if(op == "COUT"){
             asmCode << "\tmov\tax,["<< arg1 <<"] \n";

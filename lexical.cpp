@@ -404,7 +404,7 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: integerFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList("Lit" + currentlexeme, MapToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
