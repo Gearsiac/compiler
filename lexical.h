@@ -32,7 +32,7 @@ public:
     void setInput(const string& lexeme); // Set input
     void tokenize(const string& lexeme); // Tokenize
     int getTokenCount() const; // Get token count
-    string MapToken(const state, const string& lexeme) const; // Map token
+    string IdentifyToken(const state, const string& lexeme) const; // Map token
     Tokens* getTokens(); // Get tokens
     state ReadRowsAndCollums(state currentState, types input); //Read the rows and collums of the table
 };

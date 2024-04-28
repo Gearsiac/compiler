@@ -24,14 +24,14 @@ int main()
     symTable.symTable(tokens[0], tokens, tokenCount); // Symbol table
     symTable.getSymbolCount(); // Get the symbol count
     symTable.getSymbols(); // Get the symbols
+    for(int i = 0; i < symTable.getSymbolCount(); i++) // Print the symbols
+    {
+        cout << symTable.getSymbols()[i].syms << " " << symTable.getSymbols()[i].Classification << " " << symTable.getSymbols()[i].value << endl;
+    }
     Parse parse; // Create an instance of the Parse class
     parse.Parseing(tokens[0], tokens, tokenCount); // Parse
     Quads* quads = parse.getParseQuads(); // Get the parse quads
     int quadCount = parse.getQuadsCount(); // Get the quad count
-    for(int i = 0; i < quadCount; i++) // Print the quads
-    {
-        cout << quads[i].op << " " << quads[i].arg1 << " " << quads[i].arg2 << " " << quads[i].Temp << endl;
-    }
     CodeGen codeGen; // Create an instance of the CodeGen class
     codeGen.LinixCommands(); // Linux configuration
     codeGen.GenerateData(symTable.getSymbols(), symTable.getSymbolCount()); // Generate data

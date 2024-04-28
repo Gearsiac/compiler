@@ -34,7 +34,7 @@ private:
 public:
     symbolTable(); // Constructor
     int getSymbolCount() const; // Get symbol count
-    symbolTypes symMap(const Tokens& token); // Symbol map
+    symbolTypes IdentifyForSymbolTable(const Tokens& token); // Symbol map
     symbolstates ReadRowsAndCollums(symbolstates currentState, symbolTypes input); // Get next state
     void addToSymbolTable(const string& syms, const string& Classification, const string& value, const int address, const string& segment); // Add to symbol table
     void symTable(const Tokens& token, Tokens* tokens, size_t tokenCount); // Symbol table

@@ -1,15 +1,12 @@
 CLASS test
 {
-    VAR A, B;
-    CIN A;
-    CIN B;
-    IF A > B THEN {
-        A = B + 10;
-    }
-    ELSE 
+    VAR N, Nfact;
+    CIN N;
+    Nfact = 1;
+    WHILE N > 1 DO 
     {
-        A = B + 5;
+        Nfact = Nfact * N;
+        N = N - 1;
     }
-    COUT A;
-    COUT B;
+    COUT Nfact;
 }

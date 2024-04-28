@@ -84,7 +84,7 @@ void CodeGen :: GenerateBss(symbol* symbols, int symbolCount)
 
 }
 void CodeGen :: GenerateAssembly(Quads* quads, int quadCount)
-{   asmCode << "\tglobal\t_start\n";
+{   asmCode << "global\t_start\n";
     asmCode << "section\t.text\n";
     asmCode << "_start:\tnop\n";
     for(int i = 0; i < quadCount; i++)
@@ -199,7 +199,7 @@ void CodeGen :: IOSection()
     asmCode << "\txor\tebx,ebx\n";
     asmCode << "\tint\t80h\n";
 
-    asmCode << "PringString:\n";
+    asmCode << "PrintString:\n";
     asmCode << "\tpush ax\n";
     asmCode << "\tpush dx\n";
     asmCode << "\tmov\teax, 4\n"; //Cheange if need be eax,4 tabs 
@@ -229,7 +229,8 @@ void CodeGen :: IOSection()
     asmCode << "\tmov\tecx,num\n";
     asmCode << "\tmov\tbx, 0\n";
     asmCode << "\tmov\tbl, byte [ecx]\n";
-    asmCode << "Next:\tsub\tbl,'0'\n";
+    asmCode << "Next:\n";
+    asmCode << "\tsub\tbl,'0'\n";
     asmCode << "\tmov\tax,[ReadInt]\n";
     asmCode << "\tmov\tdx, 10\n";
     asmCode << "\tmul\tdx\n";

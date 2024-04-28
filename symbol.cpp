@@ -65,7 +65,7 @@ void symbolTable::addToSymbolTable(const string& syms, const string& Classificat
 {
     symbols[SymbolCount++] = symbol(syms, Classification, value, address, segment); // Add to the symbol table
 }
-symbolTypes symbolTable::symMap(const Tokens &token) //function to map the symbols
+symbolTypes symbolTable::IdentifyForSymbolTable(const Tokens &token) //function to map the symbols
 {
     if(token.tokenType == "Variable") return variableType;
     if(token.tokenType == "RESERVED WORD")
@@ -112,7 +112,7 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
         Tokens token = tokens[i]; // Get the token
         string tokenType = token.tokenType; // Get the token type
         string lexeme = token.lexeme; // Get the lexeme
-        symbolTypes input = symMap(token); // Get the input
+        symbolTypes input = IdentifyForSymbolTable(token); // Get the input
         NextStateTrasition = ReadRowsAndCollums(currentState, input); // Get the next state
         currentState = NextStateTrasition; // Set the current state
         switch(NextStateTrasition) // Switch statement for the next state
@@ -143,7 +143,7 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
                 currentState = NextStateTrasition;
                 break;
             case integer_State:
-                value = token.lexeme;
+                value = token.lexeme.substr(3);
                 addToSymbolTable(sym, Classification, value, address, "DS");
                 address += 2;
                 currentState = NextStateTrasition;
@@ -165,7 +165,7 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
             case literalState:
                 sym = lexeme;
                 Classification = "Numeric Literal";
-                value = token.lexeme;
+                value = token.lexeme.substr(3);
                 addToSymbolTable(sym, Classification, value, address, "DS");
                 address += 2;
                 currentState = NextStateTrasition;
@@ -177,25 +177,25 @@ void symbolTable::symTable(const Tokens& initialToken, Tokens* tokens, size_t to
                 break;
         }
     }
-    addToSymbolTable("Temp1", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T1", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp2", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T2", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp3", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T3", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp4", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T4", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp5", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T5", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp6", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T6", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp7", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T7", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp8", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T8", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp9", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T9", "Var (int)", " ", address, "DS");
     address += 2;
-    addToSymbolTable("Temp10", "Var (int)", " ", address, "DS");
+    addToSymbolTable("T10", "Var (int)", " ", address, "DS");
     address += 2;
 
 }

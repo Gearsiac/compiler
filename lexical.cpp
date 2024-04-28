@@ -306,7 +306,7 @@ types Lexical::getChType(char ch) // Function to get the type of character
         return types::other;
     }
 }
-string Lexical::MapToken(state State, const string& lexeme) const // Function to map the token
+string Lexical::IdentifyToken(state State, const string& lexeme) const // Function to map the token
 {
     switch (State)
     {
@@ -393,7 +393,7 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             break;
         case state ::operation:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -404,7 +404,7 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: integerFinal:
-            AddToTokenList("Lit" + currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList("Lit" + currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
@@ -414,7 +414,7 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: VariableFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
@@ -424,7 +424,7 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state::DivisorFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
@@ -445,13 +445,13 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: assignmentFinal:   
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: equalityFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -462,13 +462,13 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: lessThanFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: lessThanEqualsStateFinal: 
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -479,13 +479,13 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: greaterThanFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: greaterThanEqualsStateFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
@@ -496,34 +496,34 @@ void Lexical::tokenize(const string& ins) // Function to tokenize the input
             position++;
             break;
         case state :: NotstateFinal:
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             break;
         case state :: notEqualsStateFinal:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: delimiterState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: braceState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme));
             currentlexeme.clear();
             currentState = start;
             position++;
             break;
         case state :: parenState:
             currentlexeme += ch;
-            AddToTokenList(currentlexeme, MapToken(NextStateTransition, currentlexeme ));
+            AddToTokenList(currentlexeme, IdentifyToken(NextStateTransition, currentlexeme ));
             currentlexeme.clear();
             currentState = start;
             position++;
