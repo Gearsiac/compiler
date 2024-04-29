@@ -51,26 +51,26 @@ class Parse // Parse class
         int getQuadsCount() const; // Get parse quads count
         Quads* getParseQuads(); // Get parse quads
         void AddToQuads(const string& op, const string& arg1, const string& arg2, const string& Temp); // Add to parse quads
-        void Parseing(const Tokens& token, Tokens* tokens, int tokenCount); // Parse
-        ParseOps PopAndLockTheTopOPThatDrop(); // get top operator 
+        void PDAParseing(const Tokens& token, Tokens* tokens, int tokenCount); // Parse
+        ParseOps GetTopOperator(); // get top operator 
         void LabelGenerator(string Label); // Label generator
         void WhileGenerator(string While); // While generator
         void AddTofixer(string Label); // Add to fixer
         void AddToWhileStack(string While); // Add to while stack
         void AddToEndOfStack(string Label); // Add to end of stack
         void AddToJumpStack(string Jump); // Add to jump stack
-        void HandleClosingPrens(); // done
-        void HandleClosingBraces(); // done
-        void HandleIF(); // nedd
-        void HandleThen(); // Need
-        void HandleElse(); // Handle if else
-        void HandelEOF(); // Handle if then
-        void PopIFTHEN(); // Pop if then
-        void PopIfThenElse(); // Pop if then else
-        void HandleWhile(); // Handle while
-        void HandleDo(); // Handle do
-        void HandleAritmatic(); // Handle aritmatic
-        void PopWhileDo(); // Pop while do
+        void ProcessPrens(); // done
+        void ProcessBraces(); // done
+        void ProcessIF(); // nedd
+        void ProcessThen(); // Need
+        void ProcessElse(); // Handle if else
+        void EndOfParseHandling(); // Handle if then
+        void ReduceIfThen(); // Pop if then
+        void ReduceIfThenElse(); // Pop if then else
+        void ProcessWhile(); // Handle while
+        void ProcessDo(); // Handle do
+        void ReduceAritmatic(); // Handle aritmatic
+        void ReduceWhileAndDo(); // Pop while do
         Quads* PrintQuads(); // Print the quads
 };
 #endif

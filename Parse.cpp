@@ -290,7 +290,7 @@ Parse :: Parse() // Constructor
     PDAConfig(); // Configure the PDA
     
 }
-void Parse :: HandleClosingPrens() // Handle the closing parenthesis
+void Parse :: ProcessPrens() // Handle the closing parenthesis
 {
     if(StackCount > 1) // If the stack count is greater than 1
     {
@@ -301,7 +301,7 @@ void Parse :: HandleClosingPrens() // Handle the closing parenthesis
         }
     }
 }
-void Parse :: HandleClosingBraces() // Handle the closing braces
+void Parse :: ProcessBraces() // Handle the closing braces
 {
     
     if(StackCount >= 4)
@@ -319,7 +319,7 @@ void Parse :: HandleClosingBraces() // Handle the closing braces
         
     }
 }
-void Parse :: HandleThen() // Handle the THEN
+void Parse :: ProcessThen() // Handle the THEN
 {
     Quads GetLast = ParseQuads[QuadsCount - 1];
     string Instruction;
@@ -339,57 +339,56 @@ void Parse :: HandleThen() // Handle the THEN
     AddToQuads("THEN", Label, Instruction, "?");
     AddTofixer(Label);
 }
-void Parse :: HandleElse() // Handle the IF ELSE
+void Parse :: ProcessElse() // Handle the IF ELSE
 {
     string Label = "L" + to_string(LabelCount++);
     string FixerLabel = FixerUpper[FixerCount - 1];
     AddToQuads("ELSE", Label, "?", "?");
     AddToEndOfStack(Label);
     FixerCount -= 1;
-    AddToQuads(FixerLabel, "?", "?", "?");
+    AddToQuads("J", FixerLabel, "?", "?");
 
 }
-void Parse :: PopIFTHEN() // Pop the IF THEN
+void Parse :: ReduceIfThen() // Pop the IF THEN
 {
     string Label = FixerUpper[FixerCount - 1];
-    string JMP = "JMP" + to_string(JMPCount++);
     if(StackCount > 1)
     {
         if(ParseStack[StackCount - 1]->lexeme == "THEN" && ParseStack[StackCount - 2]->lexeme == "IF")
         {
             StackCount -= 2;
             FixerCount -= 1;
-            AddToQuads("JMP", JMP, Label, "?");
+            AddToQuads("J", Label, "?", "?");
         }
     }
 }
-void Parse :: PopIfThenElse() // Pop the IF THEN ELSE
+void Parse :: ReduceIfThenElse() // Pop the IF THEN ELSE
 {
     string Label = EndOfStack[EndOfStackCount - 1];
-    string JMP = "JMP" + to_string(JMPCount++);
     if(StackCount > 1)
     {
         if(ParseStack[StackCount - 1]->lexeme == "ELSE" && ParseStack[StackCount - 2]->lexeme == "THEN" && ParseStack[StackCount - 3]->lexeme == "IF")
         {
             StackCount -= 3;
             EndOfStackCount -= 1;
-            AddToQuads(JMP, Label, "?", "?");
+            AddToQuads("J", Label, "?", "?");
 
         }
     }
 }
-void Parse :: HandleIF() // Handle the IF
+void Parse :: ProcessIF() // Handle the IF
 {    
     AddToQuads("IF", "?", "?", "?"); // Add to the quads
 
 }
-void Parse :: HandleWhile() // Handle the WHILE
+void Parse :: ProcessWhile() // Handle the WHILE
 {
     string WhileStart = "W" + to_string(WhileLabelCount++);
     AddToQuads("WHILE", WhileStart, "?", "?");
     AddToWhileStack(WhileStart);
+    
 }
-void Parse :: HandleDo() // Handle the DO
+void Parse :: ProcessDo() // Handle the DO
 {
     Quads GetLast = ParseQuads[QuadsCount - 1];
     string Instruction;
@@ -409,14 +408,14 @@ void Parse :: HandleDo() // Handle the DO
     AddToQuads("DO", Label, Instruction, "?");
     AddToEndOfStack(Label);
 }
-void Parse :: HandelEOF()
+void Parse :: EndOfParseHandling()
 {
     if(ParseStack[StackCount - 1]->lexeme == "EOF" && ParseStack[StackCount - 2]->lexeme == "}" && ParseStack[StackCount - 3]->lexeme == "{" )
     {
         StackCount -= 3;
     }
 }
-void Parse :: HandleAritmatic() // Handle the aritmatic
+void Parse :: ReduceAritmatic() // Handle the aritmatic
 {
                 string arg1, arg2, op, Temp;
                 arg2 = (*ParseStack[StackCount - 1]).lexeme; // First argument right below the top
@@ -435,11 +434,10 @@ void Parse :: HandleAritmatic() // Handle the aritmatic
                     AddToQuads(op, arg1, arg2, " ? "); // Add to the quads
                 }
 }
-void Parse :: PopWhileDo() // Pop the WHILE DO
+void Parse :: ReduceWhileAndDo() // Pop the WHILE DO
 {
     string Label = EndOfStack[EndOfStackCount - 1];
     string While = WhileStack[WhileCount - 1];
-    string jmp = "JMP" + to_string(JMPCount++);
     if(ParseStack[StackCount - 1]->lexeme == "DO" && ParseStack[StackCount - 2]->lexeme == "WHILE")
     {
             StackCount -= 2;
@@ -447,7 +445,7 @@ void Parse :: PopWhileDo() // Pop the WHILE DO
     WhileCount -= 1;
     AddToQuads("JMP", While, "?", "?");
     EndOfStackCount-=1;
-    AddToQuads(Label, " ?", "?", "?");
+    AddToQuads("J", Label, "?", "?");
 }
 char Parse :: ReadRowsAndCollums(ParseOps currentState, ParseOps input) // Read the rows and collums
 {
@@ -465,7 +463,7 @@ Quads* Parse :: getParseQuads() // Get the Parse quads
 {
     return ParseQuads; // Return the Parse quads
 }
-ParseOps Parse::PopAndLockTheTopOPThatDrop() // Pop and lock the top OP that drop
+ParseOps Parse::GetTopOperator() // Pop and lock the top OP that drop
 {
     Tokens TopToken;
     ParseOps TopOPSDrops;
@@ -492,7 +490,7 @@ void Parse :: AddTofixer(string Label) // Add to the Fixer
 {
    FixerUpper[FixerCount++] = Label; // Add to the Fixer
 }
-void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Stack handling 
+void Parse::PDAParseing(const Tokens& token, Tokens* tokens, int tokenCount) // Stack handling 
 {
     Tokens CurrentToken, TopToken;
     ParseOps CurrentOPS, TopOPSDrops;
@@ -535,7 +533,7 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
             ParseStack[StackCount++] = new Tokens(CurrentToken.lexeme, CurrentToken.tokenType);
             TopToken  = *ParseStack[StackCount - 1];
         }
-        TopOPSDrops = PopAndLockTheTopOPThatDrop(); // Get the top operator
+        TopOPSDrops = GetTopOperator(); // Get the top operator
         char Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS); // Get the precedence
         if((Relation == '<' || Relation == '='|| Relation == '?' ) && CurrentOPS != NonOP)
         {
@@ -547,8 +545,8 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
             bool reduce = true;
             while (reduce) 
             {
-                HandleAritmatic(); // Handle the aritmatic
-                TopOPSDrops = PopAndLockTheTopOPThatDrop(); // Get the top operator
+                ReduceAritmatic(); // Handle the aritmatic
+                TopOPSDrops = GetTopOperator(); // Get the top operator
                 Relation = ReadRowsAndCollums(TopOPSDrops, CurrentOPS); // Get the precedence
                 if(Relation == '<' ||Relation == '=' || Relation == '?')
                 {
@@ -565,46 +563,46 @@ void Parse::Parseing(const Tokens& token, Tokens* tokens, int tokenCount) // Sta
         }
         if(CurrentToken.lexeme == "}")
         {
-            HandleClosingBraces();
+            ProcessBraces();
         }
         if(CurrentToken.lexeme == ")")
         {
-            HandleClosingPrens();
+            ProcessPrens();
         }
         if(CurrentToken.lexeme == "IF")
         {
-            HandleIF();
+            ProcessIF();
         }
         if(CurrentToken.lexeme == "THEN")
         {
-            HandleThen(); 
+            ProcessThen(); 
         }
         if(CurrentToken.lexeme == "ELSE")
         {
-            HandleElse();
+            ProcessElse();
         }
         if((CurrentToken.lexeme == "}" || CurrentToken.lexeme == ";") && (ParseStack[StackCount - 1]->lexeme == "THEN") && ((i + 1 < tokenCount) && (tokens[i + 1].lexeme != "ELSE")))
         {
-            PopIFTHEN();
+            ReduceIfThen();
         }
         if((CurrentToken.lexeme == "}" || CurrentToken.lexeme == ";") && ParseStack[StackCount - 2]->lexeme == "THEN" && ParseStack[StackCount - 1]->lexeme == "ELSE")
         {
-            PopIfThenElse();
+            ReduceIfThenElse();
         }
         if(CurrentToken.lexeme == "WHILE")
         {
-            HandleWhile();
+            ProcessWhile();
         }
         if(CurrentToken.lexeme == "DO")
         {
-            HandleDo();
+            ProcessDo();
         }
         if((CurrentToken.lexeme == "}" || CurrentToken.lexeme == ";") && ParseStack[StackCount -1]->lexeme == "DO" && ((i + 1 < tokenCount) && (tokens[i + 1].lexeme != "WHILE"))){
-            PopWhileDo();
+            ReduceWhileAndDo();
         }
         if(CurrentToken.lexeme == "EOF")
         {
-            HandelEOF();
+            EndOfParseHandling();
         } 
     }
 }

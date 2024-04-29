@@ -1,12 +1,11 @@
 CLASS test
 {
-    VAR N, Nfact;
-    CIN N;
-    Nfact = 1;
-    WHILE N > 1 DO 
-    {
-        Nfact = Nfact * N;
-        N = N - 1;
-    }
-    COUT Nfact;
+    CONST c = 3;
+    VAR a, Bob, Jane, b, ans;
+    CIN a;
+    CIN Bob;
+    CIN Jane;
+    CIN b;
+    ans = a * ((Bob +Jane -10) /2 * 4)/ (b + c);
+    COUT ans;
 }
